@@ -1,0 +1,12 @@
+database.db
+.venv/
+venv/
+.vscode/
+.idea/
+__pycache__/
+**/__pycache__/
+*.py[cod]
+*$py.class
+*.log
+*.tmp
+.DS_Store
