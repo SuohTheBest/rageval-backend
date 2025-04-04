@@ -24,16 +24,14 @@ async def register(r: RegisterRequest):
 
 
 class LoginRequest(BaseModel):
-    account: str
+    credential: str
     password: str
 
 
 @router.post("/login")
 async def login(r: LoginRequest, response: Response):
     try:
-        usr = await utils.get_user_by_username(r.account, r.password)
-        if usr is None:
-            usr = await utils.get_user_by_email(r.account, r.password)
+        usr = await utils.get_user_by_credential(r.credential, r.password)
         if usr is None:
             return {"success": False, "message": "User not found."}
         jwt_str = access_token.create_access_token(str(usr.id))
@@ -46,5 +44,14 @@ async def login(r: LoginRequest, response: Response):
             samesite="lax"
         )
         return {"success": True, "name": usr.username, "avatar": usr.avatar}
+    except Exception as e:
+        return {"success": False, "message": str(e)}
+
+
+@router.post("/reset-password")
+async def register(r: RegisterRequest):
+    try:
+        result = await utils.renew_password(r.username, r.email, r.password)
+        return {"success": result}
     except Exception as e:
         return {"success": False, "message": str(e)}

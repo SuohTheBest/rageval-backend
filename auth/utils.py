@@ -14,17 +14,20 @@ async def add_user(username, email, plain_password):
     db.commit()
 
 
-async def get_user_by_email(email: str, plain_password: str) -> User | None:
-    user = db.query(User).filter(User.email == email).first()
+async def renew_password(username: str, email: str, plain_password: str):
+    user = db.get(User, username)
+    if user is None or user.email != email:
+        return False
+    hashed_password = pwd_context.hash(plain_password)
+    user.password = hashed_password
+    db.commit()
+    return True
+
+
+async def get_user_by_credential(credential: str, plain_password: str) -> User | None:
+    user = db.get(User, credential)
     if user is None:
-        return None
-    if pwd_context.verify(plain_password, user.password):
-        return user
-    return None
-
-
-async def get_user_by_username(username: str, plain_password: str) -> User | None:
-    user = db.query(User).filter(User.username == username).first()
+        user = db.query(User).filter(User.email == credential).first()
     if user is None:
         return None
     if pwd_context.verify(plain_password, user.password):
