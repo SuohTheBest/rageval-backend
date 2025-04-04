@@ -15,7 +15,7 @@ async def add_user(username, email, plain_password):
 
 
 async def renew_password(username: str, email: str, plain_password: str):
-    user = db.get(User, username)
+    user = db.query(User).fliter(User.username == username)
     if user is None or user.email != email:
         return False
     hashed_password = pwd_context.hash(plain_password)
@@ -25,9 +25,7 @@ async def renew_password(username: str, email: str, plain_password: str):
 
 
 async def get_user_by_credential(credential: str, plain_password: str) -> User | None:
-    user = db.get(User, credential)
-    if user is None:
-        user = db.query(User).filter(User.email == credential).first()
+    user = db.query(User).filter((User.email == credential) | (User.username == credential)).first()
     if user is None:
         return None
     if pwd_context.verify(plain_password, user.password):
