@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Response
+from fastapi import APIRouter, Response, Request
 from pydantic import BaseModel
 
 import access_token
@@ -39,9 +39,9 @@ async def login(r: LoginRequest, response: Response):
             key="access_token",
             value=jwt_str,
             httponly=True,
-            max_age=access_token.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
-            secure=True,
-            samesite="lax"
+            # max_age=access_token.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+            samesite="lax",
+            # secure=True,
         )
         return {"success": True, "name": usr.username, "avatar": usr.avatar}
     except Exception as e:
@@ -53,5 +53,20 @@ async def register(r: RegisterRequest):
     try:
         result = await utils.renew_password(r.username, r.email, r.password)
         return {"success": result}
+    except Exception as e:
+        return {"success": False, "message": str(e)}
+
+
+@router.get("/me")
+async def me(r: Request):
+    try:
+        cookie = r.cookies
+        if len(cookie) == 0:
+            return {"success": False, "message": "Cookie not found."}
+        jwt = cookie.get("access_token")
+        if jwt is None:
+            return {"success": False, "message": "Not logged in."}
+        usr = await access_token.get_current_user(jwt)
+        return {"success": True, "name": usr.username, "avatar": usr.avatar}
     except Exception as e:
         return {"success": False, "message": str(e)}
