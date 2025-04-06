@@ -1,6 +1,6 @@
 from passlib.context import CryptContext
 
-from auth.user_models import User
+from models.User import User
 from database import db
 
 pwd_context = CryptContext(schemes=["bcrypt"])

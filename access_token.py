@@ -5,7 +5,7 @@ from fastapi import HTTPException
 from jose import jwt, JWTError
 from database import db
 
-from auth.user_models import User
+from models.User import User
 
 JWT_SECRET_KEY = os.environ.get("JWT_SECRET_KEY")
 if JWT_SECRET_KEY is None:
