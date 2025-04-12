@@ -4,6 +4,7 @@ from database import Base, engine
 from fastapi import FastAPI
 from fastapi import APIRouter
 from auth import user_router
+from eval_worker import task_router
 
 g_prefix = '/api'
 
@@ -17,6 +18,7 @@ app.add_middleware(
     allow_headers=["Content-Type", "Authorization"],
 )
 app.include_router(user_router.router, prefix=g_prefix)
+app.include_router(task_router.router, prefix=g_prefix)
 
 
 @app.get("/")

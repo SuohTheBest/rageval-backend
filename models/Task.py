@@ -12,13 +12,27 @@ class Task(Base):
     )
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer)
-    input_id = Column(String(32))  # 输入和输出，采用文件形式
-    output_id = Column(String(32))
+    input_id = Column(Integer)  # 输入和输出，采用文件形式
+    output_id = Column(Integer)
     name = Column(String(32))
     method = Column(String(16))
     status = Column(String(16))
     created = Column(Integer, default=int(time.time()))
+    started = Column(Integer)
+    finished = Column(Integer)
 
     def __repr__(self):
         return ("<Task(name='%s', method='%s', status='%s', created='%d')>"
                 % (self.name, self.method, self.status, self.created))
+
+
+class UploadFile(Base):
+    __tablename__ = 'upload_file'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer)
+
+
+class DownloadFile(Base):
+    __tablename__ = 'download_file'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer)

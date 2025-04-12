@@ -25,7 +25,7 @@ def create_access_token(subject: str, expires_minutes: int = None) -> str:
     return encoded_jwt
 
 
-async def get_current_user(token: str):
+async def get_user_id(token: str) -> int:
     credentials_exception = HTTPException(
         status_code=401,
         detail="Not logged in.",
@@ -43,7 +43,15 @@ async def get_current_user(token: str):
             )
     except JWTError:
         raise credentials_exception
-    user = db.get(User, int(usr_id))
+    return int(usr_id)
+
+
+async def get_current_user(token: str) -> User:
+    user_id = await get_user_id(token)
+    user = db.get(User, user_id)
     if user is None:
-        raise credentials_exception
+        raise HTTPException(
+            status_code=404,
+            detail="User not found.",
+        )
     return user
