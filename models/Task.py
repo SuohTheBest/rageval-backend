@@ -16,8 +16,9 @@ class Task(Base):
     output_id = Column(Integer)
     name = Column(String(32))
     method = Column(String(16))
-    status = Column(String(16))
-    created = Column(Integer, default=int(time.time()))
+    status = Column(String(16))  # waiting, evaluating, success, failed
+    message = Column(String(128))
+    created = Column(Integer)
     started = Column(Integer)
     finished = Column(Integer)
 
