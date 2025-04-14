@@ -16,6 +16,7 @@ class Task(Base):
     output_id = Column(Integer)
     name = Column(String(32))
     method = Column(String(16))
+    category = Column(String(16))  # rag, prompt
     status = Column(String(16))  # waiting, evaluating, success, failed
     message = Column(String(128))
     created = Column(Integer)

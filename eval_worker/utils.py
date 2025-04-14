@@ -30,13 +30,13 @@ async def get_new_input_id(user_id: int):
     return upload_file.id
 
 
-async def add_tasks(name: str, method: str, file_ids: List[int], user_id: int):
+async def add_tasks(name: str, method: str, category: str, file_ids: List[int], user_id: int):
     for file_id in file_ids:
         upload_file = db.get(UploadFile, file_id)
         if upload_file is None or upload_file.user_id != user_id:
             continue
-        new_task = Task(user_id=user_id, name=name, method=method, input_id=file_id, status="waiting",
-                        created=int(time.time()))
+        new_task = Task(user_id=user_id, name=name, method=method, category=category, input_id=file_id,
+                        status="waiting", created=int(time.time()))
         if waiting_list.not_full:
             waiting_list.put(new_task)
         db.add(new_task)
@@ -48,8 +48,13 @@ async def get_task_from_id(task_id: int) -> Task:
     return task
 
 
-async def get_tasks_from_user_id(user_id: int) -> List[Task]:
-    tasks = db.query(Task).filter(Task.user_id == user_id).all()
+async def get_tasks_from_user_id(user_id: int, category: str, is_finished: bool) -> List[Task]:
+    tasks = db.query(Task).filter(Task.user_id == user_id).filter(Task.category == category)
+    if is_finished:
+        tasks = tasks.filter((Task.status == "success") | (Task.status == "failed")) # 不是python or!!!
+    else:
+        tasks = tasks.filter((Task.status == "waiting") | (Task.status == "evaluating"))
+    tasks = tasks.order_by(Task.created.desc()).all()
     return tasks
 
 

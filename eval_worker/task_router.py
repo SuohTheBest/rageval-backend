@@ -1,6 +1,6 @@
 from typing import List, Literal
 
-from fastapi import APIRouter, UploadFile, File, HTTPException, Cookie
+from fastapi import APIRouter, UploadFile, File, HTTPException, Cookie, Query
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
 from eval_worker import utils
@@ -14,6 +14,7 @@ router = APIRouter(prefix='/task', tags=['Tasks'])
 class AddTaskRequest(BaseModel):
     name: str
     method: str
+    category: str
     input_ids: List[int]
 
 
@@ -21,7 +22,7 @@ class AddTaskRequest(BaseModel):
 async def addTasks(r: AddTaskRequest, access_token: str = Cookie(None)):
     try:
         user_id = await get_user_id(access_token)
-        await add_tasks(r.name, r.method, r.input_ids, user_id)
+        await add_tasks(r.name, r.method, r.category, r.input_ids, user_id)
         return {"success": True}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -76,7 +77,7 @@ async def download(r: DownloadTaskRequest, access_token: str = Cookie(None)):
 
 
 @router.delete("/")
-async def delete_task(task_id: int, access_token: str = Cookie(None)):
+async def delete_task(task_id: int = Query(...), access_token: str = Cookie(None)):
     try:
         user_id = await get_user_id(access_token)
         await remove_task(task_id, user_id)
@@ -86,10 +87,12 @@ async def delete_task(task_id: int, access_token: str = Cookie(None)):
 
 
 @router.get("/")
-async def get_tasks(access_token: str = Cookie(None)):
+async def get_tasks(category: Literal["rag", "prompt"],
+                    is_finished: bool = Query(...),
+                    access_token: str = Cookie(None)):
     try:
         user_id = await get_user_id(access_token)
-        tasks = await get_tasks_from_user_id(user_id)
-        return tasks
+        tasks = await get_tasks_from_user_id(user_id, category, is_finished)
+        return {"success": True, "tasks": tasks}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
