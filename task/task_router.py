@@ -3,9 +3,9 @@ from typing import List, Literal
 from fastapi import APIRouter, UploadFile, File, HTTPException, Cookie, Query
 from fastapi.responses import FileResponse
 from pydantic import BaseModel
-from eval_worker import utils
+from task import utils
 from access_token import get_user_id
-from eval_worker.utils import add_tasks, get_upload_filepath, get_task_from_id, get_download_filepath, remove_task, \
+from task.utils import add_tasks, get_upload_filepath, get_task_from_id, get_download_filepath, remove_task, \
     get_tasks_from_user_id
 
 router = APIRouter(prefix='/task', tags=['Tasks'])

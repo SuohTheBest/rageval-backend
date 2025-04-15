@@ -4,7 +4,7 @@ import time
 from models.Task import *
 from typing import List
 from database import db
-from eval_worker.worker import waiting_list
+from task.task_worker import waiting_list, has_overflow
 
 UPLOAD_DIR = "uploads"
 DOWNLOAD_DIR = "downloads"
@@ -39,6 +39,8 @@ async def add_tasks(name: str, method: str, category: str, file_ids: List[int], 
                         status="waiting", created=int(time.time()))
         if waiting_list.not_full:
             waiting_list.put(new_task)
+        else:
+            has_overflow = True
         db.add(new_task)
     db.commit()
 
@@ -51,7 +53,7 @@ async def get_task_from_id(task_id: int) -> Task:
 async def get_tasks_from_user_id(user_id: int, category: str, is_finished: bool) -> List[Task]:
     tasks = db.query(Task).filter(Task.user_id == user_id).filter(Task.category == category)
     if is_finished:
-        tasks = tasks.filter((Task.status == "success") | (Task.status == "failed")) # 不是python or!!!
+        tasks = tasks.filter((Task.status == "success") | (Task.status == "failed"))  # 不是python or!!!
     else:
         tasks = tasks.filter((Task.status == "waiting") | (Task.status == "evaluating"))
     tasks = tasks.order_by(Task.created.desc()).all()

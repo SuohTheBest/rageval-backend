@@ -2,13 +2,13 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from database import Base, engine
 from fastapi import FastAPI
-from fastapi import APIRouter
 from auth import user_router
-from eval_worker import task_router
+from task import task_router
 
 g_prefix = '/api'
 
 Base.metadata.create_all(bind=engine)
+
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
@@ -24,3 +24,4 @@ app.include_router(task_router.router, prefix=g_prefix)
 @app.get("/")
 async def root():
     return {"message": "Hello World!"}
+
