@@ -3,7 +3,7 @@ import time
 
 from fastapi import HTTPException
 from jose import jwt, JWTError
-from database import db
+from database import SessionLocal
 
 from models.User import User
 
@@ -48,7 +48,9 @@ async def get_user_id(token: str) -> int:
 
 async def get_current_user(token: str) -> User:
     user_id = await get_user_id(token)
+    db = SessionLocal()
     user = db.get(User, user_id)
+    db.close()
     if user is None:
         raise HTTPException(
             status_code=404,
