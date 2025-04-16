@@ -80,17 +80,23 @@ async def remove_task(task_id: int, user_id: int):
     db = SessionLocal()
     task = db.get(Task, task_id)
     if task is None or task.user_id != user_id:
-        db.close()
         return
-    upload_file_path = get_upload_filepath(task.input_id)
-    upload_file = db.get(UploadFile, task.input_id)
-    if upload_file:
-        db.delete(upload_file)
-        os.remove(upload_file_path)
-    download_file_path = get_download_filepath(task.output_id)
-    download_file = db.get(DownloadFile, task.output_id)
-    if download_file:
-        db.delete(download_file)
-        os.remove(download_file_path)
-    db.delete(task)
-    db.close()
+    try:
+        if task.input_id:
+            upload_file_path = get_upload_filepath(task.input_id)
+            upload_file = db.get(UploadFile, task.input_id)
+            if upload_file:
+                db.delete(upload_file)
+                os.remove(upload_file_path)
+        if task.output_id:
+            download_file_path = get_download_filepath(task.output_id)
+            download_file = db.get(DownloadFile, task.output_id)
+            if download_file:
+                db.delete(download_file)
+                os.remove(download_file_path)
+    except Exception as e:
+        pass
+    finally:
+        db.delete(task)
+        db.commit()
+        db.close()
