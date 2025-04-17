@@ -16,19 +16,19 @@ worker = TaskWorkerLauncher()
 
 
 def get_upload_filepath(input_id: int):
-    file_path = os.path.join(UPLOAD_DIR, str(input_id) + '.csv')
+    file_path = os.path.join(UPLOAD_DIR, str(input_id))
     return file_path
 
 
 def get_download_filepath(output_id: int):
-    file_path = os.path.join(DOWNLOAD_DIR, str(output_id) + '.csv')
+    file_path = os.path.join(DOWNLOAD_DIR, str(output_id))
     return file_path
 
 
-async def get_new_input_id(user_id: int):
+async def get_new_input_id(user_id: int, file_name: str, size: int) -> int:
     db = SessionLocal()
     try:
-        upload_file = UploadFile(user_id=user_id)
+        upload_file = UploadFile(user_id=user_id, file_name=file_name, size=size)
         db.add(upload_file)
         db.commit()
         return upload_file.id
@@ -58,6 +58,19 @@ async def get_task_from_id(task_id: int) -> Task:
     try:
         task = db.get(Task, task_id)
         return task
+    finally:
+        db.close()
+
+
+async def alter_task(user_id: int, task_id: int, name: str, method: str):
+    db = SessionLocal()
+    try:
+        task = db.get(Task, task_id)
+        if task is None or task.user_id != user_id:
+            return None
+        task.name = name
+        task.method = method
+        db.commit()
     finally:
         db.close()
 
@@ -99,4 +112,19 @@ async def remove_task(task_id: int, user_id: int):
     finally:
         db.delete(task)
         db.commit()
+        db.close()
+
+
+async def get_fileinfo(user_id: int, category: str, id: int):
+    db = SessionLocal()
+    try:
+        file = None
+        if category == "input":
+            file = db.get(UploadFile, id)
+        elif category == "output":
+            file = db.get(DownloadFile, id)
+        if file is None or file.user_id != user_id:
+            return None
+        return file
+    finally:
         db.close()

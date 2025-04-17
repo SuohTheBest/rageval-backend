@@ -55,7 +55,7 @@ class TaskWorker(Thread):
         try:
             self.logger.info("Processing task: {}".format(task))
             # TODO
-            sleep(10)
+            sleep(600)
             return {'success': True}
         except Exception as e:
             self.logger.error("Processing task failed: {}".format(e))
