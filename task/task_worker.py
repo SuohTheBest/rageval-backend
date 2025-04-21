@@ -12,14 +12,16 @@ import os
 from models.Task import Task
 from sqlalchemy.orm import sessionmaker
 from logging import getLogger
-from database import engine
+from models.database import engine
 from logger import logger
+
 # rag
 import pandas as pd
 import os
 from ragas import SingleTurnSample, EvaluationDataset
 from ragas.metrics import BleuScore
 from ragas.llms import LangchainLLMWrapper
+
 # 原本的导入
 # from task.utils import get_upload_filepath, get_task_from_id, get_download_filepath, remove_task
 from langchain_openai import ChatOpenAI
@@ -55,6 +57,7 @@ def process_rag(task: Task):
     llm = ChatOpenAI(model="gpt-3.5-turbo-0125")
     evaluator_llm = LangchainLLMWrapper(llm)
     from task.utils import get_upload_filepath
+
     # 这里回头当做做表用的ids，到时候需要解包
     input_ids = []
     input_ids.append(task.input_id)
@@ -66,16 +69,23 @@ def process_rag(task: Task):
     retrieved_contexts = [[]]
     reference_contexts = [[]]
     df = pd.read_csv(file)
-    user_input = df.get('user_input', pd.Series([])
-                        ).tolist()  # 如果 'a' 不存在，返回空列表
-    response = df.get('response', pd.Series([])).tolist()  # 如果 'a' 不存在，返回空列表
-    reference = df.get('reference', pd.Series([])).tolist()  # 如果 'a' 不存在，返回空列表
+    user_input = df.get(
+        "user_input", pd.Series([])
+    ).tolist()  # 如果 'a' 不存在，返回空列表
+    response = df.get("response", pd.Series([])).tolist()  # 如果 'a' 不存在，返回空列表
+    reference = df.get(
+        "reference", pd.Series([])
+    ).tolist()  # 如果 'a' 不存在，返回空列表
     # retrieved_contexts = df.get('retrieved_contexts', pd.Series([[]])).tolist()
     # reference_contexts = df.get('reference_contexts', pd.Series([[]])).tolist()
-    retrieved_contexts = [ast.literal_eval(item) if isinstance(
-        item, str) else item for item in df.get('retrieved_contexts', pd.Series([[]])).tolist()]
-    reference_contexts = [ast.literal_eval(item) if isinstance(
-        item, str) else item for item in df.get('reference_contexts', pd.Series([[]])).tolist()]
+    retrieved_contexts = [
+        ast.literal_eval(item) if isinstance(item, str) else item
+        for item in df.get("retrieved_contexts", pd.Series([[]])).tolist()
+    ]
+    reference_contexts = [
+        ast.literal_eval(item) if isinstance(item, str) else item
+        for item in df.get("reference_contexts", pd.Series([[]])).tolist()
+    ]
     methods = []
     print("here1")
     methods.append(task.method)
@@ -83,8 +93,9 @@ def process_rag(task: Task):
         if method == "method1":
             print("here")
             process_LLMContextPrecisionWithoutReference(
-                user_input, response, retrieved_contexts, df)
-    df.to_csv(f'{task.id}_output.csv', index=False)
+                user_input, response, retrieved_contexts, df
+            )
+    df.to_csv(f"{task.id}_output.csv", index=False)
 
 
 class TaskWorker(Thread):
@@ -99,7 +110,7 @@ class TaskWorker(Thread):
     def get_task(self, db):
         if self.queue.empty():
             try:
-                tasks = db.query(Task).filter(Task.status == 'waiting').all()
+                tasks = db.query(Task).filter(Task.status == "waiting").all()
             except SQLAlchemyError as e:
                 print(f"SQLAlchemyError: {e}")
             except Exception as e:
@@ -118,10 +129,10 @@ class TaskWorker(Thread):
             print("process")
             process_rag(task)
             # sleep(600)
-            return {'success': True}
+            return {"success": True}
         except Exception as e:
             self.logger.error("Processing task failed: {}".format(e))
-            return {'success': False}
+            return {"success": False}
 
     def run(self):
         self.logger.info("Started Task Worker")
@@ -132,9 +143,9 @@ class TaskWorker(Thread):
                 task_id: int = self.get_task(db)
                 task_in_db = db.get(Task, task_id)
                 # print(task_in_db)
-                if task_in_db is None or task_in_db.status != 'waiting':
+                if task_in_db is None or task_in_db.status != "waiting":
                     continue
-                task_in_db.status = 'evaluating'
+                task_in_db.status = "evaluating"
                 task_in_db.started = int(time.time())
                 db.commit()
                 # start work
@@ -145,7 +156,7 @@ class TaskWorker(Thread):
                 task_in_db = db.get(Task, task_id)
                 if task_in_db is None:
                     continue
-                task_in_db.status = 'success' if result['success'] else 'failed'
+                task_in_db.status = "success" if result["success"] else "failed"
                 task_in_db.finished = int(time.time())
                 # set other properties
                 # TODO

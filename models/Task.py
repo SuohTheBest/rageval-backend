@@ -2,14 +2,12 @@ import time
 
 from sqlalchemy import Column, String, Integer, Index
 
-from database import Base
+from models.database import Base
 
 
 class Task(Base):
-    __tablename__ = 'task'
-    __table_args__ = (
-        Index('ix_user_id', 'user_id'),
-    )
+    __tablename__ = "task"
+    __table_args__ = (Index("ix_user_id", "user_id"),)
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer)
     input_id = Column(Integer)  # 输入和输出，采用文件形式
@@ -24,12 +22,16 @@ class Task(Base):
     finished = Column(Integer)
 
     def __repr__(self):
-        return ("<Task(name='%s', method='%s', status='%s', created='%d')>"
-                % (self.name, self.method, self.status, self.created))
+        return "<Task(name='%s', method='%s', status='%s', created='%d')>" % (
+            self.name,
+            self.method,
+            self.status,
+            self.created,
+        )
 
 
 class UploadFile(Base):
-    __tablename__ = 'upload_file'
+    __tablename__ = "upload_file"
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer)
     file_name = Column(String(32))
@@ -37,7 +39,7 @@ class UploadFile(Base):
 
 
 class DownloadFile(Base):
-    __tablename__ = 'download_file'
+    __tablename__ = "download_file"
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer)
     file_name = Column(String(32))
