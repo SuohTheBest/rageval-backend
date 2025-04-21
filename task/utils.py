@@ -28,10 +28,23 @@ def get_download_filepath(output_id: int):
 async def get_new_input_id(user_id: int, file_name: str, size: int) -> int:
     db = SessionLocal()
     try:
-        upload_file = UploadFile(user_id=user_id, file_name=file_name, size=size)
+        upload_file = UploadFile(
+            user_id=user_id, file_name=file_name, size=size)
         db.add(upload_file)
         db.commit()
         return upload_file.id
+    finally:
+        db.close()
+
+
+async def get_new_output_id(user_id: int, file_name: str, size: int) -> int:
+    db = SessionLocal()
+    try:
+        download_file = UploadFile(
+            user_id=user_id, file_name=file_name, size=size)
+        db.add(download_file)
+        db.commit()
+        return download_file.id
     finally:
         db.close()
 
@@ -78,11 +91,14 @@ async def alter_task(user_id: int, task_id: int, name: str, method: str):
 async def get_tasks_from_user_id(user_id: int, category: str, is_finished: bool) -> List[Task]:
     db = SessionLocal()
     try:
-        tasks = db.query(Task).filter(Task.user_id == user_id).filter(Task.category == category)
+        tasks = db.query(Task).filter(
+            Task.user_id == user_id).filter(Task.category == category)
         if is_finished:
-            tasks = tasks.filter((Task.status == "success") | (Task.status == "failed"))  # 不是python or!!!
+            tasks = tasks.filter((Task.status == "success") | (
+                Task.status == "failed"))  # 不是python or!!!
         else:
-            tasks = tasks.filter((Task.status == "waiting") | (Task.status == "evaluating"))
+            tasks = tasks.filter((Task.status == "waiting")
+                                 | (Task.status == "evaluating"))
         tasks = tasks.order_by(Task.created.desc()).all()
         return tasks
     finally:

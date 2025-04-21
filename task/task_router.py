@@ -20,8 +20,10 @@ class AddTaskRequest(BaseModel):
 
 @router.post("/")
 async def addTasks(r: AddTaskRequest, access_token: str = Cookie(None)):
+    print("add\n")
     try:
         user_id = await get_user_id(access_token)
+        print(f"user_id:{user_id}")
         await add_tasks(r.name, r.method, r.category, r.input_ids, user_id)
         return {"success": True}
     except Exception as e:
