@@ -1,4 +1,4 @@
-import zhipuai
+from langchain.chat_models import ChatOpenAI
 from langchain_core.prompts import PromptTemplate
 
 metric_prompt = '''
@@ -24,8 +24,12 @@ os.environ["API_KEY"] = "2ac574e73afa430fb225aa3fb48a6fc9.wHZ6jqzAD6ahuEMX"
 
 def get_completion(prompt,model="glm-4-flash",temperature=0):
     api_key = os.environ.get('API_KEY')
-    client = zhipuai.ZhipuAI(api_key=api_key)
-    response = client.chat.completions.create(
+    llm = ChatOpenAI(
+        openai_api_base="https://open.bigmodel.cn/api/paas/v4",
+        openai_api_key=api_key,
+        model_name="glm-4-flash",
+    )
+    response = llm.chat.completions.create(
         model=model,
         messages=[
             {"role": "user", "content": prompt}
