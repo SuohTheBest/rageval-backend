@@ -35,4 +35,3 @@ def process_LLMContextPrecisionWithoutReference(user_inputs, responses, retrieve
     last_column = result_df.iloc[:, -1]  # 获取最后一列
     # 将最后一列添加到原 df
     df['LLMContextPrecisionWithoutReference'] = last_column
-    t = 0
