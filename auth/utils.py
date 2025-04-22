@@ -1,7 +1,7 @@
 from passlib.context import CryptContext
 
 from models.User import User
-from database import SessionLocal
+from models.database import SessionLocal
 
 pwd_context = CryptContext(schemes=["bcrypt"])
 
@@ -9,8 +9,7 @@ pwd_context = CryptContext(schemes=["bcrypt"])
 async def add_user(username, email, plain_password):
     db = SessionLocal()
     hashed_password = pwd_context.hash(plain_password)
-    user = User(username=username, email=email, password=hashed_password, avatar='')
-    print(user)
+    user = User(username=username, email=email, password=hashed_password, avatar="")
     db.add(user)
     db.commit()
     db.close()
@@ -31,7 +30,11 @@ async def renew_password(username: str, email: str, plain_password: str):
 
 async def get_user_by_credential(credential: str, plain_password: str) -> User | None:
     db = SessionLocal()
-    user = db.query(User).filter((User.email == credential) | (User.username == credential)).first()
+    user = (
+        db.query(User)
+        .filter((User.email == credential) | (User.username == credential))
+        .first()
+    )
     db.close()
     if user is None:
         return None

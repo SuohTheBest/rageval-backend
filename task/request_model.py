@@ -1,0 +1,16 @@
+from typing import List, Literal, Optional
+from pydantic import BaseModel
+
+
+class AddTaskRequest(BaseModel):
+    name: str
+    methods: List[str]
+    category: Literal["rag", "prompt"]
+    input_ids: Optional[List[int]] = None
+    input_texts: Optional[List[str]] = None
+
+
+class AlterTaskRequest(BaseModel):
+    task_id: int
+    name: str
+    method: str

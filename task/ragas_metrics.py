@@ -9,6 +9,20 @@ from langchain_openai import ChatOpenAI
 from langchain_openai import OpenAIEmbeddings
 from ragas.metrics import *
 
+# rag
+import pandas as pd
+import os
+from ragas import SingleTurnSample, EvaluationDataset
+from ragas.metrics import BleuScore
+from ragas.llms import LangchainLLMWrapper
+
+# 原本的导入
+# from task.utils import get_upload_filepath, get_task_from_id, get_download_filepath, remove_task
+from langchain_openai import ChatOpenAI
+from langchain_openai import OpenAIEmbeddings
+from ragas.metrics import LLMContextRecall, Faithfulness, FactualCorrectness
+from ragas import evaluate
+
 
 def set_environment():
     os.environ["OPENAI_API_KEY"] = "sk-JUbjcL4UL7rCP6mrU2qGQKTE8Um0KJwAnWGE5lDebQc1iO71"

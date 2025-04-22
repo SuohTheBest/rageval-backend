@@ -3,7 +3,7 @@ import time
 
 from fastapi import HTTPException
 from jose import jwt, JWTError
-from database import SessionLocal
+from models.database import SessionLocal
 
 from models.User import User
 
