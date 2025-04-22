@@ -27,6 +27,7 @@ class Evaluation(Base):
     __table_args__ = (Index("ix_task_id", "task_id"),)
     id = Column(Integer, primary_key=True, autoincrement=True)
     task_id = Column(Integer)
+    abstract = Column(String(16))
     method = Column(String(16))
     input_id = Column(Integer)
     input_text = Column(String)

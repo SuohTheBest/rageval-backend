@@ -55,8 +55,12 @@ async def add_tasks(r: AddTaskRequest, user_id: int):
             if upload_file is None or upload_file.user_id != user_id:
                 continue
             for method in r.methods:
-                new_eval = Evaluation(task_id=new_task.id, method=method, input_id=file_id,
-                                      status='waiting', created=int(time.time()))
+                new_eval = Evaluation(task_id=new_task.id,
+                                      abstract=upload_file.file_name[0:10],
+                                      method=method,
+                                      input_id=file_id,
+                                      status='waiting',
+                                      created=int(time.time()))
                 try:
                     worker.add_eval(new_eval.id)
                 except Full:
@@ -65,8 +69,12 @@ async def add_tasks(r: AddTaskRequest, user_id: int):
     elif r.input_texts:
         for input_text in r.input_texts:
             for method in r.methods:
-                new_eval = Evaluation(task_id=new_task.id, method=method, input_text=input_text,
-                                      status='waiting', created=int(time.time()))
+                new_eval = Evaluation(task_id=new_task.id,
+                                      abstract=input_text[0:10],
+                                      method=method,
+                                      input_text=input_text,
+                                      status='waiting',
+                                      created=int(time.time()))
                 try:
                     worker.add_eval(new_eval.id)
                 except Full:

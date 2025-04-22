@@ -95,7 +95,7 @@ async def get_tasks(category: Literal["rag", "prompt"],
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/eval")
+@router.get("/allevals")
 async def get_evals(task_id: int = Query(...), access_token: str = Cookie(None)):
     try:
         user_id = await get_user_id(access_token)
