@@ -1,10 +1,8 @@
 import os
 from queue import Full
-
 from models.Task import *
-from typing import List
 from models.database import SessionLocal
-from task.task_router import AddTaskRequest
+from task.request_model import *
 from task.task_worker import TaskWorkerLauncher
 
 UPLOAD_DIR = "uploads"
@@ -29,7 +27,7 @@ def get_download_filepath(output_id: int):
 async def get_new_input_id(user_id: int, file_name: str, size: int) -> int:
     db = SessionLocal()
     try:
-        upload_file = UploadFile(user_id=user_id, file_name=file_name, size=size)
+        upload_file = InputFile(user_id=user_id, file_name=file_name, size=size)
         db.add(upload_file)
         db.commit()
         return upload_file.id
@@ -40,7 +38,7 @@ async def get_new_input_id(user_id: int, file_name: str, size: int) -> int:
 async def get_new_output_id(user_id: int, file_name: str, size: int) -> int:
     db = SessionLocal()
     try:
-        download_file = UploadFile(user_id=user_id, file_name=file_name, size=size)
+        download_file = InputFile(user_id=user_id, file_name=file_name, size=size)
         db.add(download_file)
         db.commit()
         return download_file.id
@@ -53,7 +51,7 @@ async def add_tasks(r: AddTaskRequest, user_id: int):
     new_task = Task(user_id=user_id, name=r.name, category=r.category)
     if r.input_ids:
         for file_id in r.input_ids:
-            upload_file = db.get(UploadFile, file_id)
+            upload_file = db.get(InputFile, file_id)
             if upload_file is None or upload_file.user_id != user_id:
                 continue
             for method in r.methods:
@@ -137,13 +135,13 @@ async def remove_task(task_id: int, user_id: int):
         try:
             if e.input_id:
                 upload_file_path = get_upload_filepath(e.input_id)
-                upload_file = db.get(UploadFile, e.input_id)
+                upload_file = db.get(InputFile, e.input_id)
                 if upload_file:
                     db.delete(upload_file)
                     os.remove(upload_file_path)
             if task.output_id:
                 download_file_path = get_download_filepath(e.output_id)
-                download_file = db.get(DownloadFile, e.output_id)
+                download_file = db.get(OutputFile, e.output_id)
                 if download_file:
                     db.delete(download_file)
                     os.remove(download_file_path)
@@ -160,9 +158,9 @@ async def get_fileinfo(user_id: int, category: str, id: int):
     try:
         file = None
         if category == "input":
-            file = db.get(UploadFile, id)
+            file = db.get(InputFile, id)
         elif category == "output":
-            file = db.get(DownloadFile, id)
+            file = db.get(OutputFile, id)
         if file is None or file.user_id != user_id:
             return None
         return file

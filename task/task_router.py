@@ -1,22 +1,12 @@
-from typing import List, Literal, Optional
-
 from fastapi import APIRouter, UploadFile, File, HTTPException, Cookie, Query
 from fastapi.responses import FileResponse
-from pydantic import BaseModel
+
 from task import utils
 from access_token import get_user_id
-from task.utils import add_tasks, get_upload_filepath, get_task_from_id, get_download_filepath, remove_task, \
-    get_tasks_from_user_id, get_fileinfo, alter_task, get_eval_from_id
+from task.request_model import *
+from task.utils import *
 
 router = APIRouter(prefix='/task', tags=['Tasks'])
-
-
-class AddTaskRequest(BaseModel):
-    name: str
-    methods: List[str]
-    category: Literal["rag", "prompt"]
-    input_ids: Optional[List[int]] = None
-    input_texts: Optional[List[str]] = None
 
 
 @router.post("/")
@@ -110,12 +100,6 @@ async def getFileinfo(category: Literal["input", "output"], file_id: int, access
             return {"success": False, "message": "No such file."}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-
-class AlterTaskRequest(BaseModel):
-    task_id: int
-    name: str
-    method: str
 
 
 @router.post("/alter")

@@ -46,16 +46,16 @@ class Evaluation(Base):
         )
 
 
-class UploadFile(Base):
-    __tablename__ = "upload_file"
+class InputFile(Base):
+    __tablename__ = "input_file"
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer)
     file_name = Column(String(32))
     size: int = Column(Integer)
 
 
-class DownloadFile(Base):
-    __tablename__ = "download_file"
+class OutputFile(Base):
+    __tablename__ = "output_file"
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer)
     file_name = Column(String(32))

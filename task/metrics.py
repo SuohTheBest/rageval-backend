@@ -87,11 +87,9 @@ def process_rag(task: Task):
         for item in df.get("reference_contexts", pd.Series([[]])).tolist()
     ]
     methods = []
-    print("here1")
     methods.append(task.method)
     for method in methods:
         if method == "method1":
-            print("here")
             process_LLMContextPrecisionWithoutReference(
                 user_input, response, retrieved_contexts, df
             )

@@ -14,7 +14,6 @@ Prompt模板：
 
 def autofill_prompt(prompt: str):
     final_prompt = autofill_template.format(prompt=prompt)
-    print(final_prompt)
     return get_completion(final_prompt)
 
 if __name__ == "__main__":

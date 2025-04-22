@@ -46,7 +46,7 @@ class TaskWorker(Thread):
             try:
                 evals = db.query(Evaluation).filter(Evaluation.status == "waiting").all()
             except Exception as e:
-                print(f"Exception: {e}")
+                self.logger.error(e)
             for eval in evals:
                 try:
                     self.queue.put_nowait(eval.id)
@@ -67,7 +67,6 @@ class TaskWorker(Thread):
 
     def run(self):
         self.logger.info("Started Task Worker")
-        print(self.stop_event.is_set())
         while not self.stop_event.is_set():
             db = self.session()
             try:
