@@ -1,4 +1,4 @@
-from typing import List, Literal
+from typing import List, Literal, Optional
 
 from fastapi import APIRouter, UploadFile, File, HTTPException, Cookie, Query
 from fastapi.responses import FileResponse
@@ -6,25 +6,24 @@ from pydantic import BaseModel
 from task import utils
 from access_token import get_user_id
 from task.utils import add_tasks, get_upload_filepath, get_task_from_id, get_download_filepath, remove_task, \
-    get_tasks_from_user_id, get_fileinfo, alter_task
+    get_tasks_from_user_id, get_fileinfo, alter_task, get_eval_from_id
 
 router = APIRouter(prefix='/task', tags=['Tasks'])
 
 
 class AddTaskRequest(BaseModel):
     name: str
-    method: str
-    category: str
-    input_ids: List[int]
+    methods: List[str]
+    category: Literal["rag", "prompt"]
+    input_ids: Optional[List[int]] = None
+    input_texts: Optional[List[str]] = None
 
 
 @router.post("/")
 async def addTasks(r: AddTaskRequest, access_token: str = Cookie(None)):
-    print("add\n")
     try:
         user_id = await get_user_id(access_token)
-        print(f"user_id:{user_id}")
-        await add_tasks(r.name, r.method, r.category, r.input_ids, user_id)
+        await add_tasks(r, user_id)
         return {"success": True}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -52,22 +51,23 @@ async def upload(file: UploadFile = File, access_token: str = Cookie(None)):
 
 
 @router.get("/download")
-async def download(category: Literal["input", "output"], task_id: int, access_token: str = Cookie(None)):
+async def download(category: Literal["input", "output"], task_id: int, eval_id: int, access_token: str = Cookie(None)):
     try:
         user_id = await get_user_id(access_token)
         task = await get_task_from_id(task_id)
         if task is None or task.user_id != user_id:
             return {"success": False, "message": "No such task."}
+        curr_eval = await get_eval_from_id(eval_id)
         if category == 'input':
-            if task.input_id is None:
+            if curr_eval.input_id is None:
                 return {"success": False, "message": "No such file."}
-            file_path = get_upload_filepath(task.input_id)
-            file_info = await get_fileinfo(user_id, 'input', task.input_id)
+            file_path = get_upload_filepath(curr_eval.input_id)
+            file_info = await get_fileinfo(user_id, 'input', curr_eval.input_id)
         else:
-            if task.output_id is None:
+            if curr_eval.output_id is None:
                 return {"success": False, "message": "No such file."}
-            file_path = get_download_filepath(task.output_id)
-            file_info = await get_fileinfo(user_id, 'output', task.output_id)
+            file_path = get_download_filepath(curr_eval.output_id)
+            file_info = await get_fileinfo(user_id, 'output', curr_eval.output_id)
         if file_info is None:
             return {"success": False, "message": "No such file."}
         return FileResponse(
@@ -90,11 +90,10 @@ async def delete_task(task_id: int = Query(...), access_token: str = Cookie(None
 
 @router.get("/")
 async def get_tasks(category: Literal["rag", "prompt"],
-                    is_finished: bool = Query(...),
                     access_token: str = Cookie(None)):
     try:
         user_id = await get_user_id(access_token)
-        tasks = await get_tasks_from_user_id(user_id, category, is_finished)
+        tasks = await get_tasks_from_user_id(user_id, category)
         return {"success": True, "tasks": tasks}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -122,6 +121,7 @@ class AlterTaskRequest(BaseModel):
 @router.post("/alter")
 async def alterTask(r: AlterTaskRequest, access_token: str = Cookie(None)):
     try:
+        # TODO
         user_id = await get_user_id(access_token)
         await alter_task(user_id, r.task_id, r.name, r.method)
         return {"success": True}
