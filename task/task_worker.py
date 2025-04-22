@@ -1,4 +1,3 @@
-import logging
 import signal
 import sys
 import time
@@ -7,27 +6,10 @@ from multiprocessing import Event
 from threading import Thread
 from time import sleep
 from sqlalchemy import Engine
-import os
 from models.Task import Evaluation
 from sqlalchemy.orm import sessionmaker
 from models.database import engine
 from logger import logger
-# rag
-import pandas as pd
-import os
-from ragas import SingleTurnSample, EvaluationDataset
-from ragas.metrics import BleuScore
-from ragas.llms import LangchainLLMWrapper
-# 原本的导入
-# from task.utils import get_upload_filepath, get_task_from_id, get_download_filepath, remove_task
-from langchain_openai import ChatOpenAI
-from langchain_openai import OpenAIEmbeddings
-from ragas.metrics import LLMContextRecall, Faithfulness, FactualCorrectness
-from ragas import evaluate
-from models.Task import Task
-from task.ragas_metrics import *
-from sqlalchemy.exc import SQLAlchemyError
-import ast
 
 
 class TaskWorkerLauncher:
@@ -75,11 +57,6 @@ class TaskWorker(Thread):
         try:
             self.logger.info("Processing task: {}".format(eval))
             # TODO
-            db = self.session()
-            task = db.get(Task, eval.task_id)
-            if task.category == 'rag':
-                print("rag")
-                process_rag(task)
             sleep(600)
             return {"success": True}
         except Exception as e:

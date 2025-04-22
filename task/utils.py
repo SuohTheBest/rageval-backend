@@ -76,10 +76,12 @@ async def add_tasks(r: AddTaskRequest, user_id: int):
     db.close()
 
 
-async def get_task_from_id(task_id: int) -> Task:
+async def get_task_from_id(task_id: int, user_id: int) -> Task | None:
     db = SessionLocal()
     try:
         task = db.get(Task, task_id)
+        if task is None or task.user_id != user_id:
+            return None
         return task
     finally:
         db.close()
@@ -127,10 +129,10 @@ async def get_evals_from_task_id(task_id: int) -> List[Evaluation]:
 
 async def remove_task(task_id: int, user_id: int):
     db = SessionLocal()
-    task = db.get(Task, task_id)
-    if task is None or task.user_id != user_id:
+    task = await get_task_from_id(task_id, user_id)
+    if task is None:
         return
-    assigned_evals = await get_evals_from_task_id(task.task_id)
+    assigned_evals = await get_evals_from_task_id(task_id)
     for e in assigned_evals:
         try:
             if e.input_id:
@@ -139,7 +141,7 @@ async def remove_task(task_id: int, user_id: int):
                 if upload_file:
                     db.delete(upload_file)
                     os.remove(upload_file_path)
-            if task.output_id:
+            if e.output_id:
                 download_file_path = get_download_filepath(e.output_id)
                 download_file = db.get(OutputFile, e.output_id)
                 if download_file:
@@ -148,8 +150,22 @@ async def remove_task(task_id: int, user_id: int):
             db.delete(e)
         except Exception:
             pass
-        db.delete(task)
+    db.delete(task)
+    db.commit()
+    db.close()
+
+
+async def remove_eval(eval_id: int):
+    # need check user_id before use
+    db = SessionLocal()
+    try:
+        eval = db.get(Evaluation, eval_id)
+        if eval is None:
+            return
+        db.delete(eval)
         db.commit()
+    except Exception:
+        db.rollback()
         db.close()
 
 

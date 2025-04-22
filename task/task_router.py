@@ -69,10 +69,16 @@ async def download(category: Literal["input", "output"], task_id: int, eval_id: 
 
 
 @router.delete("/")
-async def delete_task(task_id: int = Query(...), access_token: str = Cookie(None)):
+async def delete_task(task_id: int = Query(...), eval_id: int = Query(...), access_token: str = Cookie(None)):
     try:
         user_id = await get_user_id(access_token)
-        await remove_task(task_id, user_id)
+        if eval_id <= 0:
+            await remove_task(task_id, user_id)
+        else:
+            task = await get_task_from_id(task_id, user_id)
+            if task is None:
+                return {"success": False, "message": "No such task."}
+            await remove_eval(eval_id)
         return {"success": True}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -85,6 +91,19 @@ async def get_tasks(category: Literal["rag", "prompt"],
         user_id = await get_user_id(access_token)
         tasks = await get_tasks_from_user_id(user_id, category)
         return {"success": True, "tasks": tasks}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/eval")
+async def get_evals(task_id: int = Query(...), access_token: str = Cookie(None)):
+    try:
+        user_id = await get_user_id(access_token)
+        task = await get_task_from_id(task_id, user_id)
+        if task is None:
+            return {"success": False, "message": "No such task."}
+        evals = await get_evals_from_task_id(task_id)
+        return {"success": True, "data": evals}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
