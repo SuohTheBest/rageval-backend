@@ -75,7 +75,7 @@ class TaskWorker(Thread):
         try:
             self.logger.info("Processing task: {}".format(eval))
             # TODO
-            # process_rag(task)
+            process_rag(eval)
             sleep(600)
             return {"success": True}
         except Exception as e:
