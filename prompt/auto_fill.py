@@ -1,17 +1,23 @@
 from prompt.metrics import get_completion
 
 autofill_template = '''
-请你根据上下文补全以下Prompt中的占位符（用花括号括起来的内容）。
+你是一个Prompt自动填充助手。
+下面是一个Prompt模板，里面有形如{{username}}、{{date}}的占位符。
+请你合理地为这些字段赋值，返回填充后的Prompt内容。
 
-原始prompt：
+Prompt模板：
 ~~~
 {prompt}
 ~~~
-
-你应该合理替换所有占位符，比如 {username} 替换成用户名字。
-请你直接返回填充后的prompt，不要输出其他内容。
+只返回填充后的Prompt，不要输出其他内容。
 '''
 
-def autofill_prompt(prompt: str) -> str:
-    filled_prompt = autofill_template.format(prompt=prompt)
-    return get_completion(filled_prompt)
+def autofill_prompt(prompt: str):
+    final_prompt = autofill_template.format(prompt=prompt)
+    print(final_prompt)
+    return get_completion(final_prompt)
+
+if __name__ == "__main__":
+    #test
+    autofilled = autofill_prompt("你好，{username}，今天是{date}。")
+    print("填充结果：", autofilled)
