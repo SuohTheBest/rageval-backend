@@ -18,6 +18,13 @@ def set_environment():
     return evaluator_llm
 
 
+def evaluate_and_store(dataset, metric, llm, df, name):
+    result = evaluate(dataset=dataset, metrics=[metric], llm=llm)
+    result_df = result.to_pandas()
+    last_column = result_df.iloc[:, -1]  # 获取最后一列
+    df[name] = last_column
+
+
 def process_LLMContextPrecisionWithoutReference(user_inputs, responses, retrieved_contexts, df):
     dataset = []
     for user_input, response, retrieved_context in zip(user_inputs, responses, retrieved_contexts):
@@ -27,12 +34,12 @@ def process_LLMContextPrecisionWithoutReference(user_inputs, responses, retrieve
         )
     dataset = EvaluationDataset(dataset)
     evaluator_llm = set_environment()
-    result = evaluate(dataset=dataset, metrics=[LLMContextPrecisionWithoutReference()
-                                                ], llm=evaluator_llm)
-    # result = result.to_pandas().to_csv()
-    # 将 result 转换为 DataFrame，并获取最后一列
-    result_df = result.to_pandas()
-    last_column = result_df.iloc[:, -1]  # 获取最后一列
-    # 将最后一列添加到原 df
-    df['LLMContextPrecisionWithoutReference'] = last_column
-    t = 0
+    # result = evaluate(dataset=dataset, metrics=[LLMContextPrecisionWithoutReference()
+    #                                             ], llm=evaluator_llm)
+    # # 将 result 转换为 DataFrame，并获取最后一列
+    # result_df = result.to_pandas()
+    # last_column = result_df.iloc[:, -1]  # 获取最后一列
+    # # 将最后一列添加到原 df
+    # df['LLMContextPrecisionWithoutReference'] = last_column
+    evaluate_and_store(
+        dataset, LLMContextPrecisionWithoutReference(), evaluator_llm, df, 'LLMContextPrecisionWithoutReference')

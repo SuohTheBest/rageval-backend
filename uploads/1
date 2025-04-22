@@ -1,0 +1,3 @@
+运行pytest前 把cutoff_frequencies.txt的最后一行去掉，并删去data里额外添加的两张图片，不然会报错。
+
+其他的正常运行jupyter代码就行

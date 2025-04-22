@@ -1,0 +1,2 @@
+user_input,retrieved_contexts,response,llm_context_precision_without_reference,LLMContextPrecisionWithoutReference
+Where is the Eiffel Tower located?,['The Eiffel Tower is located in Paris.'],The Eiffel Tower is located in Paris.,0.9999999999,0.9999999999

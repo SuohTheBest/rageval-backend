@@ -27,7 +27,7 @@ from langchain_openai import OpenAIEmbeddings
 from ragas.metrics import LLMContextRecall, Faithfulness, FactualCorrectness
 from ragas import evaluate
 from models.Task import Task
-from task.metrics import *
+from task.ragas_metrics import *
 from sqlalchemy.exc import SQLAlchemyError
 import ast
 
