@@ -1,5 +1,6 @@
-from langchain.chat_models import ChatOpenAI
+from zhipuai import ZhipuAI
 from langchain_core.prompts import PromptTemplate
+import os
 
 metric_prompt = '''
 你是一个prompt评估员。
@@ -18,23 +19,17 @@ prompt：
 '''
 
 
-import os
-
-os.environ["API_KEY"] = "2ac574e73afa430fb225aa3fb48a6fc9.wHZ6jqzAD6ahuEMX"
+os.environ["API_KEY"] = "3d75e2b95b1549ada6e0f3ad93c25f72.86QnsnzUWVy0Se7K"
 
 def get_completion(prompt,model="glm-4-flash",temperature=0):
-    api_key = os.environ.get('API_KEY')
-    llm = ChatOpenAI(
-        openai_api_base="https://open.bigmodel.cn/api/paas/v4",
-        openai_api_key=api_key,
-        model_name="glm-4-flash",
-    )
-    response = llm.chat.completions.create(
+    client = ZhipuAI(api_key = os.environ["API_KEY"])
+
+    response = client.chat.completions.create(
+
         model=model,
         messages=[
             {"role": "user", "content": prompt}
         ],
-        temperature=temperature
     )
     if len(response.choices) > 0:
         return response.choices[0].message.content
