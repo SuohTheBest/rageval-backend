@@ -75,7 +75,11 @@ class TaskWorker(Thread):
         try:
             self.logger.info("Processing task: {}".format(eval))
             # TODO
-            process_rag(eval)
+            db = self.session()
+            task = db.get(Task, eval.task_id)
+            if task.category == 'rag':
+                print("rag")
+                process_rag(task)
             sleep(600)
             return {"success": True}
         except Exception as e:

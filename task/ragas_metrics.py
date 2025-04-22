@@ -18,10 +18,7 @@ from ragas.llms import LangchainLLMWrapper
 
 # 原本的导入
 # from task.utils import get_upload_filepath, get_task_from_id, get_download_filepath, remove_task
-from langchain_openai import ChatOpenAI
-from langchain_openai import OpenAIEmbeddings
-from ragas.metrics import LLMContextRecall, Faithfulness, FactualCorrectness
-from ragas import evaluate
+import ast
 from models.Task import Task
 
 
@@ -53,11 +50,9 @@ def process_rag(task: Task):
     reference_contexts = [ast.literal_eval(item) if isinstance(
         item, str) else item for item in df.get('reference_contexts', pd.Series([[]])).tolist()]
     methods = []
-    print("here1")
     methods.append(task.method)
     for method in methods:
         if method == "method1":
-            print("here")
             process_LLMContextPrecisionWithoutReference(
                 user_input, response, retrieved_contexts, df)
     df.to_csv(f'{task.id}_output.csv', index=False)
@@ -71,6 +66,32 @@ def set_environment():
     return evaluator_llm
 
 
+def generate_dataset(fields, context_type='user_input'):
+    """
+    通用的函数来生成 dataset，根据传入的字段动态生成 `SingleTurnSample`
+    """
+    dataset = []
+    for field_set in zip(*fields):  # 这将自动处理多个字段的情况
+        sample_data = {}
+        if 'user_input' in fields:
+            sample_data['user_input'] = field_set[fields.index('user_input')]
+        if 'response' in fields:
+            sample_data['response'] = field_set[fields.index('response')]
+        if 'reference' in fields:
+            sample_data['reference'] = field_set[fields.index('reference')]
+        if 'retrieved_contexts' in fields:
+            sample_data['retrieved_contexts'] = field_set[fields.index(
+                'retrieved_contexts')]
+        if 'reference_contexts' in fields:
+            sample_data['reference_contexts'] = field_set[fields.index(
+                'reference_contexts')]
+
+        # 根据提供的字段动态构建 SingleTurnSample
+        dataset.append(SingleTurnSample(**sample_data))
+
+    return EvaluationDataset(dataset)
+
+
 def evaluate_and_store(dataset, metric, llm, df, name):
     result = evaluate(dataset=dataset, metrics=[metric], llm=llm)
     result_df = result.to_pandas()
@@ -79,20 +100,174 @@ def evaluate_and_store(dataset, metric, llm, df, name):
 
 
 def process_LLMContextPrecisionWithoutReference(user_inputs, responses, retrieved_contexts, df):
-    dataset = []
-    for user_input, response, retrieved_context in zip(user_inputs, responses, retrieved_contexts):
-        dataset.append(
-            SingleTurnSample(user_input=user_input, response=response,
-                             retrieved_contexts=retrieved_context)
-        )
+    fields = ['user_input', 'response', 'retrieved_contexts']
+    dataset = generate_dataset(
+        [user_inputs, responses, retrieved_contexts], fields)
     dataset = EvaluationDataset(dataset)
     evaluator_llm = set_environment()
-    # result = evaluate(dataset=dataset, metrics=[LLMContextPrecisionWithoutReference()
-    #                                             ], llm=evaluator_llm)
-    # # 将 result 转换为 DataFrame，并获取最后一列
-    # result_df = result.to_pandas()
-    # last_column = result_df.iloc[:, -1]  # 获取最后一列
-    # # 将最后一列添加到原 df
-    # df['LLMContextPrecisionWithoutReference'] = last_column
     evaluate_and_store(
         dataset, LLMContextPrecisionWithoutReference(), evaluator_llm, df, 'LLMContextPrecisionWithoutReference')
+
+
+def process_LLMContextPrecisionWithReference(user_inputs, references, retrieved_contexts, df):
+    fields = ['user_input', 'reference', 'retrieved_contexts']
+    dataset = generate_dataset(
+        [user_inputs, references, retrieved_contexts], fields)
+    evaluator_llm = set_environment()
+    evaluate_and_store(
+        dataset, LLMContextPrecisionWithReference(), evaluator_llm, df, 'LLMContextPrecisionWithReference')
+
+
+def process_NonLLMContextPrecisionWithReference(retrieved_contexts, reference_contexts, df):
+    fields = ['retrieved_contexts', 'reference_contexts']
+    dataset = generate_dataset(
+        [retrieved_contexts, reference_contexts], fields)
+    evaluator_llm = set_environment()
+    evaluate_and_store(
+        dataset, NonLLMContextPrecisionWithReference(), evaluator_llm, df, 'LLMContextPrecisionWithReference')
+
+
+def process_LLMContextRecall(user_inputs, responses, references, retrieved_contexts, df):
+    fields = ['user_input', 'response', 'reference', 'retrieved_contexts']
+    dataset = generate_dataset(
+        [user_inputs, responses, references, retrieved_contexts], fields)
+    evaluator_llm = set_environment()
+    evaluate_and_store(
+        dataset, LLMContextRecall(), evaluator_llm, df, 'LLMContextRecall')
+
+
+def process_NonLLMContextRecall(retrieved_contexts, reference_contexts, df):
+    fields = ['retrieved_contexts', 'reference_contexts']
+    dataset = generate_dataset(
+        [retrieved_contexts, reference_contexts], fields)
+    evaluator_llm = set_environment()
+    evaluate_and_store(
+        dataset, NonLLMContextRecall(), evaluator_llm, df, 'NonLLMContextRecall')
+
+
+def process_ContextEntityRecall(reference, retrieved_contexts, df):
+    fields = ['reference', 'retrieved_contexts']
+    dataset = [[reference, retrieved_contexts], fields]
+    evaluator_llm = set_environment()
+    evaluate_and_store(
+        dataset, ContextEntityRecall(), evaluator_llm, df, 'ContextEntityRecall')
+
+
+def process_NoiseSensitivity(user_input, response, reference, retrieved_contexts, df):
+    fields = ['user_input', 'response', 'reference', 'retrieved_contexts']
+    dataset = [[user_input, response, reference, retrieved_contexts], fields]
+    evaluator_llm = set_environment()
+    evaluate_and_store(
+        dataset, NoiseSensitivity(), evaluator_llm, df, 'NoiseSensitivity')
+
+
+def process_ResponseRelevancy(user_input, response, retrieved_contexts, df):
+    fields = ['user_input', 'response', 'retrieved_contexts']
+    dataset = [[user_input, response, retrieved_contexts], fields]
+    evaluator_llm = set_environment()
+    evaluate_and_store(
+        dataset, ResponseRelevancy(), evaluator_llm, df, 'ResponseRelevancy')
+
+
+def process_Faithfulness(user_input, response, retrieved_contexts, df):
+    fields = ['user_input', 'response', 'retrieved_contexts']
+    dataset = [[user_input, response, retrieved_contexts], fields]
+    evaluator_llm = set_environment()
+    evaluate_and_store(
+        dataset, Faithfulness(), evaluator_llm, df, 'Faithfulness')
+
+
+def process_FaithfulnesswithHHEM(user_input, response, retrieved_contexts, df):
+    fields = ['user_input', 'response', 'retrieved_contexts']
+    dataset = [[user_input, response, retrieved_contexts], fields]
+    evaluator_llm = set_environment()
+    evaluate_and_store(
+        dataset, FaithfulnesswithHHEM(), evaluator_llm, df, 'FaithfulnesswithHHEM')
+
+
+def process_AnswerAccuracy(user_input, response, reference, df):
+    fields = ['user_input', 'response', 'reference']
+    dataset = [[user_input, response, reference], fields]
+    evaluator_llm = set_environment()
+    evaluate_and_store(
+        dataset, AnswerAccuracy(), evaluator_llm, df, 'AnswerAccuracy')
+
+
+def process_ContextRelevance(user_input, retrieved_contexts, df):
+    fields = ['user_input', 'retrieved_contexts']
+    dataset = [[user_input, retrieved_contexts], fields]
+    evaluator_llm = set_environment()
+    evaluate_and_store(
+        dataset, ContextRelevance(), evaluator_llm, df, 'ContextRelevance')
+
+
+def process_ResponseGroundedness(response, retrieved_contexts, df):
+    fields = ['response', 'retrieved_contexts']
+    dataset = [[response, retrieved_contexts], fields]
+    evaluator_llm = set_environment()
+    evaluate_and_store(
+        dataset, ResponseGroundedness(), evaluator_llm, df, 'ResponseGroundedness')
+
+
+def process_FactualCorrectness(response, reference, df):
+    fields = ['response', 'reference']
+    dataset = [[response, reference], fields]
+    evaluator_llm = set_environment()
+    evaluate_and_store(
+        dataset, FactualCorrectness(), evaluator_llm, df, 'FactualCorrectness')
+
+
+def process_SemanticSimilarity(response, reference, df):
+    fields = ['response', 'reference']
+    dataset = [[response, reference], fields]
+    evaluator_llm = set_environment()
+    evaluate_and_store(
+        dataset, SemanticSimilarity(), evaluator_llm, df, 'SemanticSimilarity')
+
+
+def process_NonLLMStringSimilarity(response, reference, df):
+    fields = ['response', 'reference']
+    dataset = [[response, reference], fields]
+    evaluator_llm = set_environment()
+    evaluate_and_store(
+        dataset, NonLLMStringSimilarity(), evaluator_llm, df, 'NonLLMStringSimilarity')
+
+
+def process_BleuScore(response, reference, df):
+    fields = ['response', 'reference']
+    dataset = [[response, reference], fields]
+    evaluator_llm = set_environment()
+    evaluate_and_store(
+        dataset, BleuScore(), evaluator_llm, df, 'BleuScore')
+
+
+def process_RougeScore(response, reference, df):
+    fields = ['response', 'reference']
+    dataset = [[response, reference], fields]
+    evaluator_llm = set_environment()
+    evaluate_and_store(
+        dataset, RougeScore(), evaluator_llm, df, 'RougeScore')
+
+
+def process_ExactMatch(response, reference, df):
+    fields = ['response', 'reference']
+    dataset = [[response, reference], fields]
+    evaluator_llm = set_environment()
+    evaluate_and_store(
+        dataset, ExactMatch(), evaluator_llm, df, 'ExactMatch')
+
+
+def process_StringPresence(response, reference, df):
+    fields = ['response', 'reference']
+    dataset = [[response, reference], fields]
+    evaluator_llm = set_environment()
+    evaluate_and_store(
+        dataset, StringPresence(), evaluator_llm, df, 'StringPresence')
+
+
+def process_SummarizationScore(response, reference_contexts, df):
+    fields = ['response', 'reference_contexts']
+    dataset = [[response, reference_contexts], fields]
+    evaluator_llm = set_environment()
+    evaluate_and_store(
+        dataset, SummarizationScore(), evaluator_llm, df, 'SummarizationScore')
