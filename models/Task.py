@@ -61,3 +61,4 @@ class OutputFile(Base):
     user_id = Column(Integer)
     file_name = Column(String(32))
     size: int = Column(Integer)
+

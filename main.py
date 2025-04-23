@@ -1,6 +1,7 @@
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
 from models.database import Base, engine
+from models import Task, Text, User
 from fastapi import FastAPI
 from auth import user_router
 from task import task_router

@@ -14,3 +14,8 @@ class AlterTaskRequest(BaseModel):
     task_id: int
     name: str
     method: str
+
+
+class GetFileInfoRequest(BaseModel):
+    category: Literal["input", "output"]
+    file_ids: List[int]

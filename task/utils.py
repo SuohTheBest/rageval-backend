@@ -49,6 +49,7 @@ async def get_new_output_id(user_id: int, file_name: str, size: int) -> int:
 async def add_tasks(r: AddTaskRequest, user_id: int):
     db = SessionLocal()
     new_task = Task(user_id=user_id, name=r.name, category=r.category)
+    db.add(new_task)
     if r.input_ids:
         for file_id in r.input_ids:
             upload_file = db.get(InputFile, file_id)
@@ -163,30 +164,34 @@ async def remove_task(task_id: int, user_id: int):
     db.close()
 
 
-async def remove_eval(eval_id: int):
+async def remove_eval(eval_ids: List[int]):
     # need check user_id before use
     db = SessionLocal()
-    try:
-        eval = db.get(Evaluation, eval_id)
-        if eval is None:
-            return
-        db.delete(eval)
-        db.commit()
-    except Exception:
-        db.rollback()
-        db.close()
+    for eval_id in eval_ids:
+        try:
+            eval = db.get(Evaluation, eval_id)
+            if eval is None:
+                return
+            db.delete(eval)
+        except Exception:
+            pass
+    db.commit()
+    db.close()
 
 
-async def get_fileinfo(user_id: int, category: str, id: int):
+async def get_fileinfo(user_id: int, category: str, ids: List[int]):
     db = SessionLocal()
+    ans = []
     try:
-        file = None
-        if category == "input":
-            file = db.get(InputFile, id)
-        elif category == "output":
-            file = db.get(OutputFile, id)
-        if file is None or file.user_id != user_id:
-            return None
-        return file
+        for id in ids:
+            file = None
+            if category == "input":
+                file = db.get(InputFile, id)
+            elif category == "output":
+                file = db.get(OutputFile, id)
+            if file is None or file.user_id != user_id:
+                continue
+            ans.append(file)
+        return ans
     finally:
         db.close()

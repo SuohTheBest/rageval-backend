@@ -44,7 +44,7 @@ async def upload(file: UploadFile = File, access_token: str = Cookie(None)):
 async def download(category: Literal["input", "output"], task_id: int, eval_id: int, access_token: str = Cookie(None)):
     try:
         user_id = await get_user_id(access_token)
-        task = await get_task_from_id(task_id)
+        task = await get_task_from_id(task_id, user_id)
         if task is None or task.user_id != user_id:
             return {"success": False, "message": "No such task."}
         curr_eval = await get_eval_from_id(eval_id)
@@ -52,33 +52,33 @@ async def download(category: Literal["input", "output"], task_id: int, eval_id: 
             if curr_eval.input_id is None:
                 return {"success": False, "message": "No such file."}
             file_path = get_upload_filepath(curr_eval.input_id)
-            file_info = await get_fileinfo(user_id, 'input', curr_eval.input_id)
+            file_info = await get_fileinfo(user_id, 'input', [curr_eval.input_id])
         else:
             if curr_eval.output_id is None:
                 return {"success": False, "message": "No such file."}
             file_path = get_download_filepath(curr_eval.output_id)
-            file_info = await get_fileinfo(user_id, 'output', curr_eval.output_id)
+            file_info = await get_fileinfo(user_id, 'output', [curr_eval.output_id])
         if file_info is None:
             return {"success": False, "message": "No such file."}
         return FileResponse(
             file_path,
-            filename=file_info.file_name
+            filename=file_info[0].file_name
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.delete("/")
-async def delete_task(task_id: int = Query(...), eval_id: int = Query(...), access_token: str = Cookie(None)):
+async def delete_task(task_id: int = Query(...), eval_ids: List[int] = Query(...), access_token: str = Cookie(None)):
     try:
         user_id = await get_user_id(access_token)
-        if eval_id <= 0:
+        if len(eval_ids) <= 0:
             await remove_task(task_id, user_id)
         else:
             task = await get_task_from_id(task_id, user_id)
             if task is None:
                 return {"success": False, "message": "No such task."}
-            await remove_eval(eval_id)
+            await remove_eval(eval_ids)
         return {"success": True}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -103,18 +103,18 @@ async def get_evals(task_id: int = Query(...), access_token: str = Cookie(None))
         if task is None:
             return {"success": False, "message": "No such task."}
         evals = await get_evals_from_task_id(task_id)
-        return {"success": True, "data": evals}
+        return {"success": True, "evals": evals}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/fileinfo")
-async def getFileinfo(category: Literal["input", "output"], file_id: int, access_token: str = Cookie(None)):
+@router.post("/fileinfo")
+async def getFileinfo(r: GetFileInfoRequest, access_token: str = Cookie(None)):
     try:
         user_id = await get_user_id(access_token)
-        file_info = await get_fileinfo(user_id, category, file_id)
+        file_info = await get_fileinfo(user_id, r.category, r.file_ids)
         if file_info:
-            return {"success": True, "id": file_info.id, "name": file_info.file_name, "size": file_info.size}
+            return {"success": True, "info": file_info}
         else:
             return {"success": False, "message": "No such file."}
     except Exception as e:
