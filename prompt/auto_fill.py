@@ -1,4 +1,4 @@
-from prompt.metrics import get_completion
+from prompt.utils import get_completion
 
 autofill_template = '''
 你是一个Prompt自动填充助手。
@@ -13,10 +13,13 @@ Prompt模板：
 '''
 
 def autofill_prompt(prompt: str):
-    final_prompt = autofill_template.format(prompt=prompt)
-    return get_completion(final_prompt)
+    try:
+        final_prompt = autofill_template.format(prompt=prompt)
+        return get_completion(final_prompt)
+    except Exception as e:
+        return f"填充失败：{e}"
 
 if __name__ == "__main__":
-    #test
+    # test
     autofilled = autofill_prompt("你好，{username}，今天是{date}。")
     print("填充结果：", autofilled)

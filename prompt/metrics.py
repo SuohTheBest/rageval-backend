@@ -1,5 +1,5 @@
 from langchain_core.prompts import PromptTemplate
-from zhipuai import ZhipuAI
+from prompt.utils import get_completion
 
 metric_prompt = '''
 你是一个prompt评估员。
@@ -25,21 +25,6 @@ prompt：
 import os
 
 os.environ["API_KEY"] = "2ac574e73afa430fb225aa3fb48a6fc9.wHZ6jqzAD6ahuEMX"
-
-def get_completion(prompt,model="glm-4-flash",temperature=0):
-    api_key = os.environ.get('API_KEY')
-    client = ZhipuAI(api_key=api_key)
-    response = client.chat.completions.create(
-        model=model,
-        messages=[
-            {"role": "user", "content": prompt}
-        ],
-        temperature=temperature
-    )
-    if len(response.choices) > 0:
-        return response.choices[0].message.content
-    else:
-        return "generate answer error"
 
 
 class Metric:
@@ -109,6 +94,18 @@ class DefinitionMetric(Metric):
         return response
 
 
+# 用户自定义指标
+def create_custom_metric(metric_definition: str) -> Metric:
+    try:
+        return DefinitionMetric(metric_definition)
+    except Exception as e:
+        raise ValueError(f"自定义指标创建失败：{e}")
 
 
-
+# 使用指标来评估prompt
+def evaluate_prompt(prompt: str, metrics: list[Metric]) -> dict[str, float]:
+    results = {}
+    for metric in metrics:
+        score = metric.evaluate(prompt)
+        results[metric.metric] = score
+    return results
