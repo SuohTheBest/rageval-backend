@@ -37,11 +37,31 @@ class Metric:
         pass
 
 
+class DefinitionMetric(Metric):
+        def __init__(self, metric: str):
+            super().__init__()
+            self.metric = metric
+
+        def evaluate(self, prompt):
+            self.answer = get_completion(self.prompt)
+
+            final_prompt = PromptTemplate(input_variables=["metric", "prompt", "answer"],
+                                          template=metric_prompt
+                                          )
+            response = get_completion(final_prompt.format(
+                metric=self.metric,
+                prompt=self.prompt,
+                answer=self.answer
+            ))
+
+            return response
+
+
 # 知识查找正确性
-class knowledgeSearchCorrectnessMetric(Metric):
+class answerCorrectnessMetric(Metric):
     def evaluate(self,prompt):
         self.prompt = prompt
-        self.metric = '''知识查找正确性。评估系统给定的知识片段是否能够对问题做出回答。如果知识片段不能做出回答，打分为0；如果知识片段可以做出回答，打分为1。'''
+        self.metric = '''回答正确性。该维度评估系统回答是否正确，是否充分解答了用户问题，打分分值在0~1之间，0为完全不正确，1为完全正确。'''
 
         self.answer = get_completion(self.prompt)
 
@@ -74,12 +94,11 @@ class answerAdherenceMetric(Metric):
         return response
 
 
-class DefinitionMetric(Metric):
-    def __init__(self,metric:str):
-        super().__init__()
-        self.metric = metric
-
+# 逻辑性
+class logicalityMetric(Metric):
     def evaluate(self,prompt):
+        self.metric = '''逻辑性。该维度评估系统回答是否逻辑连贯，是否出现前后冲突、逻辑混乱的情况。打分分值在0~1之间，0为逻辑完全混乱，1为完全没有逻辑问题。'''
+
         self.answer = get_completion(self.prompt)
 
         final_prompt = PromptTemplate(input_variables=["metric","prompt","answer"],
@@ -90,7 +109,42 @@ class DefinitionMetric(Metric):
             prompt=self.prompt,
             answer=self.answer
         ))
+        return response
 
+
+# 通顺性
+class liquidityMetric(Metric):
+    def evaluate(self,prompt):
+        self.metric = '''通顺性。该维度评估系统回答是否通顺、合乎语法。打分分值在0~1之间，0为语句完全不通顺，1为语句完全通顺没有任何语法问题。'''
+
+        self.answer = get_completion(self.prompt)
+
+        final_prompt = PromptTemplate(input_variables=["metric","prompt","answer"],
+                                      template=metric_prompt
+                                      )
+        response = get_completion(final_prompt.format(
+            metric=self.metric,
+            prompt=self.prompt,
+            answer=self.answer
+        ))
+        return response
+
+
+# 智能性
+class intelligenceMetric(Metric):
+    def evaluate(self,prompt):
+        self.metric = '''智能性。该维度评估系统回答是否拟人化、智能化，是否能充分让用户混淆人工回答与智能回答。打分分值在0~1之间，0为非常明显的模型回答，1为与人工回答高度一致。'''
+
+        self.answer = get_completion(self.prompt)
+
+        final_prompt = PromptTemplate(input_variables=["metric","prompt","answer"],
+                                      template=metric_prompt
+                                      )
+        response = get_completion(final_prompt.format(
+            metric=self.metric,
+            prompt=self.prompt,
+            answer=self.answer
+        ))
         return response
 
 
