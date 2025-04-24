@@ -43,7 +43,7 @@ class TaskWorker(Thread):
             evals = []
             try:
                 evals = db.query(Evaluation).filter(
-                    Evaluation.status == "waiting").all()
+                    (Evaluation.status == "waiting") | (Evaluation.status == "evaluating")).all()
             except Exception as e:
                 self.logger.error(e)
             for eval in evals:
