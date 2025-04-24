@@ -4,7 +4,8 @@ import json
 optimize_prompt_template = '''
 你是一个Prompt优化专家。
 
-我会给你一个原始Prompt和其在多个指标下的评估得分。请你优化这个Prompt，使得它在这些指标下的表现更好。
+我会给你一个原始Prompt,请你优化这个Prompt，使得它在某个指标下的表现更好,指标如下：
+{lowest_metric}。
 
 请返回一个JSON数组，格式如下：
 ["优化后的Prompt", "优化理由"]
@@ -16,14 +17,17 @@ optimize_prompt_template = '''
 {prompt}
 ~~~
 
-指标与得分：
-{score_dict}
 '''
 
 def optimize_prompt(prompt: str, score_dict: dict[str, float]) -> dict:
-    score_text = '\n'.join([f"{k}: {v}" for k, v in score_dict.items()])
+    # 找到得分最低的指标
+    lowest_metric = min(score_dict, key=score_dict.get)
     try:
-        response = get_completion(optimize_prompt_template.format(prompt=prompt, score_dict=score_text))
+        # 在模板中插入最低指标
+        response = get_completion(optimize_prompt_template.format(
+            prompt=prompt,
+            lowest_metric=lowest_metric,
+        ))
         parsed = json.loads(response)
         if isinstance(parsed, list) and len(parsed) == 2:
             return {"optimized_prompt": parsed[0], "reason": parsed[1]}
