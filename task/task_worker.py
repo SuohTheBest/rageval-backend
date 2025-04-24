@@ -70,7 +70,7 @@ class TaskWorker(Thread):
             try:
                 eval_id: int = self.get_eval(db)
                 eval_in_db = db.get(Evaluation, eval_id)
-                if eval_in_db is None or eval_in_db.status != "waiting":
+                if eval_in_db is None or (eval_in_db.status != "waiting" and eval_in_db.status != "evaluating"):
                     continue
                 eval_in_db.status = "evaluating"
                 eval_in_db.started = int(time.time())

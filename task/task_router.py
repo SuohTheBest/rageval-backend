@@ -15,7 +15,8 @@ async def get_methods(category: Literal["rag", "prompt"] = Query(...)):
     if category == "rag":
         return [{'name': 'method1', 'description': 'Method 1'}, {'name': 'method2', 'description': 'Method 2'}]
     else:
-        return [{'name': 'method1', 'description': 'Method 1'}, {'name': 'method2', 'description': 'Method 2'}]
+        return [{'name': 'promptmethod1', 'description': 'Method 1'},
+                {'name': 'promptmethod2', 'description': 'Method 2'}]
 
 
 @router.post("/plot")

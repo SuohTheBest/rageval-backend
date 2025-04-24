@@ -56,6 +56,7 @@ async def add_evals(r: AddTaskRequest, user_id: int):
     else:
         curr_task = Task(user_id=user_id, name=r.name, category=r.category)
         db.add(curr_task)
+        db.commit()
     if r.input_ids:
         for file_id in r.input_ids:
             upload_file = db.get(InputFile, file_id)
