@@ -4,8 +4,8 @@ from typing import Dict, List, Optional, Any, Union
 import uvicorn
 import uuid
 
-from context_manager import Conversation, Role
-from rag_application import rag_query
+from rag.context_manager import Conversation, Role
+from rag.rag_application import rag_query
 
 # 存储所有活跃会话
 active_sessions: Dict[str, Conversation] = {}
@@ -31,7 +31,7 @@ class RagResponse(BaseModel):
     quote: List[str]  # 引用列表
 
 
-@router.post("/rag", response_model=RagResponse)
+@router.post("/", response_model=RagResponse)
 async def process_rag(request: RagRequest):
     """处理RAG请求"""
     session_id = request.session_id
@@ -42,6 +42,7 @@ async def process_rag(request: RagRequest):
         # 创建新会话
         conversation = Conversation()
         active_sessions[conversation.id] = conversation
+        session_id = conversation.id
     elif session_id not in active_sessions:
         raise HTTPException(status_code=404, detail=f"会话ID {session_id} 不存在")
 
@@ -70,7 +71,7 @@ async def process_rag(request: RagRequest):
         raise HTTPException(status_code=500, detail=f"处理查询时出错: {str(e)}")
 
 
-@router.delete("/rag/{session_id}")
+@router.delete("/{session_id}")
 async def delete_session(session_id: str):
     """删除指定会话"""
     if session_id in active_sessions:

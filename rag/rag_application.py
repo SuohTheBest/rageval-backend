@@ -7,7 +7,7 @@ from langchain.chains import ConversationalRetrievalChain
 from langchain.prompts import PromptTemplate
 from langchain_community.vectorstores import Chroma
 
-from context_manager import Conversation, Role
+from rag.context_manager import Conversation, Role
 
 # 配置日志
 logging.basicConfig(
