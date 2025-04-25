@@ -64,6 +64,7 @@ class OutputFile(Base):
 
 class TaskPlot(Base):
     __tablename__ = "task_plot"
+    __table_args__ = (Index("ix_plot_task_id", "task_id"),)
     id = Column(Integer, primary_key=True, autoincrement=True)
     task_id = Column(Integer)
     method = Column(String(32))
