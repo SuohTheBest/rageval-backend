@@ -73,3 +73,7 @@ class Conversation:
             return self._contexts.copy()
 
         return self._contexts[-window_size:].copy()
+
+    def __len__(self) -> int:
+        """获取上下文数量"""
+        return len(self._contexts)
