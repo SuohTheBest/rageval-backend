@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, APIRouter
 from pydantic import BaseModel
 from typing import Dict, List, Optional, Any, Union
 import uvicorn
@@ -7,10 +7,10 @@ import uuid
 from context_manager import Conversation, Role
 from rag_application import rag_query
 
-app = FastAPI(title="RAG API", description="检索增强生成API")
-
 # 存储所有活跃会话
 active_sessions: Dict[str, Conversation] = {}
+
+router = APIRouter(prefix='/rag', tags=['RAG'])
 
 
 class RagRequest(BaseModel):
@@ -31,7 +31,7 @@ class RagResponse(BaseModel):
     quote: List[str]  # 引用列表
 
 
-@app.post("/rag", response_model=RagResponse)
+@router.post("/rag", response_model=RagResponse)
 async def process_rag(request: RagRequest):
     """处理RAG请求"""
     session_id = request.session_id
@@ -70,7 +70,7 @@ async def process_rag(request: RagRequest):
         raise HTTPException(status_code=500, detail=f"处理查询时出错: {str(e)}")
 
 
-@app.delete("/rag/{session_id}")
+@router.delete("/rag/{session_id}")
 async def delete_session(session_id: str):
     """删除指定会话"""
     if session_id in active_sessions:
@@ -78,8 +78,3 @@ async def delete_session(session_id: str):
         return {"status": "success", "message": f"会话 {session_id} 已删除"}
     else:
         raise HTTPException(status_code=404, detail=f"会话ID {session_id} 不存在")
-
-
-# 用于直接运行 (python rag.py)
-if __name__ == "__main__":
-    uvicorn.run("rag:app", host="0.0.0.0", port=8000, reload=True)

@@ -19,19 +19,6 @@ async def get_methods(category: Literal["rag", "prompt"] = Query(...)):
                 {'name': 'promptmethod2', 'description': 'Method 2'}]
 
 
-@router.post("/plot")
-async def create_plot(r: CreatePlotRequest, access_token: str = Cookie(None)):
-    try:
-        user_id = await get_user_id(access_token)
-        task = await get_task_from_id(r.task_id, user_id)
-        if task is None:
-            return {"success": False, "message": "No such task."}
-        # TODO
-        return {"success": True}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-
 @router.post("/")
 async def addEvals(r: AddTaskRequest, access_token: str = Cookie(None)):
     try:
@@ -103,6 +90,21 @@ async def delete_task(task_id: int = Query(...), eval_ids: List[int] = Query(...
                 return {"success": False, "message": "No such task."}
             await remove_eval(eval_ids)
         return {"success": True}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/plot")
+async def getPlot(task_id: int = Query(...), method: str = Query(...), access_token: str = Cookie(None)):
+    try:
+        user_id = await get_user_id(access_token)
+        task = await get_task_from_id(task_id, user_id)
+        if task is None:
+            return {"success": False, "message": "No such task."}
+        link = await get_plot(task_id, method)
+        if link is None:
+            return {"success": False, "message": "No plot."}
+        return {"success": True, "url": link}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

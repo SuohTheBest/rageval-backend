@@ -143,6 +143,17 @@ async def get_evals_from_task_id(task_id: int) -> List[Evaluation]:
         db.close()
 
 
+async def get_plot(task_id: int, method: str):
+    db = SessionLocal()
+    try:
+        plot = db.query(TaskPlot).filter(TaskPlot.task_id == task_id).filter(TaskPlot.method == method).first()
+        if plot is None:
+            return None
+        return plot.link
+    finally:
+        db.close()
+
+
 async def remove_task(task_id: int, user_id: int):
     db = SessionLocal()
     task = await get_task_from_id(task_id, user_id)
