@@ -10,6 +10,7 @@ from models.Task import Evaluation
 from sqlalchemy.orm import sessionmaker
 from models.database import engine
 from logger import logger
+from prompt.evaluate import process_prompt_task
 
 
 class TaskWorkerLauncher:
@@ -56,9 +57,11 @@ class TaskWorker(Thread):
     def process_eval(self, eval):
         try:
             self.logger.info("Processing task: {}".format(eval))
-            # TODO
-            sleep(600)
-            return {"success": True}
+            if eval.category == 'prompt':
+                return process_prompt_task(eval)
+            else:
+                #TODO
+                return {"success": True}
         except Exception as e:
             self.logger.error("Processing task failed: {}".format(e))
             return {"success": False}
@@ -85,6 +88,7 @@ class TaskWorker(Thread):
                 eval_in_db.finished = int(time.time())
                 # set other properties
                 # TODO
+                eval_in_db.output_text = str(result)
                 db.commit()
             except Exception:
                 db.rollback()
