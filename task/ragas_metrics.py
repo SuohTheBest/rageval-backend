@@ -15,9 +15,8 @@ import os
 from ragas import SingleTurnSample, EvaluationDataset
 from ragas.metrics import BleuScore
 from ragas.llms import LangchainLLMWrapper
+from task.utils import get_upload_filepath
 
-# 原本的导入
-# from task.utils import get_upload_filepath, get_task_from_id, get_download_filepath, remove_task
 import ast
 from models.Task import Task
 
@@ -27,7 +26,7 @@ def process_rag(task: Task):
     os.environ["OPENAI_API_BASE"] = "https://api.chatanywhere.tech/v1"
     llm = ChatOpenAI(model="gpt-3.5-turbo-0125")
     evaluator_llm = LangchainLLMWrapper(llm)
-    from task.utils import get_upload_filepath
+
     # 这里回头当做做表用的ids，到时候需要解包
     input_ids = []
     input_ids.append(task.input_id)

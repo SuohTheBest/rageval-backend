@@ -1,4 +1,4 @@
-from models.Task import Evaluation
+from models.Task import PromptEvaluation
 from prompt.metrics import Metric
 from prompt.metrics import (
     liquidityMetric, ethicalMetric, clarityMetric, robustnessMetric, 
@@ -20,7 +20,7 @@ def evaluate_prompt(prompt: str, metrics: list[Metric]) -> dict[str, float]:
             results[metric.metric] = f"评估失败：{e}"
     return results
 
-def process_prompt_task(evaluation: Evaluation) -> float:
+def process_prompt_task(evaluation: PromptEvaluation) -> float:
     metric_mapping = {
         "通顺性": liquidityMetric,
         "伦理合规性": ethicalMetric,

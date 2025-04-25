@@ -59,7 +59,7 @@ async def download(category: Literal["input", "output"], task_id: int, eval_id: 
         task = await get_task_from_id(task_id, user_id)
         if task is None or task.user_id != user_id:
             return {"success": False, "message": "No such task."}
-        curr_eval = await get_eval_from_id(eval_id)
+        curr_eval = await get_eval_from_id(eval_id, category=task.category)
         if category == 'input':
             if curr_eval.input_id is None:
                 return {"success": False, "message": "No such file."}
@@ -90,7 +90,7 @@ async def delete_task(task_id: int = Query(...), eval_ids: List[int] = Query(...
             task = await get_task_from_id(task_id, user_id)
             if task is None:
                 return {"success": False, "message": "No such task."}
-            await remove_eval(eval_ids)
+            await remove_eval(eval_ids, category=task.category)
         return {"success": True}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -129,7 +129,7 @@ async def get_evals(task_id: int = Query(...), access_token: str = Cookie(None))
         task = await get_task_from_id(task_id, user_id)
         if task is None:
             return {"success": False, "message": "No such task."}
-        evals = await get_evals_from_task_id(task_id)
+        evals = await get_evals_from_task_id(task_id, category=task.category)
         return {"success": True, "evals": evals}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
