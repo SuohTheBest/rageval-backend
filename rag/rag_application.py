@@ -23,8 +23,8 @@ CHROMA_PATH = "./data/chroma_db"
 DEFAULT_TOP_K = 5
 
 # 设置嵌入模型
-BASE_URL = "https://api.bianxie.ai/v1"
-API_KEY = "sk-6KauMKZj30SWwYYybrW1TYyfizVAyzOAYG5A5xw7JYy8oJkZ"
+BASE_URL = "https://api.chatanywhere.tech/v1"
+API_KEY = "sk-RU9F80TH6jfjsamedVnsRZrLUgVpF61iIc7sOQBg4doxYYtK"
 
 
 def initialize_retriever(
