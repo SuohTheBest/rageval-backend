@@ -237,22 +237,19 @@ def evaluate_prompt(prompt: str, metrics: list[Metric]) -> dict[str, float]:
         results[metric.metric] = score
     return results
 
+
 def metric_list() -> list[dict]:
-    """
-    返回所有可用的指标列表
-    """
     return [
-        {"name": "通顺性", "description": "评估系统回答是否正确"},
-        {"name": "回答一致性", "description": "评估系统回答是否针对用户问题展开"},
-        {"name": "逻辑性", "description": "评估系统回答是否逻辑连贯"},
-        {"name": "通顺性", "description": "评估系统回答是否通顺、合乎语法"},
-        {"name": "智能性", "description": "评估系统回答是否拟人化、智能化"},
+        {"name": "通顺性", "description": "该维度评估Prompt是否通顺、合乎语法。"},
+        {"name": "伦理合规性", "description": "该维度评估Prompt是否符合伦理规范（如无偏见、无歧视、无有害内容）。"},
+        {"name": "明确性", "description": "该维度评估Prompt是否清晰无歧义，能否准确传达用户意图。"},
+        {"name": "鲁棒性", "description": "该维度评估Prompt对输入噪声（如错别字、语法错误）的容忍度。"},
+        {"name": "安全边界性", "description": "该维度评估Prompt对输入噪声（如错别字、语法错误）的容忍度。"},
+        {"name": "有效性", "description": "该维度评估Prompt是否包含了必要的约束条件（格式/长度/风格等）。"},
+        {"name": "结构设计", "description": "该维度评估Prompt是否包含有效的上下文铺垫及多步骤指令的逻辑连贯性。"},
+        {"name": "风险控制", "description": "该维度评估Prompt是否可以规避敏感话题触发。"},
+        {"name": "扩展性", "description": "该维度评估Prompt是否可以支持自然追问以及是否可以引发有价值的延伸对话。"},
     ]
-
-
-
-
-
 
 
 # # 知识查找正确性
