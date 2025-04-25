@@ -15,7 +15,6 @@ logging.basicConfig(
     format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
 )
 logger = logging.getLogger(__name__)
-logging.disable(logging.CRITICAL)
 
 # 设置Chroma存储路径
 CHROMA_PATH = "./data/chroma_db"
