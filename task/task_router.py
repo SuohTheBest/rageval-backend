@@ -1,6 +1,7 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException, Cookie, Query
 from fastapi.responses import FileResponse
 
+from prompt.metrics import metric_list
 from task import utils
 from access_token import get_user_id
 from task.request_model import *
@@ -15,8 +16,9 @@ async def get_methods(category: Literal["rag", "prompt"] = Query(...)):
     if category == "rag":
         return [{'name': 'method1', 'description': 'Method 1'}, {'name': 'method2', 'description': 'Method 2'}]
     else:
-        return [{'name': 'promptmethod1', 'description': 'Method 1'},
-                {'name': 'promptmethod2', 'description': 'Method 2'}]
+        return metric_list()
+        # return [{'name': 'promptmethod1', 'description': 'Method 1'},
+        #         {'name': 'promptmethod2', 'description': 'Method 2'}]
 
 
 @router.post("/plot")
