@@ -1,30 +1,42 @@
-from typing import List, Literal
-
 from fastapi import APIRouter, UploadFile, File, HTTPException, Cookie, Query
 from fastapi.responses import FileResponse
-from pydantic import BaseModel
+
 from task import utils
 from access_token import get_user_id
-from task.utils import add_tasks, get_upload_filepath, get_task_from_id, get_download_filepath, remove_task, \
-    get_tasks_from_user_id, get_fileinfo, alter_task
+from task.request_model import *
+from task.utils import *
 
 router = APIRouter(prefix='/task', tags=['Tasks'])
 
 
-class AddTaskRequest(BaseModel):
-    name: str
-    method: str
-    category: str
-    input_ids: List[int]
+@router.get("/methods")
+async def get_methods(category: Literal["rag", "prompt"] = Query(...)):
+    # TODO
+    if category == "rag":
+        return [{'name': 'method1', 'description': 'Method 1'}, {'name': 'method2', 'description': 'Method 2'}]
+    else:
+        return [{'name': 'promptmethod1', 'description': 'Method 1'},
+                {'name': 'promptmethod2', 'description': 'Method 2'}]
+
+
+@router.post("/plot")
+async def create_plot(r: CreatePlotRequest, access_token: str = Cookie(None)):
+    try:
+        user_id = await get_user_id(access_token)
+        task = await get_task_from_id(r.task_id, user_id)
+        if task is None:
+            return {"success": False, "message": "No such task."}
+        # TODO
+        return {"success": True}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.post("/")
-async def addTasks(r: AddTaskRequest, access_token: str = Cookie(None)):
-    print("add\n")
+async def addEvals(r: AddTaskRequest, access_token: str = Cookie(None)):
     try:
         user_id = await get_user_id(access_token)
-        print(f"user_id:{user_id}")
-        await add_tasks(r.name, r.method, r.category, r.input_ids, user_id)
+        await add_evals(r, user_id)
         return {"success": True}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -52,37 +64,44 @@ async def upload(file: UploadFile = File, access_token: str = Cookie(None)):
 
 
 @router.get("/download")
-async def download(category: Literal["input", "output"], task_id: int, access_token: str = Cookie(None)):
+async def download(category: Literal["input", "output"], task_id: int, eval_id: int, access_token: str = Cookie(None)):
     try:
         user_id = await get_user_id(access_token)
-        task = await get_task_from_id(task_id)
+        task = await get_task_from_id(task_id, user_id)
         if task is None or task.user_id != user_id:
             return {"success": False, "message": "No such task."}
+        curr_eval = await get_eval_from_id(eval_id)
         if category == 'input':
-            if task.input_id is None:
+            if curr_eval.input_id is None:
                 return {"success": False, "message": "No such file."}
-            file_path = get_upload_filepath(task.input_id)
-            file_info = await get_fileinfo(user_id, 'input', task.input_id)
+            file_path = get_upload_filepath(curr_eval.input_id)
+            file_info = await get_fileinfo(user_id, 'input', [curr_eval.input_id])
         else:
-            if task.output_id is None:
+            if curr_eval.output_id is None:
                 return {"success": False, "message": "No such file."}
-            file_path = get_download_filepath(task.output_id)
-            file_info = await get_fileinfo(user_id, 'output', task.output_id)
+            file_path = get_download_filepath(curr_eval.output_id)
+            file_info = await get_fileinfo(user_id, 'output', [curr_eval.output_id])
         if file_info is None:
             return {"success": False, "message": "No such file."}
         return FileResponse(
             file_path,
-            filename=file_info.file_name
+            filename=file_info[0].file_name
         )
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.delete("/")
-async def delete_task(task_id: int = Query(...), access_token: str = Cookie(None)):
+async def delete_task(task_id: int = Query(...), eval_ids: List[int] = Query(...), access_token: str = Cookie(None)):
     try:
         user_id = await get_user_id(access_token)
-        await remove_task(task_id, user_id)
+        if len(eval_ids) <= 0:
+            await remove_task(task_id, user_id)
+        else:
+            task = await get_task_from_id(task_id, user_id)
+            if task is None:
+                return {"success": False, "message": "No such task."}
+            await remove_eval(eval_ids)
         return {"success": True}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -90,38 +109,45 @@ async def delete_task(task_id: int = Query(...), access_token: str = Cookie(None
 
 @router.get("/")
 async def get_tasks(category: Literal["rag", "prompt"],
-                    is_finished: bool = Query(...),
                     access_token: str = Cookie(None)):
     try:
         user_id = await get_user_id(access_token)
-        tasks = await get_tasks_from_user_id(user_id, category, is_finished)
+        tasks = await get_tasks_from_user_id(user_id, category)
         return {"success": True, "tasks": tasks}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.get("/fileinfo")
-async def getFileinfo(category: Literal["input", "output"], file_id: int, access_token: str = Cookie(None)):
+@router.get("/allevals")
+async def get_evals(task_id: int = Query(...), access_token: str = Cookie(None)):
     try:
         user_id = await get_user_id(access_token)
-        file_info = await get_fileinfo(user_id, category, file_id)
+        task = await get_task_from_id(task_id, user_id)
+        if task is None:
+            return {"success": False, "message": "No such task."}
+        evals = await get_evals_from_task_id(task_id)
+        return {"success": True, "evals": evals}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/fileinfo")
+async def getFileinfo(r: GetFileInfoRequest, access_token: str = Cookie(None)):
+    try:
+        user_id = await get_user_id(access_token)
+        file_info = await get_fileinfo(user_id, r.category, r.file_ids)
         if file_info:
-            return {"success": True, "id": file_info.id, "name": file_info.file_name, "size": file_info.size}
+            return {"success": True, "info": file_info}
         else:
             return {"success": False, "message": "No such file."}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
-class AlterTaskRequest(BaseModel):
-    task_id: int
-    name: str
-    method: str
-
-
 @router.post("/alter")
 async def alterTask(r: AlterTaskRequest, access_token: str = Cookie(None)):
     try:
+        # TODO
         user_id = await get_user_id(access_token)
         await alter_task(user_id, r.task_id, r.name, r.method)
         return {"success": True}

@@ -10,7 +10,6 @@ async def add_user(username, email, plain_password):
     db = SessionLocal()
     hashed_password = pwd_context.hash(plain_password)
     user = User(username=username, email=email, password=hashed_password, avatar="")
-    print(user)
     db.add(user)
     db.commit()
     db.close()

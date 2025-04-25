@@ -10,37 +10,61 @@ class Task(Base):
     __table_args__ = (Index("ix_user_id", "user_id"),)
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer)
-    input_id = Column(Integer)  # 输入和输出，采用文件形式
-    output_id = Column(Integer)
     name = Column(String(32))
-    method = Column(String(16))
     category = Column(String(16))  # rag, prompt
+
+    def __repr__(self):
+        return "<Task(id='%s', name='%s', category='%s')>" % (
+            self.id,
+            self.name,
+            self.category,
+        )
+
+
+class Evaluation(Base):
+    __tablename__ = "evaluation"
+    __table_args__ = (Index("ix_task_id", "task_id"),)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    task_id = Column(Integer)
+    abstract = Column(String(16))
+    method = Column(String(32))
+    input_id = Column(Integer)
+    input_text = Column(String)
+    output_id = Column(Integer)
+    output_text = Column(String)
     status = Column(String(16))  # waiting, evaluating, success, failed
-    message = Column(String(128))
     created = Column(Integer)
     started = Column(Integer)
     finished = Column(Integer)
 
     def __repr__(self):
-        return "<Task(name='%s', method='%s', status='%s', created='%d')>" % (
-            self.name,
+        return "<Evaluation(id='%s', task_id='%s', method='%s', status='%s')>" % (
+            self.id,
+            self.task_id,
             self.method,
-            self.status,
-            self.created,
+            self.status
         )
 
 
-class UploadFile(Base):
-    __tablename__ = "upload_file"
+class InputFile(Base):
+    __tablename__ = "input_file"
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer)
     file_name = Column(String(32))
     size: int = Column(Integer)
 
 
-class DownloadFile(Base):
-    __tablename__ = "download_file"
+class OutputFile(Base):
+    __tablename__ = "output_file"
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(Integer)
     file_name = Column(String(32))
     size: int = Column(Integer)
+
+
+class TaskPlot(Base):
+    __tablename__ = "task_plot"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    task_id = Column(Integer)
+    method = Column(String(32))
+    link = Column(String)
