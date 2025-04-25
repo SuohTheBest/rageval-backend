@@ -17,8 +17,6 @@ async def get_methods(category: Literal["rag", "prompt"] = Query(...)):
         return [{'name': 'method1', 'description': 'Method 1'}, {'name': 'method2', 'description': 'Method 2'}]
     else:
         return metric_list()
-        # return [{'name': 'promptmethod1', 'description': 'Method 1'},
-        #         {'name': 'promptmethod2', 'description': 'Method 2'}]
 
 
 @router.post("/")
@@ -59,7 +57,7 @@ async def download(category: Literal["input", "output"], task_id: int, eval_id: 
         task = await get_task_from_id(task_id, user_id)
         if task is None or task.user_id != user_id:
             return {"success": False, "message": "No such task."}
-        curr_eval = await get_eval_from_id(eval_id)
+        curr_eval = await get_eval_from_id(eval_id, category=task.category)
         if category == 'input':
             if curr_eval.input_id is None:
                 return {"success": False, "message": "No such file."}
@@ -90,7 +88,7 @@ async def delete_task(task_id: int = Query(...), eval_ids: List[int] = Query(...
             task = await get_task_from_id(task_id, user_id)
             if task is None:
                 return {"success": False, "message": "No such task."}
-            await remove_eval(eval_ids)
+            await remove_eval(eval_ids, category=task.category)
         return {"success": True}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -105,6 +103,7 @@ async def getPlot(task_id: int = Query(...), method: str = Query(...), access_to
             return {"success": False, "message": "No such task."}
         link = await get_plot(task_id, method)
         if link is None:
+            # TODO 应该在这里生成图表
             return {"success": False, "message": "No plot."}
         return {"success": True, "url": link}
     except Exception as e:
@@ -129,8 +128,9 @@ async def get_evals(task_id: int = Query(...), access_token: str = Cookie(None))
         task = await get_task_from_id(task_id, user_id)
         if task is None:
             return {"success": False, "message": "No such task."}
-        evals = await get_evals_from_task_id(task_id)
-        return {"success": True, "evals": evals}
+        evals = await get_evals_from_task_id(task_id, category=task.category)
+        plots = await get_plots(task.id)
+        return {"success": True, "evals": evals, "plots": plots}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

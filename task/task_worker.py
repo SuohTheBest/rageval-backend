@@ -4,9 +4,8 @@ import time
 from queue import Queue, Full
 from multiprocessing import Event
 from threading import Thread
-from time import sleep
 from sqlalchemy import Engine
-from models.Task import Evaluation
+from models.Task import RAGEvaluation, PromptEvaluation
 from sqlalchemy.orm import sessionmaker
 from models.database import engine
 from logger import logger
@@ -22,8 +21,8 @@ class TaskWorkerLauncher:
         signal.signal(signal.SIGTERM, self.signal_handler)
         self.worker.start()
 
-    def add_eval(self, task_id: int):
-        self.q.put_nowait(task_id)
+    def add_eval(self, eval_id: int, category: str):
+        self.q.put_nowait({"id": eval_id, "category": category})
 
     def signal_handler(self, sig, frame):
         self.event.set()
@@ -43,24 +42,30 @@ class TaskWorker(Thread):
         if self.queue.empty():
             evals = []
             try:
-                evals = db.query(Evaluation).filter(
-                    (Evaluation.status == "waiting") | (Evaluation.status == "evaluating")).all()
+                rag_evals = db.query(RAGEvaluation).filter(
+                    (RAGEvaluation.status == "waiting") | (RAGEvaluation.status == "evaluating")).all()
+                prompt_evals = db.query(PromptEvaluation).filter(
+                    (PromptEvaluation.status == "waiting") | (PromptEvaluation.status == "evaluating")).all()
+                for eval in rag_evals:
+                    evals.append({'id': eval.id, 'category': 'rag'})
+                for eval in prompt_evals:
+                    evals.append({'id': eval.id, 'category': 'prompt'})
             except Exception as e:
                 self.logger.error(e)
             for eval in evals:
                 try:
-                    self.queue.put_nowait(eval.id)
+                    self.queue.put_nowait(eval)
                 except Full:
                     break
         return self.queue.get()
 
-    def process_eval(self, eval):
+    def process_eval(self, eval: RAGEvaluation | PromptEvaluation, category: str):
         try:
             self.logger.info("Processing task: {}".format(eval))
-            if eval.category == 'prompt':
+            if category == 'prompt':
                 return process_prompt_task(eval)
             else:
-                #TODO
+                # TODO
                 return {"success": True}
         except Exception as e:
             self.logger.error("Processing task failed: {}".format(e))
@@ -71,17 +76,23 @@ class TaskWorker(Thread):
         while not self.stop_event.is_set():
             db = self.session()
             try:
-                eval_id: int = self.get_eval(db)
-                eval_in_db = db.get(Evaluation, eval_id)
+                eval_info = self.get_eval(db)
+                if eval_info['category'] == 'prompt':
+                    eval_in_db = db.get(PromptEvaluation, eval_info['id'])
+                else:
+                    eval_in_db = db.get(RAGEvaluation, eval_info['id'])
                 if eval_in_db is None or (eval_in_db.status != "waiting" and eval_in_db.status != "evaluating"):
                     continue
                 eval_in_db.status = "evaluating"
                 eval_in_db.started = int(time.time())
                 db.commit()
                 # start work
-                result = self.process_eval(eval_in_db)
+                result = self.process_eval(eval_in_db, eval_info['category'])
                 # finish work
-                eval_in_db = db.get(Evaluation, eval_id)
+                if eval_info['category'] == 'prompt':
+                    eval_in_db = db.get(PromptEvaluation, eval_info['id'])
+                else:
+                    eval_in_db = db.get(RAGEvaluation, eval_info['id'])
                 if eval_in_db is None:
                     continue
                 eval_in_db.status = "success" if result["success"] else "failed"
