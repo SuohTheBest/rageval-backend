@@ -12,7 +12,6 @@ class Task(Base):
     user_id = Column(Integer)
     name = Column(String(32))
     category = Column(String(16))  # rag, prompt
-    output_link = Column(String)
 
     def __repr__(self):
         return "<Task(id='%s', name='%s', category='%s')>" % (
@@ -28,7 +27,7 @@ class Evaluation(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     task_id = Column(Integer)
     abstract = Column(String(16))
-    method = Column(String(16))
+    method = Column(String(32))
     input_id = Column(Integer)
     input_text = Column(String)
     output_id = Column(Integer)
@@ -62,3 +61,10 @@ class OutputFile(Base):
     file_name = Column(String(32))
     size: int = Column(Integer)
 
+
+class TaskPlot(Base):
+    __tablename__ = "task_plot"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    task_id = Column(Integer)
+    method = Column(String(32))
+    link = Column(String)

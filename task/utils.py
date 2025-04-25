@@ -46,17 +46,24 @@ async def get_new_output_id(user_id: int, file_name: str, size: int) -> int:
         db.close()
 
 
-async def add_tasks(r: AddTaskRequest, user_id: int):
+async def add_evals(r: AddTaskRequest, user_id: int):
     db = SessionLocal()
-    new_task = Task(user_id=user_id, name=r.name, category=r.category)
-    db.add(new_task)
+    if r.task_id:
+        curr_task = db.get(Task, r.task_id)
+        if curr_task is None:
+            db.close()
+            return
+    else:
+        curr_task = Task(user_id=user_id, name=r.name, category=r.category)
+        db.add(curr_task)
+        db.commit()
     if r.input_ids:
         for file_id in r.input_ids:
             upload_file = db.get(InputFile, file_id)
             if upload_file is None or upload_file.user_id != user_id:
                 continue
             for method in r.methods:
-                new_eval = Evaluation(task_id=new_task.id,
+                new_eval = Evaluation(task_id=curr_task.id,
                                       abstract=upload_file.file_name[0:10],
                                       method=method,
                                       input_id=file_id,
@@ -70,7 +77,7 @@ async def add_tasks(r: AddTaskRequest, user_id: int):
     elif r.input_texts:
         for input_text in r.input_texts:
             for method in r.methods:
-                new_eval = Evaluation(task_id=new_task.id,
+                new_eval = Evaluation(task_id=curr_task.id,
                                       abstract=input_text[0:10],
                                       method=method,
                                       input_text=input_text,

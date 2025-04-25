@@ -154,3 +154,16 @@ def evaluate_prompt(prompt: str, metrics: list[Metric]) -> dict[str, float]:
         score = metric.evaluate(prompt)
         results[metric.metric] = score
     return results
+
+def metric_list() -> list[dict]:
+    """
+    返回所有可用的指标列表
+    """
+    return [
+        {"name": "回答正确性", "description": "评估系统回答是否正确"},
+        {"name": "回答一致性", "description": "评估系统回答是否针对用户问题展开"},
+        {"name": "逻辑性", "description": "评估系统回答是否逻辑连贯"},
+        {"name": "通顺性", "description": "评估系统回答是否通顺、合乎语法"},
+        {"name": "智能性", "description": "评估系统回答是否拟人化、智能化"},
+    ]
+

@@ -9,11 +9,34 @@ from task.utils import *
 router = APIRouter(prefix='/task', tags=['Tasks'])
 
 
-@router.post("/")
-async def addTasks(r: AddTaskRequest, access_token: str = Cookie(None)):
+@router.get("/methods")
+async def get_methods(category: Literal["rag", "prompt"] = Query(...)):
+    # TODO
+    if category == "rag":
+        return [{'name': 'method1', 'description': 'Method 1'}, {'name': 'method2', 'description': 'Method 2'}]
+    else:
+        return [{'name': 'promptmethod1', 'description': 'Method 1'},
+                {'name': 'promptmethod2', 'description': 'Method 2'}]
+
+
+@router.post("/plot")
+async def create_plot(r: CreatePlotRequest, access_token: str = Cookie(None)):
     try:
         user_id = await get_user_id(access_token)
-        await add_tasks(r, user_id)
+        task = await get_task_from_id(r.task_id, user_id)
+        if task is None:
+            return {"success": False, "message": "No such task."}
+        # TODO
+        return {"success": True}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/")
+async def addEvals(r: AddTaskRequest, access_token: str = Cookie(None)):
+    try:
+        user_id = await get_user_id(access_token)
+        await add_evals(r, user_id)
         return {"success": True}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

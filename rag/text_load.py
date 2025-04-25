@@ -95,7 +95,7 @@ def load_texts_from_json(json_path):
 def main(json_path=None):
     """主函数，处理命令行参数"""
     if not json_path:
-        json_path = "./data/result.json"  # 默认路径
+        json_path = "./data/result_weapons.json"  # 默认路径
 
     success = load_texts_from_json(json_path)
     if success:
