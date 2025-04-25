@@ -36,6 +36,7 @@ class Evaluation(Base):
     created = Column(Integer)
     started = Column(Integer)
     finished = Column(Integer)
+    category = Column(String(16))  # rag, prompt
 
     def __repr__(self):
         return "<Evaluation(id='%s', task_id='%s', method='%s', status='%s')>" % (
