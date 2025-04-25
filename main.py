@@ -1,5 +1,7 @@
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
+
+from rag import rag_router
 from models.database import Base, engine
 from models import Task, Text, User
 from fastapi import FastAPI
@@ -20,7 +22,7 @@ app.add_middleware(
 )
 app.include_router(user_router.router, prefix=g_prefix)
 app.include_router(task_router.router, prefix=g_prefix)
-
+app.include_router(rag_router.router, prefix=g_prefix)
 
 @app.get("/")
 async def root():
