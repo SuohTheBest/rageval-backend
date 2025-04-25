@@ -13,10 +13,6 @@ prompt：
 ~~~
 {prompt}
 ~~~
-待评估的回答：
-~~~
-{answer}
-~~~
 你应该返回给我一个数字，值是该维度对应的评估打分。
 不要输出任何其他内容。
 '''
@@ -32,7 +28,7 @@ class Metric:
         self.metric = ""
         self.answer = ""
 
-    def evaluate(self,prompt,answer):
+    def evaluate(self,prompt):
         pass
 
 
@@ -41,14 +37,13 @@ class DefinitionMetric(Metric):
             super().__init__()
             self.metric = metric
 
-        def evaluate(self, prompt,answer):
-            final_prompt = PromptTemplate(input_variables=["metric", "prompt", "answer"],
+        def evaluate(self, prompt):
+            final_prompt = PromptTemplate(input_variables=["metric", "prompt"],
                                           template=metric_prompt
                                           )
             response = get_completion(final_prompt.format(
                 metric=self.metric,
                 prompt=prompt,
-                answer=answer
             ))
 
             return response
@@ -56,166 +51,157 @@ class DefinitionMetric(Metric):
 
 # 通顺性
 class liquidityMetric(Metric):
-    def evaluate(self,prompt,answer):
+    def evaluate(self,prompt):
         self.metric = '''通顺性。该维度评估Prompt是否通顺、合乎语法。打分分值在0~1之间，0为语句完全不通顺，1为语句完全通顺没有任何语法问题。'''
 
-        final_prompt = PromptTemplate(input_variables=["metric","prompt","answer"],
+        final_prompt = PromptTemplate(input_variables=["metric","prompt"],
                                       template=metric_prompt
                                       )
         response = get_completion(final_prompt.format(
             metric=self.metric,
             prompt=prompt,
-            answer=answer
         ))
         return response
 
 
 # 伦理合规性
 class ethicalMetric(Metric):
-        def evaluate(self, prompt, answer):
+        def evaluate(self, prompt):
             self.prompt = prompt
             self.metric = '''伦理合规性。该维度评估Prompt是否符合伦理规范（如无偏见、无歧视、无有害内容），打分分值在0~1之间，0为完全不符合，1为完全符合。'''
 
             self.answer = get_completion(self.prompt)
 
-            final_prompt = PromptTemplate(input_variables=["metric", "prompt", "answer"],
+            final_prompt = PromptTemplate(input_variables=["metric", "prompt"],
                                           template=metric_prompt
                                           )
             response = get_completion(final_prompt.format(
                 metric=self.metric,
                 prompt=prompt,
-                answer=answer
             ))
             return response
 
 
 # 明确性
 class clarityMetric(Metric):
-    def evaluate(self,prompt,answer):
+    def evaluate(self,prompt):
         self.prompt = prompt
         self.metric = '''明确性。该维度评估Prompt是否清晰无歧义，能否准确传达用户意图,打分分值在0~1之间，0为完全不明确，1为完全明确。'''
 
         self.answer = get_completion(self.prompt)
 
-        final_prompt = PromptTemplate(input_variables=["metric","prompt","answer"],
+        final_prompt = PromptTemplate(input_variables=["metric","prompt"],
                                       template=metric_prompt
                                       )
         response = get_completion(final_prompt.format(
             metric=self.metric,
             prompt=prompt,
-            answer=answer
         ))
         return response
 
 
 # 鲁棒性
 class robustnessMetric(Metric):
-        def evaluate(self, prompt, answer):
+        def evaluate(self, prompt):
             self.prompt = prompt
             self.metric = '''鲁棒性。该维度评估Prompt对输入噪声（如错别字、语法错误）的容忍度，打分分值在0~1之间，0为容忍度极低，1为容忍度极高。'''
 
             self.answer = get_completion(self.prompt)
 
-            final_prompt = PromptTemplate(input_variables=["metric", "prompt", "answer"],
+            final_prompt = PromptTemplate(input_variables=["metric", "prompt"],
                                           template=metric_prompt
                                           )
             response = get_completion(final_prompt.format(
                 metric=self.metric,
                 prompt=prompt,
-                answer=answer
             ))
             return response
 
 
 # 安全边界性
 class safeMetric(Metric):
-    def evaluate(self,prompt,answer):
+    def evaluate(self,prompt):
         self.prompt = prompt
         self.metric = '''安全边界性。该维度评估Prompt对输入噪声（如错别字、语法错误）的容忍度，打分分值在0~1之间，0为容忍度极低，1为容忍度极高。'''
 
         self.answer = get_completion(self.prompt)
 
-        final_prompt = PromptTemplate(input_variables=["metric","prompt","answer"],
+        final_prompt = PromptTemplate(input_variables=["metric","prompt"],
                                       template=metric_prompt
                                       )
         response = get_completion(final_prompt.format(
             metric=self.metric,
             prompt=prompt,
-            answer=answer
         ))
         return response
 
 # 有效性
 class effectiveMetric(Metric):
-    def evaluate(self,prompt,answer):
+    def evaluate(self,prompt):
         self.prompt = prompt
         self.metric = '''有效性。该维度评估Prompt是否包含了必要的约束条件（格式/长度/风格等），打分分值在0~1之间，0为完全不包含，1为完全包含。'''
 
         self.answer = get_completion(self.prompt)
 
-        final_prompt = PromptTemplate(input_variables=["metric","prompt","answer"],
+        final_prompt = PromptTemplate(input_variables=["metric","prompt"],
                                       template=metric_prompt
                                       )
         response = get_completion(final_prompt.format(
             metric=self.metric,
             prompt=prompt,
-            answer=answer
         ))
         return response
 
 # 结构设计
 class metricDesignMetric(Metric):
-    def evaluate(self,prompt,answer):
+    def evaluate(self,prompt):
         self.prompt = prompt
         self.metric = '''结构设计。该维度评估Prompt是否包含有效的上下文铺垫及多步骤指令的逻辑连贯性，打分分值在0~1之间，0为高度不符合，1为高度符合。'''
 
         self.answer = get_completion(self.prompt)
 
-        final_prompt = PromptTemplate(input_variables=["metric","prompt","answer"],
+        final_prompt = PromptTemplate(input_variables=["metric","prompt"],
                                       template=metric_prompt
                                       )
         response = get_completion(final_prompt.format(
             metric=self.metric,
             prompt=prompt,
-            answer=answer
         ))
         return response
 
 
 # 风险控制
 class riskControlMetric(Metric):
-    def evaluate(self,prompt,answer):
+    def evaluate(self,prompt):
         self.prompt = prompt
         self.metric = '''风险控制。该维度评估Prompt是否可以规避敏感话题触发，打分分值在0~1之间，0为完全不可以，1为完全可以。'''
 
         self.answer = get_completion(self.prompt)
 
-        final_prompt = PromptTemplate(input_variables=["metric","prompt","answer"],
+        final_prompt = PromptTemplate(input_variables=["metric","prompt"],
                                       template=metric_prompt
                                       )
         response = get_completion(final_prompt.format(
             metric=self.metric,
             prompt=prompt,
-            answer=answer
         ))
         return response
 
 
 # 扩展性
 class extensionMetric(Metric):
-    def evaluate(self,prompt,answer):
+    def evaluate(self,prompt):
         self.prompt = prompt
         self.metric = '''扩展性。该维度评估Prompt是否可以支持自然追问以及是否可以引发有价值的延伸对话，打分分值在0~1之间，0为完全不可以，1为完全可以。'''
 
         self.answer = get_completion(self.prompt)
 
-        final_prompt = PromptTemplate(input_variables=["metric","prompt","answer"],
+        final_prompt = PromptTemplate(input_variables=["metric","prompt"],
                                       template=metric_prompt
                                       )
         response = get_completion(final_prompt.format(
             metric=self.metric,
             prompt=prompt,
-            answer=answer
         ))
         return response
 
