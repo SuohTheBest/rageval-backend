@@ -1,5 +1,5 @@
 from models.Task import PromptEvaluation
-from prompt.metrics import Metric
+from prompt.metrics import Metric, create_custom_metric
 from prompt.metrics import (
     liquidityMetric, ethicalMetric, clarityMetric, robustnessMetric, 
     safeMetric, effectiveMetric, metricDesignMetric, riskControlMetric, 
@@ -31,11 +31,13 @@ def process_prompt_task(evaluation: PromptEvaluation) -> float:
         "结构设计": metricDesignMetric,
         "风险控制": riskControlMetric,
         "扩展性": extensionMetric,
+        "自定义": None
     }
 
-    metric_class = metric_mapping.get(evaluation.method)
-    if not metric_class:
-        raise ValueError(f"未知的指标: {evaluation.method}")
+    if evaluation.method == "自定义":
+        metric_instance = create_custom_metric(evaluation.custom_method)
+    else:
+        metric_class = metric_mapping.get(evaluation.method)
+        metric_instance = metric_class()
 
-    metric_instance = metric_class()
     return metric_instance.evaluate(evaluation.method)
