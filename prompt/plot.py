@@ -44,6 +44,7 @@ def get_prompt_plot(task_id ,method):
 
         plt.tight_layout()
 
+        # TODO: 设置保存路径
         # 创建保存目录（如果不存在）
         save_dir = "eval_plots"
         os.makedirs(save_dir, exist_ok=True)
@@ -59,6 +60,7 @@ def get_prompt_plot(task_id ,method):
 
 
         plt.show()
+        return save_path
 
     finally:
         db.close()

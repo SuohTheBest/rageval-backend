@@ -104,12 +104,11 @@ async def getPlot(task_id: int = Query(...), method: str = Query(...), access_to
         if task is None:
             return {"success": False, "message": "No such task."}
         link = await get_plot(task_id, method)
+        print(task.category)
         if link is None:
             # TODO 应该在这里生成图表
-            if task.category == "RAG":
-                print("in")
-                get_prompt_plot(task_id,method)
-                return {"success": False, "message": "No plot."}
+            if task.category == "prompt":
+                link = get_prompt_plot(task_id,method)
 
             else:
                 pass
