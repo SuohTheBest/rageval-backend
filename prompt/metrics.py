@@ -235,6 +235,7 @@ def metric_list() -> list[dict]:
         {"name": "结构设计", "description": "该维度评估Prompt是否包含有效的上下文铺垫及多步骤指令的逻辑连贯性。"},
         {"name": "风险控制", "description": "该维度评估Prompt是否可以规避敏感话题触发。"},
         {"name": "扩展性", "description": "该维度评估Prompt是否可以支持自然追问以及是否可以引发有价值的延伸对话。"},
+        {"name": "自定义", "description": "用户自定义Prompt指标描述。"}
     ]
 
 
