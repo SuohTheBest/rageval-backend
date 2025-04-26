@@ -10,6 +10,7 @@ from sqlalchemy.orm import sessionmaker
 from models.database import engine
 from logger import logger
 from prompt.evaluate import process_prompt_task
+from task.ragas_metrics import process_rag
 
 
 class TaskWorkerLauncher:
@@ -67,6 +68,7 @@ class TaskWorker(Thread):
                 return {"success": True, "result": result}
             else:
                 # TODO
+                process_rag(eval)
                 return {"success": True}
         except Exception as e:
             self.logger.error("Processing task failed: {}".format(e))

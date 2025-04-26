@@ -6,7 +6,7 @@ from task import utils
 from access_token import get_user_id
 from task.request_model import *
 from task.utils import *
-
+from task.ragas_metrics import rag_list
 router = APIRouter(prefix='/task', tags=['Tasks'])
 
 
@@ -14,7 +14,7 @@ router = APIRouter(prefix='/task', tags=['Tasks'])
 async def get_methods(category: Literal["rag", "prompt"] = Query(...)):
     # TODO
     if category == "rag":
-        return [{'name': 'method1', 'description': 'Method 1'}, {'name': 'method2', 'description': 'Method 2'}]
+        return rag_list()
     else:
         return metric_list()
 
@@ -146,4 +146,3 @@ async def getFileinfo(r: GetFileInfoRequest, access_token: str = Cookie(None)):
             return {"success": False, "message": "No such file."}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
