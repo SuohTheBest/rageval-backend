@@ -68,8 +68,8 @@ class TaskWorker(Thread):
                 return {"success": True, "result": result}
             else:
                 # TODO
-                process_rag(eval)
-                return {"success": True}
+                result = process_rag(eval)
+                return {"success": True, "result": result}
         except Exception as e:
             self.logger.error("Processing task failed: {}".format(e))
             return {"success": False}
