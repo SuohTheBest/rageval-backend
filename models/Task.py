@@ -58,7 +58,7 @@ class PromptEvaluation(Base):
     output_id = Column(Integer)
     output_text = Column(String)
     autofill = Column(String)  # 是否允许系统自动填充 auto, manual, none
-    custom_method = Column(String) # 自定义指标的内容
+    custom_method = Column(String)  # 自定义指标的内容
     status = Column(String(16))  # waiting, evaluating, success, failed
     created = Column(Integer)
     started = Column(Integer)
@@ -97,3 +97,12 @@ class TaskPlot(Base):
     task_id = Column(Integer)
     method = Column(String(32))
     link = Column(String)
+
+
+class Optimization(Base):
+    __tablename__ = "optimization"
+    __table_args__ = (Index("ix_optimization_task_id", "task_id"),)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    task_id = Column(Integer)
+    prompt = Column(String)
+    reason = Column(String)

@@ -122,6 +122,19 @@ async def get_tasks(category: Literal["rag", "prompt"],
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@router.get("/optimization")
+async def getOptimizations(task_id: int = Query(...), access_token: str = Cookie(None)):
+    try:
+        user_id = await get_user_id(access_token)
+        task = await get_task_from_id(task_id, user_id)
+        if task is None or task.category != 'prompt':
+            return {"success": False, "message": "No such task."}
+        optimizations = await get_optimizations(task_id)
+        return {"success": True, "optimizations": optimizations}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 @router.get("/allevals")
 async def get_evals(task_id: int = Query(...), access_token: str = Cookie(None)):
     try:
