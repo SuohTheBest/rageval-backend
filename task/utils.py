@@ -83,11 +83,11 @@ async def add_evals(r: AddTaskRequest, user_id: int):
                                              status='waiting',
                                              created=int(time.time()))
                 try:
-                    worker.add_eval(new_eval.id, r.category)
+                    worker.add_eval(new_eval.id, curr_task.id, r.category)
                 except Full:
                     pass
                 db.add(new_eval)
-        worker.add_eval(-1, r.category) # 当前轮次结束
+        worker.add_eval(-1, curr_task.id, r.category)  # 当前轮次结束
     elif r.input_texts:
         for input_text in r.input_texts:
             for method in r.methods:
@@ -108,11 +108,11 @@ async def add_evals(r: AddTaskRequest, user_id: int):
                                              status='waiting',
                                              created=int(time.time()))
                 try:
-                    worker.add_eval(new_eval.id, r.category)
+                    worker.add_eval(new_eval.id, curr_task.id, r.category)
                 except Full:
                     pass
                 db.add(new_eval)
-            worker.add_eval(-1, r.category) # 当前轮次结束
+            worker.add_eval(-1, curr_task.id, r.category)  # 当前轮次结束
     db.commit()
     db.close()
 
