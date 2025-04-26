@@ -87,6 +87,7 @@ async def add_evals(r: AddTaskRequest, user_id: int):
                 except Full:
                     pass
                 db.add(new_eval)
+        worker.add_eval(-1, r.category) # 当前轮次结束
     elif r.input_texts:
         for input_text in r.input_texts:
             for method in r.methods:
@@ -111,6 +112,7 @@ async def add_evals(r: AddTaskRequest, user_id: int):
                 except Full:
                     pass
                 db.add(new_eval)
+            worker.add_eval(-1, r.category) # 当前轮次结束
     db.commit()
     db.close()
 
