@@ -57,7 +57,7 @@ class PromptEvaluation(Base):
     input_text = Column(String)
     output_id = Column(Integer)
     output_text = Column(String)
-    autofill = Column(Boolean)  # 是否允许系统自动填充
+    autofill = Column(String)  # 是否允许系统自动填充 auto, manual, none
     status = Column(String(16))  # waiting, evaluating, success, failed
     created = Column(Integer)
     started = Column(Integer)

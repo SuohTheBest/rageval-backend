@@ -1,8 +1,6 @@
-from fastapi import FastAPI, HTTPException, APIRouter
+from fastapi import HTTPException, APIRouter
 from pydantic import BaseModel
 from typing import Dict, List, Optional, Any, Union
-import uvicorn
-import uuid
 
 from rag.context_manager import Conversation, Role
 from rag.rag_application import rag_query
@@ -19,7 +17,6 @@ class RagRequest(BaseModel):
     session_id: str  # 会话ID，-1表示新建会话
     query: str  # 用户查询内容
     top_k: int = 5  # 检索结果数量
-    use_custom_prompt: bool = False  # 是否使用自定义提示
     temperature: float = 0.7  # 温度参数
 
 

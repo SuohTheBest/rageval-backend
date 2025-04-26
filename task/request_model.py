@@ -9,7 +9,8 @@ class AddTaskRequest(BaseModel):
     category: Literal["rag", "prompt"]
     input_ids: Optional[List[int]] = None
     input_texts: Optional[List[str]] = None
-    autofill: Optional[bool] = False
+    autofill: Optional[str] = 'none'
+    user_fill: Optional[str] = None  # 用户自己的填充
 
 
 class AlterTaskRequest(BaseModel):

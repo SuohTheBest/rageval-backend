@@ -70,7 +70,8 @@ async def add_evals(r: AddTaskRequest, user_id: int):
                                                 input_id=file_id,
                                                 status='waiting',
                                                 created=int(time.time()),
-                                                autofill=r.autofill)
+                                                autofill=r.autofill,
+                                                )
                 else:
                     new_eval = RAGEvaluation(task_id=curr_task.id,
                                              abstract=upload_file.file_name[0:10],

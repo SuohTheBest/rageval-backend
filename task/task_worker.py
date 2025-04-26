@@ -63,7 +63,8 @@ class TaskWorker(Thread):
         try:
             self.logger.info("Processing task: {}".format(eval))
             if category == 'prompt':
-                return process_prompt_task(eval)
+                result = process_prompt_task(eval)
+                return {"success": True, "result": result}
             else:
                 # TODO
                 return {"success": True}
@@ -99,7 +100,7 @@ class TaskWorker(Thread):
                 eval_in_db.finished = int(time.time())
                 # set other properties
                 # TODO
-                eval_in_db.output_text = str(result)
+                eval_in_db.output_text = str(result["result"])
                 db.commit()
             except Exception:
                 db.rollback()

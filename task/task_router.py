@@ -147,13 +147,3 @@ async def getFileinfo(r: GetFileInfoRequest, access_token: str = Cookie(None)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-
-@router.post("/alter")
-async def alterTask(r: AlterTaskRequest, access_token: str = Cookie(None)):
-    try:
-        # TODO
-        user_id = await get_user_id(access_token)
-        await alter_task(user_id, r.task_id, r.name, r.method)
-        return {"success": True}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
