@@ -51,11 +51,10 @@ async def process_rag(request: RagRequest):
 
     # 处理RAG查询
     try:
-        result = rag_query(
+        result = await rag_query(
             query=query,
             conversation=conversation,
             top_k=request.top_k,
-            use_custom_prompt=request.use_custom_prompt,
             temperature=request.temperature,
         )
 
