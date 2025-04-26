@@ -21,7 +21,7 @@ import ast
 from models.Task import Task, RAGEvaluation
 
 
-def process_rag(eval: RAGEvaluation):
+async def process_rag(eval: RAGEvaluation):
     os.environ["OPENAI_API_KEY"] = "sk-JUbjcL4UL7rCP6mrU2qGQKTE8Um0KJwAnWGE5lDebQc1iO71"
     os.environ["OPENAI_API_BASE"] = "https://api.chatanywhere.tech/v1"
     # llm = ChatOpenAI(model="gpt-3.5-turbo-0125")
@@ -47,7 +47,7 @@ def process_rag(eval: RAGEvaluation):
         item, str) else item for item in df.get('retrieved_contexts', pd.Series([[]])).tolist()]
     reference_contexts = [ast.literal_eval(item) if isinstance(
         item, str) else item for item in df.get('reference_contexts', pd.Series([[]])).tolist()]
-    print("here")
+    # print("here")
     method = eval.method
     if method == "基于大模型的无参考上下文准确性":
         print("method here")
@@ -104,10 +104,10 @@ def process_rag(eval: RAGEvaluation):
     average = last_column.mean()
     result = average
     from task.utils import get_new_output_id
-    output_id = get_new_output_id(
+    output_id = await get_new_output_id(
         eval.task_id, f'{eval.task_id}_{eval.id}_{method}.csv', file_size)
     eval.output_id = output_id
-    return 1
+    return output_id
 
 
 def set_environment():
@@ -156,7 +156,6 @@ def generate_dataset(fields_data, field_names):
 
 def evaluate_and_store(dataset, metric, llm, df, name):
     result = evaluate(dataset=dataset, metrics=[metric], llm=llm)
-    print("method here")
     result_df = result.to_pandas()
     last_column = result_df.iloc[:, -1]  # 获取最后一列
     df[name] = last_column
