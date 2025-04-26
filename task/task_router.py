@@ -7,6 +7,7 @@ from access_token import get_user_id
 from task.request_model import *
 from task.utils import *
 from task.ragas_metrics import rag_list
+
 router = APIRouter(prefix='/task', tags=['Tasks'])
 
 
@@ -79,10 +80,10 @@ async def download(category: Literal["input", "output"], task_id: int, eval_id: 
 
 
 @router.delete("/")
-async def delete_task(task_id: int = Query(...), eval_ids: List[int] = Query(...), access_token: str = Cookie(None)):
+async def delete_task(task_id: int = Query(...), eval_ids: List[int] = Query(None), access_token: str = Cookie(None)):
     try:
         user_id = await get_user_id(access_token)
-        if len(eval_ids) <= 0:
+        if eval_ids is None or len(eval_ids) <= 0:
             await remove_task(task_id, user_id)
         else:
             task = await get_task_from_id(task_id, user_id)
