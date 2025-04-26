@@ -182,8 +182,8 @@ async def get_plots(task_id: int):
     db = SessionLocal()
     try:
         plot = db.query(TaskPlot).filter(TaskPlot.task_id == task_id).all()
-        if plot is None or len(plot) == 0:
-            return None
+        if plot is None:
+            return []
         return plot
     finally:
         db.close()
