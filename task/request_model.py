@@ -1,4 +1,6 @@
 from typing import List, Literal, Optional
+
+from fastapi import Query
 from pydantic import BaseModel
 
 
@@ -11,6 +13,7 @@ class AddTaskRequest(BaseModel):
     input_texts: Optional[List[str]] = None
     autofill: Optional[str] = 'none'
     user_fill: Optional[str] = None  # 用户自己的填充
+    custom_method: Optional[str] = None # 自定义指标的内容
 
 
 class AlterTaskRequest(BaseModel):
@@ -27,3 +30,7 @@ class GetFileInfoRequest(BaseModel):
 class CreatePlotRequest(BaseModel):
     task_id: int
     method: str
+
+class DeleteTaskRequest(BaseModel):
+    task_id: int
+    eval_ids: List[int] = Query(None)

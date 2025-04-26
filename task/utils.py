@@ -73,6 +73,7 @@ async def add_evals(r: AddTaskRequest, user_id: int):
                                                 status='waiting',
                                                 created=int(time.time()),
                                                 autofill=r.autofill,
+                                                custom_method=r.custom_method
                                                 )
                 else:
                     new_eval = RAGEvaluation(task_id=curr_task.id,
@@ -96,7 +97,8 @@ async def add_evals(r: AddTaskRequest, user_id: int):
                                                 input_text=input_text,
                                                 status='waiting',
                                                 created=int(time.time()),
-                                                autofill=r.autofill)
+                                                autofill=r.autofill,
+                                                custom_method=r.custom_method)
                 else:
                     new_eval = RAGEvaluation(task_id=curr_task.id,
                                              abstract=input_text[0:10],
