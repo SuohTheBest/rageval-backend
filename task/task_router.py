@@ -57,7 +57,7 @@ async def download(category: Literal["input", "output"], task_id: int, eval_id: 
         task = await get_task_from_id(task_id, user_id)
         if task is None or task.user_id != user_id:
             return {"success": False, "message": "No such task."}
-        curr_eval = await get_eval_from_id(eval_id, category=task.category)
+        curr_eval = await get_eval_from_id(eval_id)
         if category == 'input':
             if curr_eval.input_id is None:
                 return {"success": False, "message": "No such file."}
