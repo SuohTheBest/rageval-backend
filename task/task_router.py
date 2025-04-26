@@ -2,6 +2,7 @@ from fastapi import APIRouter, UploadFile, File, HTTPException, Cookie
 from fastapi.responses import FileResponse
 
 from prompt.metrics import metric_list
+from prompt.plot import get_prompt_plot
 from task import utils
 from access_token import get_user_id
 from task.request_model import *
@@ -105,6 +106,14 @@ async def getPlot(task_id: int = Query(...), method: str = Query(...), access_to
         link = await get_plot(task_id, method)
         if link is None:
             # TODO 应该在这里生成图表
+            if task.category == "RAG":
+                print("in")
+                get_prompt_plot(task_id,method)
+                return {"success": False, "message": "No plot."}
+
+            else:
+                pass
+
             return {"success": False, "message": "No plot."}
         return {"success": True, "url": link}
     except Exception as e:
