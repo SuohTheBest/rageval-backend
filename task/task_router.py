@@ -1,4 +1,4 @@
-from fastapi import APIRouter, UploadFile, File, HTTPException, Cookie, Query
+from fastapi import APIRouter, UploadFile, File, HTTPException, Cookie
 from fastapi.responses import FileResponse
 
 from prompt.metrics import metric_list
@@ -58,7 +58,7 @@ async def download(category: Literal["input", "output"], task_id: int, eval_id: 
         task = await get_task_from_id(task_id, user_id)
         if task is None or task.user_id != user_id:
             return {"success": False, "message": "No such task."}
-        curr_eval = await get_eval_from_id(eval_id)
+        curr_eval = await get_eval_from_id(eval_id, task.category)
         if category == 'input':
             if curr_eval.input_id is None:
                 return {"success": False, "message": "No such file."}
@@ -79,17 +79,17 @@ async def download(category: Literal["input", "output"], task_id: int, eval_id: 
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.delete("/")
-async def delete_task(task_id: int = Query(...), eval_ids: List[int] = Query(None), access_token: str = Cookie(None)):
+@router.post("/delete")
+async def delete_task(r: DeleteTaskRequest, access_token: str = Cookie(None)):
     try:
         user_id = await get_user_id(access_token)
-        if eval_ids is None or len(eval_ids) <= 0:
-            await remove_task(task_id, user_id)
+        if r.eval_ids is None or len(r.eval_ids) <= 0:
+            await remove_task(r.task_id, user_id)
         else:
-            task = await get_task_from_id(task_id, user_id)
+            task = await get_task_from_id(r.task_id, user_id)
             if task is None:
                 return {"success": False, "message": "No such task."}
-            await remove_eval(eval_ids, category=task.category)
+            await remove_eval(r.eval_ids, category=task.category)
         return {"success": True}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

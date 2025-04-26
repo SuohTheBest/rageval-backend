@@ -1,4 +1,6 @@
 from typing import List, Literal, Optional
+
+from fastapi import Query
 from pydantic import BaseModel
 
 
@@ -28,3 +30,7 @@ class GetFileInfoRequest(BaseModel):
 class CreatePlotRequest(BaseModel):
     task_id: int
     method: str
+
+class DeleteTaskRequest(BaseModel):
+    task_id: int
+    eval_ids: List[int] = Query(None)
