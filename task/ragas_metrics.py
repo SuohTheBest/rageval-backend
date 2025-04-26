@@ -32,6 +32,7 @@ def process_rag(eval: RAGEvaluation):
     # 这里要处理的肯定是最后一个文件
     from task.utils import get_upload_filepath
     file = get_upload_filepath(eval.input_id)
+
     user_input = []
     response = []
     reference = []
@@ -42,17 +43,14 @@ def process_rag(eval: RAGEvaluation):
                         ).tolist()  # 如果 'a' 不存在，返回空列表
     response = df.get('response', pd.Series([])).tolist()  # 如果 'a' 不存在，返回空列表
     reference = df.get('reference', pd.Series([])).tolist()  # 如果 'a' 不存在，返回空列表
-    # retrieved_contexts = df.get('retrieved_contexts', pd.Series([[]])).tolist()
-    # reference_contexts = df.get('reference_contexts', pd.Series([[]])).tolist()
     retrieved_contexts = [ast.literal_eval(item) if isinstance(
         item, str) else item for item in df.get('retrieved_contexts', pd.Series([[]])).tolist()]
     reference_contexts = [ast.literal_eval(item) if isinstance(
         item, str) else item for item in df.get('reference_contexts', pd.Series([[]])).tolist()]
-    # methods = []
-    # methods.append(eval.method)
-    # for method in methods:
+    print("here")
     method = eval.method
     if method == "基于大模型的无参考上下文准确性":
+        print("method here")
         process_LLMContextPrecisionWithoutReference(
             user_input, response, retrieved_contexts, df)
     elif method == "基于大模型的有参考上下文准确性":
@@ -96,10 +94,12 @@ def process_rag(eval: RAGEvaluation):
         process_RougeScore(response, reference, df)
     elif method == "摘要得分":
         process_SummarizationScore(response, reference_contexts, df)
-        # print("here")
+
+    # print("here")
     file_path = f'downloads/{eval.task_id}_{eval.id}_{method}.csv'
     df.to_csv(file_path, index=False)
-    file_size = os.path.getsize(file_path)
+    file_size = os.path.getsize("1_output.csv")
+
     last_column = df.iloc[:, -1]
     average = last_column.mean()
     result = average
@@ -107,7 +107,7 @@ def process_rag(eval: RAGEvaluation):
     output_id = get_new_output_id(
         eval.task_id, f'{eval.task_id}_{eval.id}_{method}.csv', file_size)
     eval.output_id = output_id
-    return result
+    return 1
 
 
 def set_environment():
@@ -118,34 +118,45 @@ def set_environment():
     return evaluator_llm
 
 
-def generate_dataset(fields, context_type='user_input'):
+def generate_dataset(fields_data, field_names):
     """
     通用的函数来生成 dataset，根据传入的字段动态生成 `SingleTurnSample`
     """
     dataset = []
-    for field_set in zip(*fields):  # 这将自动处理多个字段的情况
+    # for field_set in zip(*fields):  # 这将自动处理多个字段的情况
+    #     sample_data = {}
+    #     if 'user_input' in field:
+    #         sample_data['user_input'] = field_set[fields.index('user_input')]
+    #     if 'response' in field:
+    #         sample_data['response'] = field_set[fields.index('response')]
+    #     if 'reference' in field:
+    #         sample_data['reference'] = field_set[fields.index('reference')]
+    #     if 'retrieved_contexts' in field:
+    #         sample_data['retrieved_contexts'] = field_set[fields.index(
+    #             'retrieved_contexts')]
+    #     if 'reference_contexts' in field:
+    #         sample_data['reference_contexts'] = field_set[fields.index(
+    #             'reference_contexts')]
+
+    #     # 根据提供的字段动态构建 SingleTurnSample
+    #     dataset.append(SingleTurnSample(**sample_data))
+    for field_set in zip(*fields_data):  # 这将自动处理多个字段的情况
         sample_data = {}
-        if 'user_input' in fields:
-            sample_data['user_input'] = field_set[fields.index('user_input')]
-        if 'response' in fields:
-            sample_data['response'] = field_set[fields.index('response')]
-        if 'reference' in fields:
-            sample_data['reference'] = field_set[fields.index('reference')]
-        if 'retrieved_contexts' in fields:
-            sample_data['retrieved_contexts'] = field_set[fields.index(
-                'retrieved_contexts')]
-        if 'reference_contexts' in fields:
-            sample_data['reference_contexts'] = field_set[fields.index(
-                'reference_contexts')]
 
-        # 根据提供的字段动态构建 SingleTurnSample
+        # 遍历每个字段名，按顺序将数据添加到 sample_data 中
+        for i, field_name in enumerate(field_names):
+            sample_data[field_name] = field_set[i]  # 根据字段名动态存入对应数据
+
+        # 使用构造函数来创建 SingleTurnSample
         dataset.append(SingleTurnSample(**sample_data))
-
+    print("dataset:")
+    print(dataset)
     return EvaluationDataset(dataset)
 
 
 def evaluate_and_store(dataset, metric, llm, df, name):
     result = evaluate(dataset=dataset, metrics=[metric], llm=llm)
+    print("method here")
     result_df = result.to_pandas()
     last_column = result_df.iloc[:, -1]  # 获取最后一列
     df[name] = last_column
@@ -157,6 +168,7 @@ def process_LLMContextPrecisionWithoutReference(user_inputs, responses, retrieve
         [user_inputs, responses, retrieved_contexts], fields)
     dataset = EvaluationDataset(dataset)
     evaluator_llm = set_environment()
+
     evaluate_and_store(
         dataset, LLMContextPrecisionWithoutReference(), evaluator_llm, df, 'LLMContextPrecisionWithoutReference')
 
