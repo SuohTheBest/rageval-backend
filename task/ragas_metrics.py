@@ -97,10 +97,16 @@ def process_rag(eval: RAGEvaluation):
     elif method == "摘要得分":
         process_SummarizationScore(response, reference_contexts, df)
         # print("here")
-    df.to_csv(f'{eval.id}_output.csv', index=False)
+    file_path = f'downloads/{eval.task_id}_{eval.id}_{method}.csv'
+    df.to_csv(file_path, index=False)
+    file_size = os.path.getsize(file_path)
     last_column = df.iloc[:, -1]
     average = last_column.mean()
     result = average
+    from task.utils import get_new_output_id
+    output_id = get_new_output_id(
+        eval.task_id, f'{eval.task_id}_{eval.id}_{method}.csv', file_size)
+    eval.output_id = output_id
     return result
 
 

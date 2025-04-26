@@ -27,7 +27,8 @@ def get_download_filepath(output_id: int):
 async def get_new_input_id(user_id: int, file_name: str, size: int) -> int:
     db = SessionLocal()
     try:
-        upload_file = InputFile(user_id=user_id, file_name=file_name, size=size)
+        upload_file = InputFile(
+            user_id=user_id, file_name=file_name, size=size)
         db.add(upload_file)
         db.commit()
         return upload_file.id
@@ -38,7 +39,8 @@ async def get_new_input_id(user_id: int, file_name: str, size: int) -> int:
 async def get_new_output_id(user_id: int, file_name: str, size: int) -> int:
     db = SessionLocal()
     try:
-        download_file = InputFile(user_id=user_id, file_name=file_name, size=size)
+        download_file = OutputFile(
+            user_id=user_id, file_name=file_name, size=size)
         db.add(download_file)
         db.commit()
         return download_file.id
@@ -150,7 +152,8 @@ async def alter_task(user_id: int, task_id: int, name: str, method: str):
 async def get_tasks_from_user_id(user_id: int, category: str) -> List[Task]:
     db = SessionLocal()
     try:
-        tasks = db.query(Task).filter(Task.user_id == user_id).filter(Task.category == category).all()
+        tasks = db.query(Task).filter(Task.user_id == user_id).filter(
+            Task.category == category).all()
         return tasks
     finally:
         db.close()
@@ -160,9 +163,11 @@ async def get_evals_from_task_id(task_id: int, category: str) -> List[RAGEvaluat
     db = SessionLocal()
     try:
         if category == 'prompt':
-            evals = db.query(PromptEvaluation).filter(PromptEvaluation.task_id == task_id).all()
+            evals = db.query(PromptEvaluation).filter(
+                PromptEvaluation.task_id == task_id).all()
         else:
-            evals = db.query(RAGEvaluation).filter(RAGEvaluation.task_id == task_id).all()
+            evals = db.query(RAGEvaluation).filter(
+                RAGEvaluation.task_id == task_id).all()
         return evals
     finally:
         db.close()
@@ -171,7 +176,8 @@ async def get_evals_from_task_id(task_id: int, category: str) -> List[RAGEvaluat
 async def get_plot(task_id: int, method: str):
     db = SessionLocal()
     try:
-        plot = db.query(TaskPlot).filter(TaskPlot.task_id == task_id).filter(TaskPlot.method == method).first()
+        plot = db.query(TaskPlot).filter(TaskPlot.task_id == task_id).filter(
+            TaskPlot.method == method).first()
         if plot is None:
             return None
         return plot.link
