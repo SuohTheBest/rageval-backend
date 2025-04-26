@@ -102,7 +102,8 @@ class TaskWorker(Thread):
                 eval_in_db.finished = int(time.time())
                 # set other properties
                 # TODO
-                eval_in_db.output_text = str(result["result"])
+                if "result" in result:
+                    eval_in_db.output_text = str(result["result"])
                 db.commit()
             except Exception:
                 db.rollback()
