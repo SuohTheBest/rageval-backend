@@ -198,6 +198,17 @@ async def get_plots(task_id: int):
         db.close()
 
 
+async def get_optimizations(task_id: int):
+    db = SessionLocal()
+    try:
+        optimizations = db.query(Optimization).filter(Optimization.task_id == task_id).all()
+        if optimizations is None:
+            return []
+        return optimizations
+    finally:
+        db.close()
+
+
 async def remove_task(task_id: int, user_id: int):
     db = SessionLocal()
     task = await get_task_from_id(task_id, user_id)

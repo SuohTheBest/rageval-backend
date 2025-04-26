@@ -1,5 +1,7 @@
+import ast
+
 from models.Task import PromptEvaluation
-from prompt.metrics import Metric
+from prompt.metrics import Metric, create_custom_metric
 from prompt.metrics import (
     liquidityMetric, ethicalMetric, clarityMetric, robustnessMetric, 
     safeMetric, effectiveMetric, metricDesignMetric, riskControlMetric, 
@@ -20,7 +22,7 @@ def evaluate_prompt(prompt: str, metrics: list[Metric]) -> dict[str, float]:
             results[metric.metric] = f"评估失败：{e}"
     return results
 
-def process_prompt_task(evaluation: PromptEvaluation) -> float:
+def process_prompt_task(evaluation: PromptEvaluation) -> str:
     metric_mapping = {
         "通顺性": liquidityMetric,
         "伦理合规性": ethicalMetric,
@@ -31,11 +33,25 @@ def process_prompt_task(evaluation: PromptEvaluation) -> float:
         "结构设计": metricDesignMetric,
         "风险控制": riskControlMetric,
         "扩展性": extensionMetric,
+        "自定义": None
     }
 
-    metric_class = metric_mapping.get(evaluation.method)
-    if not metric_class:
-        raise ValueError(f"未知的指标: {evaluation.method}")
+    if evaluation.method == "自定义":
+        metric_instance = create_custom_metric(evaluation.custom_method)
+    else:
+        metric_class = metric_mapping.get(evaluation.method)
+        metric_instance = metric_class()
 
-    metric_instance = metric_class()
-    return metric_instance.evaluate(evaluation.method)
+    # 调用 evaluate 方法并获取返回值
+    evaluation_result = metric_instance.evaluate(evaluation.input_text)
+
+    # 解析返回的字符串为列表
+    try:
+        parsed_result = ast.literal_eval(evaluation_result)
+        if isinstance(parsed_result, list) and len(parsed_result) == 2:
+            score, reason = parsed_result
+            return f"评估分数：{score}/10，{reason}"
+        else:
+            raise ValueError("评估结果格式不正确")
+    except Exception as e:
+        raise ValueError(f"解析评估结果失败：{e}")

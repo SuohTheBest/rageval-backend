@@ -13,8 +13,14 @@ prompt：
 ~~~
 {prompt}
 ~~~
-你应该返回给我一个数字，值是该维度对应的评估打分。
+你应该返回给我一个列表，包括一个数字和理由，数字的值是该维度对应的评估打分。
 不要输出任何其他内容。
+输出请严格遵守示例中的格式。
+~~~
+示例：
+[7,"该prompt询问对RAG的看法，具有一定的开放性，可以引发对RAG的讨论和评价。但问题较为直接，缺乏引导性，追问的可能性有限，因此得分不是满分。"]
+~~~
+[6,"该prompt询问对RAG的看法，具有一定的开放性，可以引发对RAG的讨论和评价。但问题较为直接，缺乏引导性，追问的可能性有限，且RAG的具体指代不明确，可能限制对话的深度和广度。"]
 '''
 
 
@@ -52,7 +58,7 @@ class DefinitionMetric(Metric):
 # 通顺性
 class liquidityMetric(Metric):
     def evaluate(self,prompt):
-        self.metric = '''通顺性。该维度评估Prompt是否通顺、合乎语法。打分分值在0~1之间，0为语句完全不通顺，1为语句完全通顺没有任何语法问题。'''
+        self.metric = '''通顺性。该维度评估Prompt是否通顺、合乎语法。打分分值在0~10之间，0为语句完全不通顺，10为语句完全通顺没有任何语法问题。'''
 
         final_prompt = PromptTemplate(input_variables=["metric","prompt"],
                                       template=metric_prompt
@@ -68,7 +74,7 @@ class liquidityMetric(Metric):
 class ethicalMetric(Metric):
         def evaluate(self, prompt):
             self.prompt = prompt
-            self.metric = '''伦理合规性。该维度评估Prompt是否符合伦理规范（如无偏见、无歧视、无有害内容），打分分值在0~1之间，0为完全不符合，1为完全符合。'''
+            self.metric = '''伦理合规性。该维度评估Prompt是否符合伦理规范（如无偏见、无歧视、无有害内容），打分分值在0~10之间，0为完全不符合，10为完全符合。'''
 
             self.answer = get_completion(self.prompt)
 
@@ -86,7 +92,7 @@ class ethicalMetric(Metric):
 class clarityMetric(Metric):
     def evaluate(self,prompt):
         self.prompt = prompt
-        self.metric = '''明确性。该维度评估Prompt是否清晰无歧义，能否准确传达用户意图,打分分值在0~1之间，0为完全不明确，1为完全明确。'''
+        self.metric = '''明确性。该维度评估Prompt是否清晰无歧义，能否准确传达用户意图,打分分值在0~10之间，0为完全不明确，10为完全明确。'''
 
         self.answer = get_completion(self.prompt)
 
@@ -104,7 +110,7 @@ class clarityMetric(Metric):
 class robustnessMetric(Metric):
         def evaluate(self, prompt):
             self.prompt = prompt
-            self.metric = '''鲁棒性。该维度评估Prompt对输入噪声（如错别字、语法错误）的容忍度，打分分值在0~1之间，0为容忍度极低，1为容忍度极高。'''
+            self.metric = '''鲁棒性。该维度评估Prompt对输入噪声（如错别字、语法错误）的容忍度，打分分值在0~10之间，0为容忍度极低，10为容忍度极高。'''
 
             self.answer = get_completion(self.prompt)
 
@@ -122,7 +128,7 @@ class robustnessMetric(Metric):
 class safeMetric(Metric):
     def evaluate(self,prompt):
         self.prompt = prompt
-        self.metric = '''安全边界性。该维度评估Prompt对输入噪声（如错别字、语法错误）的容忍度，打分分值在0~1之间，0为容忍度极低，1为容忍度极高。'''
+        self.metric = '''安全边界性。该维度评估Prompt对输入噪声（如错别字、语法错误）的容忍度，打分分值在0~10之间，0为容忍度极低，10为容忍度极高。'''
 
         self.answer = get_completion(self.prompt)
 
@@ -139,7 +145,7 @@ class safeMetric(Metric):
 class effectiveMetric(Metric):
     def evaluate(self,prompt):
         self.prompt = prompt
-        self.metric = '''有效性。该维度评估Prompt是否包含了必要的约束条件（格式/长度/风格等），打分分值在0~1之间，0为完全不包含，1为完全包含。'''
+        self.metric = '''有效性。该维度评估Prompt是否包含了必要的约束条件（格式/长度/风格等），打分分值在0~10之间，0为完全不包含，10为完全包含。'''
 
         self.answer = get_completion(self.prompt)
 
@@ -156,7 +162,7 @@ class effectiveMetric(Metric):
 class metricDesignMetric(Metric):
     def evaluate(self,prompt):
         self.prompt = prompt
-        self.metric = '''结构设计。该维度评估Prompt是否包含有效的上下文铺垫及多步骤指令的逻辑连贯性，打分分值在0~1之间，0为高度不符合，1为高度符合。'''
+        self.metric = '''结构设计。该维度评估Prompt是否包含有效的上下文铺垫及多步骤指令的逻辑连贯性，打分分值在0~10之间，0为高度不符合，10为高度符合。'''
 
         self.answer = get_completion(self.prompt)
 
@@ -174,7 +180,7 @@ class metricDesignMetric(Metric):
 class riskControlMetric(Metric):
     def evaluate(self,prompt):
         self.prompt = prompt
-        self.metric = '''风险控制。该维度评估Prompt是否可以规避敏感话题触发，打分分值在0~1之间，0为完全不可以，1为完全可以。'''
+        self.metric = '''风险控制。该维度评估Prompt是否可以规避敏感话题触发，打分分值在0~10之间，0为完全不可以，10为完全可以。'''
 
         self.answer = get_completion(self.prompt)
 
@@ -192,7 +198,7 @@ class riskControlMetric(Metric):
 class extensionMetric(Metric):
     def evaluate(self,prompt):
         self.prompt = prompt
-        self.metric = '''扩展性。该维度评估Prompt是否可以支持自然追问以及是否可以引发有价值的延伸对话，打分分值在0~1之间，0为完全不可以，1为完全可以。'''
+        self.metric = '''扩展性。该维度评估Prompt是否可以支持自然追问以及是否可以引发有价值的延伸对话，打分分值在0~10之间，0为完全不可以，10为完全可以。'''
 
         self.answer = get_completion(self.prompt)
 
@@ -237,6 +243,16 @@ def metric_list() -> list[dict]:
         {"name": "扩展性", "description": "该维度评估Prompt是否可以支持自然追问以及是否可以引发有价值的延伸对话。"},
         {"name": "自定义", "description": "用户自定义Prompt指标描述。"}
     ]
+
+
+
+
+# if __name__ == '__main__':
+#         e = extensionMetric()
+#         temp_prompt = "你觉得RAG怎么样？"
+#         print(e.evaluate(
+#             temp_prompt
+#         ))
 
 
 # # 知识查找正确性
