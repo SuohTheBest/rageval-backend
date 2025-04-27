@@ -52,24 +52,16 @@ async def upload(file: UploadFile = File, access_token: str = Cookie(None)):
 
 
 @router.get("/download")
-async def download(category: Literal["input", "output"], task_id: int, eval_id: int, access_token: str = Cookie(None)):
+async def download(category: Literal["input", "output"], file_id: int, access_token: str = Cookie(None)):
     try:
         user_id = await get_user_id(access_token)
-        task = await get_task_from_id(task_id, user_id)
-        if task is None or task.user_id != user_id:
-            return {"success": False, "message": "No such task."}
-        curr_eval = await get_eval_from_id(eval_id, task.category)
         if category == 'input':
-            if curr_eval.input_id is None:
-                return {"success": False, "message": "No such file."}
-            file_path = get_upload_filepath(curr_eval.input_id)
-            file_info = await get_fileinfo(user_id, 'input', [curr_eval.input_id])
+            file_path = get_upload_filepath(file_id)
+            file_info = await get_fileinfo(user_id, 'input', [file_id])
         else:
-            if curr_eval.output_id is None:
-                return {"success": False, "message": "No such file."}
-            file_path = get_download_filepath(curr_eval.output_id)
-            file_info = await get_fileinfo(user_id, 'output', [curr_eval.output_id])
-        if file_info is None:
+            file_path = get_download_filepath(file_id)
+            file_info = await get_fileinfo(user_id, 'output', [file_id])
+        if file_info is None or file_info[0].user_id != user_id:
             return {"success": False, "message": "No such file."}
         return FileResponse(
             file_path,
@@ -115,7 +107,6 @@ async def getPlot(task_id: int = Query(...), method: str = Query(...), access_to
         return {"success": True, "url": link}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
 
 
 @router.get("/")
