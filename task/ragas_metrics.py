@@ -1,12 +1,7 @@
+import asyncio
+
 from ragas import evaluate
-import os
-from ragas import SingleTurnSample, EvaluationDataset
-from ragas.metrics import BleuScore
-from ragas.llms import LangchainLLMWrapper
-# 原本的导入
-# from task.utils import get_upload_filepath, get_task_from_id, get_download_filepath, remove_task
 from langchain_openai import ChatOpenAI
-from langchain_openai import OpenAIEmbeddings
 from ragas.metrics import *
 
 # rag
@@ -15,13 +10,11 @@ import os
 from ragas import SingleTurnSample, EvaluationDataset
 from ragas.metrics import BleuScore
 from ragas.llms import LangchainLLMWrapper
-# from task.utils import get_upload_filepath
-
 import ast
-from models.Task import Task, RAGEvaluation
+from models.Task import Task, RAGEvaluation, OutputFile
 
 
-async def process_rag(eval: RAGEvaluation):
+def process_rag(eval: RAGEvaluation, db):
     print("here is processing")
     os.environ["OPENAI_API_KEY"] = "sk-JUbjcL4UL7rCP6mrU2qGQKTE8Um0KJwAnWGE5lDebQc1iO71"
     os.environ["OPENAI_API_BASE"] = "https://api.chatanywhere.tech/v1"
@@ -95,15 +88,19 @@ async def process_rag(eval: RAGEvaluation):
     elif method == "摘要得分":
         process_SummarizationScore(response, reference_contexts, df)
 
+    output_file = OutputFile(file_name='temp', size=0)
+    db.add(output_file)
+    output_id = output_file.id
     file_path = f'downloads/{output_id}'
     df.to_csv(file_path, index=False)
     file_size = os.path.getsize(file_path)
+    output_file.size = file_size
+    db.commit()
+    db.close()
+
     last_column = df.iloc[:, -1]
     average = last_column.mean()
     result = average
-    from task.utils import get_new_output_id
-    output_id = await get_new_output_id(
-        eval.task_id, f'downloads/{output_id}', file_size)
     eval.output_id = output_id
     result = int(output_id)
     return result

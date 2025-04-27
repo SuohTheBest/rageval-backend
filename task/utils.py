@@ -13,6 +13,7 @@ DOWNLOAD_DIR = "downloads"
 
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 os.makedirs(DOWNLOAD_DIR, exist_ok=True)
+os.makedirs("eval_plots", exist_ok=True)
 
 worker = TaskWorkerLauncher()
 
@@ -37,19 +38,6 @@ async def get_new_input_id(user_id: int, file_name: str, size: int) -> int:
         return upload_file.id
     finally:
         db.close()
-
-
-async def get_new_output_id(user_id: int, file_name: str, size: int) -> int:
-    db = SessionLocal()
-    try:
-        download_file = OutputFile(
-            user_id=user_id, file_name=file_name, size=size)
-        db.add(download_file)
-        db.commit()
-        return download_file.id
-    finally:
-        db.close()
-
 
 async def add_evals(r: AddTaskRequest, user_id: int):
     db = SessionLocal()

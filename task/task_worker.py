@@ -64,7 +64,7 @@ class TaskWorker(Thread):
                     break
         return self.queue.get()
 
-    async def process_eval(self, eval: RAGEvaluation | PromptEvaluation, eval_info):
+    def process_eval(self, eval: RAGEvaluation | PromptEvaluation, eval_info):
         category = eval_info['category']
         # task_id = eval_info['task_id']
         try:
@@ -74,13 +74,13 @@ class TaskWorker(Thread):
                 return {"success": True, "result": result}
             else:
                 # TODO
-                result = await process_rag(eval)
+                result = process_rag(eval, self.session())
                 return {"success": True, "result": result}
         except Exception as e:
             self.logger.error("Processing task failed: {}".format(e))
             return {"success": False}
 
-    async def run(self):
+    def run(self):
         self.logger.info("Started Task Worker")
 
         while not self.stop_event.is_set():
@@ -100,7 +100,7 @@ class TaskWorker(Thread):
                 db.commit()
                 # start work
                 print("start work")
-                result = await self.process_eval(eval_in_db, eval_info)
+                result = self.process_eval(eval_in_db, eval_info)
                 # finish work
                 if eval_info['category'] == 'prompt':
                     eval_in_db = db.get(PromptEvaluation, eval_info['id'])
