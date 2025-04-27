@@ -63,8 +63,8 @@ def process_prompt_task(evaluation: PromptEvaluation) -> str:
             for method, _, output_text in subquery:
                 try:
                     # 提取分数和理由
-                    score = int(output_text.split("：")[1].split("/")[0])  # 提取分数
-                    reason = output_text.split("10，")[1]  # 提取理由
+                    score = float(output_text.split("：")[1].split("/")[0])  # 提取分数
+                    reason = output_text.split("/10，")[1]  # 提取理由
                     score_dict[reason] = score
                 except Exception as e:
                     print(f"解析失败：{e}")
