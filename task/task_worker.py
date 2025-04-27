@@ -23,8 +23,10 @@ class TaskWorkerLauncher:
         self.worker.start()
 
     def add_eval(self, eval_id: int, task_id: int, category: str):
-        self.q.put_nowait(
-            {"id": eval_id, "task_id": task_id, "category": category})
+        try:
+            self.q.put_nowait({"id": eval_id, "task_id": task_id, "category": category})
+        except Full:
+            logger.error("Task queue full! {}".format(eval_id))
 
     def signal_handler(self, sig, frame):
         self.event.set()

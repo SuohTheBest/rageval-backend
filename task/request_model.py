@@ -13,7 +13,7 @@ class AddTaskRequest(BaseModel):
     input_texts: Optional[List[str]] = None
     autofill: Optional[str] = 'none'
     user_fill: Optional[str] = None  # 用户自己的填充
-    custom_method: Optional[str] = None # 自定义指标的内容
+    custom_methods: Optional[List[str]] = None  # 自定义指标的内容
 
 
 class AlterTaskRequest(BaseModel):
@@ -30,6 +30,7 @@ class GetFileInfoRequest(BaseModel):
 class CreatePlotRequest(BaseModel):
     task_id: int
     method: str
+
 
 class DeleteTaskRequest(BaseModel):
     task_id: int
