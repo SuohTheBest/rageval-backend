@@ -57,14 +57,16 @@ class TaskWorker(Thread):
                         db.delete(eval)
                         db.commit()
                     else:
-                        evals.append({'id': eval.id, 'user_id': task.user_id, 'category': 'rag'})
+                        evals.append(
+                            {'id': eval.id, 'task_id': eval.task_id, 'user_id': task.user_id, 'category': 'rag'})
                 for eval in prompt_evals:
                     task = db.get(Task, eval.task_id)
                     if task is None:
                         db.delete(eval)
                         db.commit()
                     else:
-                        evals.append({'id': eval.id, 'user_id': task.user_id, 'category': 'prompt'})
+                        evals.append(
+                            {'id': eval.id, 'task_id': eval.task_id, 'user_id': task.user_id, 'category': 'prompt'})
             except Exception as e:
                 self.logger.error(e)
             for eval in evals:
