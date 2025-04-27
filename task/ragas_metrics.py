@@ -88,8 +88,9 @@ def process_rag(eval: RAGEvaluation, db):
     elif method == "摘要得分":
         process_SummarizationScore(response, reference_contexts, df)
 
-    output_file = OutputFile(file_name='temp', size=0)
+    output_file = OutputFile(user_id=1, file_name='temp', size=0)
     db.add(output_file)
+    db.commit()
     output_id = output_file.id
     file_path = f'downloads/{output_id}'
     df.to_csv(file_path, index=False)

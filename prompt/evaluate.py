@@ -1,6 +1,9 @@
 import ast
 
+from sqlalchemy import func
+
 from models.Task import PromptEvaluation
+from models.database import SessionLocal
 from prompt.metrics import Metric, create_custom_metric
 from prompt.metrics import (
     liquidityMetric, ethicalMetric, clarityMetric, robustnessMetric, 
@@ -40,9 +43,39 @@ def process_prompt_task(evaluation: PromptEvaluation) -> str:
 
     # TODO 进行优化任务
     if evaluation.id == -1:
-        # optimize_prompt()
-        print(evaluation)
-        pass
+        db = SessionLocal()
+        try:
+            # 先获取每个method分组的最大id
+            subquery = (
+                db.query(
+                    PromptEvaluation.method,
+                    func.max(PromptEvaluation.id).label("max_id")
+                )
+                .filter(PromptEvaluation.task_id == evaluation.task_id)
+                .group_by(PromptEvaluation.method)
+                .subquery()
+            )
+
+            # 关联回原表获取完整记录
+            evals = (
+                db.query(PromptEvaluation)
+                .join(
+                    subquery,
+                    (PromptEvaluation.method == subquery.c.method) &
+                    (PromptEvaluation.id == subquery.c.max_id)
+                )
+                .filter(PromptEvaluation.task_id == evaluation.task_id)
+            )
+
+            print("=================")
+            print(evals)
+
+
+            # optimize_prompt(evaluation.input_text,)
+
+        finally:
+            db.close()
+
 
     if evaluation.method == "自定义":
         metric_instance = create_custom_metric(evaluation.custom_method)

@@ -97,7 +97,6 @@ async def delete_task(r: DeleteTaskRequest, access_token: str = Cookie(None)):
 
 @router.get("/plot")
 async def getPlot(task_id: int = Query(...), method: str = Query(...), access_token: str = Cookie(None)):
-    db = SessionLocal()
     try:
         user_id = await get_user_id(access_token)
         task = await get_task_from_id(task_id, user_id)
@@ -109,18 +108,14 @@ async def getPlot(task_id: int = Query(...), method: str = Query(...), access_to
             link = None
             if task.category == "prompt":
                 link = get_prompt_plot(task_id, method)
-                curr_prompt_plot = TaskPlot(task_id=task_id,method=method,link=link)
-                db.add(curr_prompt_plot)
 
             else:
                 pass
 
-        db.commit()
         return {"success": True, "url": link}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    finally:
-        db.close()
+
 
 
 @router.get("/")
