@@ -108,7 +108,7 @@ async def add_evals(r: AddTaskRequest, user_id: int):
         db.commit()
         worker.add_eval(eval_obj.id, curr_task.id, user_id, r.category)
     if len(new_evals) > 0:
-        worker.add_eval(-1, user_id, curr_task.id, r.category)
+        worker.add_eval(-1, curr_task.id, user_id, r.category)
     db.commit()
     db.close()
 
