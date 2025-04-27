@@ -3,7 +3,6 @@ from fastapi.responses import FileResponse
 
 from prompt.metrics import metric_list
 from prompt.plot import get_prompt_plot
-from task import utils
 from access_token import get_user_id
 from task.request_model import *
 from task.utils import *
@@ -37,7 +36,7 @@ async def upload(file: UploadFile = File, access_token: str = Cookie(None)):
         user_id = await get_user_id(access_token)
         content = await file.read()
         length = len(content)
-        input_id = await utils.get_new_input_id(user_id, file.filename, length)
+        input_id = await get_new_input_id(user_id, file.filename, length)
         fpath = get_upload_filepath(input_id)
         with open(fpath, "wb") as buffer:
             buffer.write(content)
