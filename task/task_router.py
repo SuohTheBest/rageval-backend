@@ -104,7 +104,6 @@ async def getPlot(task_id: int = Query(...), method: str = Query(...), access_to
         if task is None:
             return {"success": False, "message": "No such task."}
         link = await get_plot(task_id, method)
-        print(task.category)
         if link is None:
             # TODO 应该在这里生成图表
             if task.category == "prompt":
@@ -113,7 +112,6 @@ async def getPlot(task_id: int = Query(...), method: str = Query(...), access_to
             else:
                 pass
 
-            return {"success": False, "message": "No plot."}
         return {"success": True, "url": link}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

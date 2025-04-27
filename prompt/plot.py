@@ -19,24 +19,35 @@ def get_prompt_plot(task_id ,method):
 
         x_values = []
         y_values = []
-        for index,eval in enumerate(evals):
-            match = re.search(r"评估分数：(\d+)/10",eval.output_text)
+        length = len(evals)
+        for i in range(length):
+            match = re.search(r"[评估分数：(\d+)/10]",evals[i].output_text)
             if match:
-                x_values.append(index)
-                y_values.append(int(match.group(1)))
+                x_values.append(i+1)
+                y_values.append(int(match.group(0)))
+
+        import matplotlib.pyplot as plt
+
+        # 设置中文字体（根据系统选择）
+        plt.rcParams['font.sans-serif'] = ['SimHei']  # Windows
+        # plt.rcParams['font.sans-serif'] = ['Arial Unicode MS']  # Mac
+        # plt.rcParams['font.sans-serif'] = ['Noto Sans CJK JP']  # Linux
+
+        # 解决负号显示问题
+        plt.rcParams['axes.unicode_minus'] = False
 
         plt.figure(figsize=(10,5))
         plt.plot(
             x_values,y_values,
             marker='o',
-            lineStyles='-',
+            linestyle='-',
             color='steelblue',
-            label='评估分数'
+            label='score'
         )
 
-        plt.title("Prompt评估分数变化趋势",font_size=14)
-        plt.xlabel("评估序号", fontsize=12)
-        plt.ylabel("分数（/10）", fontsize=12)
+        plt.title(f"Prompt评估分数 - 指标: {method}",fontsize=14)
+        plt.xlabel("评估轮数", fontsize=12)
+        plt.ylabel("分数(/10)", fontsize=12)
         plt.xticks(x_values)  # 显示所有x刻度
         plt.ylim(0, 10)  # y轴范围固定为0-10
         plt.grid(alpha=0.4)
@@ -58,8 +69,7 @@ def get_prompt_plot(task_id ,method):
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
         print(f"图表已保存至: {save_path}")
 
-
-        plt.show()
+        # plt.show()
         return save_path
 
     finally:
