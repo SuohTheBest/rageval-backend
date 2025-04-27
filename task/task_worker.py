@@ -5,7 +5,7 @@ from queue import Queue, Full
 from multiprocessing import Event
 from threading import Thread
 from sqlalchemy import Engine
-from models.Task import RAGEvaluation, PromptEvaluation
+from models.Task import RAGEvaluation, PromptEvaluation, Task
 from sqlalchemy.orm import sessionmaker
 from models.database import engine
 from logger import logger
@@ -22,10 +22,10 @@ class TaskWorkerLauncher:
         signal.signal(signal.SIGTERM, self.signal_handler)
         self.worker.start()
 
-    def add_eval(self, eval_id: int, task_id: int, category: str):
+    def add_eval(self, eval_id: int, user_id: int, category: str):
         try:
             self.q.put_nowait(
-                {"id": eval_id, "task_id": task_id, "category": category})
+                {"id": eval_id, "user_id": user_id, "category": category})
         except Full:
             logger.error("Task queue full! {}".format(eval_id))
 
@@ -52,9 +52,19 @@ class TaskWorker(Thread):
                 prompt_evals = db.query(PromptEvaluation).filter(
                     (PromptEvaluation.status == "waiting") | (PromptEvaluation.status == "evaluating")).all()
                 for eval in rag_evals:
-                    evals.append({'id': eval.id, 'category': 'rag'})
+                    task = db.get(Task, eval.task_id)
+                    if task is None:
+                        db.delete(eval)
+                        db.commit()
+                    else:
+                        evals.append({'id': eval.id, 'user_id': task.user_id, 'category': 'rag'})
                 for eval in prompt_evals:
-                    evals.append({'id': eval.id, 'category': 'prompt'})
+                    task = db.get(Task, eval.task_id)
+                    if task is None:
+                        db.delete(eval)
+                        db.commit()
+                    else:
+                        evals.append({'id': eval.id, 'user_id': task.user_id, 'category': 'prompt'})
             except Exception as e:
                 self.logger.error(e)
             for eval in evals:
@@ -66,7 +76,7 @@ class TaskWorker(Thread):
 
     def process_eval(self, eval: RAGEvaluation | PromptEvaluation, eval_info):
         category = eval_info['category']
-        # task_id = eval_info['task_id']
+        user_id = eval_info['user_id']
         try:
             self.logger.info("Processing task: {}".format(eval))
             if category == 'prompt':
