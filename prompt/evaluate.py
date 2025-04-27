@@ -82,11 +82,11 @@ def process_prompt_task(evaluation: PromptEvaluation) -> str:
         return ''
 
 
-    if evaluation.method == "自定义":
-        metric_instance = create_custom_metric(evaluation.custom_method)
-    else:
-        metric_class = metric_mapping.get(evaluation.method)
+    try:
+        metric_class = metric_mapping[evaluation.method]
         metric_instance = metric_class()
+    except KeyError:
+        metric_instance = create_custom_metric(evaluation.custom_method)
 
     # 调用 evaluate 方法并获取返回值
     evaluation_result = metric_instance.evaluate(evaluation.input_text)
