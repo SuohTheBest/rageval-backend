@@ -36,7 +36,7 @@ async def get_new_input_id(user_id: int, file_name: str, size: int) -> int:
         db.close()
 
 
-def get_new_output_id(user_id: int, file_name: str, size: int) -> int:
+async def get_new_output_id(user_id: int, file_name: str, size: int) -> int:
     db = SessionLocal()
     try:
         download_file = OutputFile(
