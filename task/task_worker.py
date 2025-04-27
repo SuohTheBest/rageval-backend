@@ -84,7 +84,6 @@ class TaskWorker(Thread):
         self.logger.info("Started Task Worker")
 
         while not self.stop_event.is_set():
-
             db = self.session()
             try:
                 print("try here")
