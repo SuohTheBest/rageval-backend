@@ -13,3 +13,4 @@ __pycache__/
 .temp/
 uploads/
 downloads/
+eval_plots/

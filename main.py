@@ -1,5 +1,6 @@
 import uvicorn
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 from rag import rag_router
 from models.database import Base, engine
@@ -20,9 +21,12 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["Content-Type", "Authorization"],
 )
+
+app.mount("/static", StaticFiles(directory="./eval_plots"))
 app.include_router(user_router.router, prefix=g_prefix)
 app.include_router(task_router.router, prefix=g_prefix)
 app.include_router(rag_router.router, prefix=g_prefix)
+
 
 @app.get("/")
 async def root():

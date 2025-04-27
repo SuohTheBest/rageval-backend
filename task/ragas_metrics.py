@@ -21,7 +21,7 @@ import ast
 from models.Task import Task, RAGEvaluation
 
 
-def process_rag(eval: RAGEvaluation):
+async def process_rag(eval: RAGEvaluation):
     print("here is processing")
     os.environ["OPENAI_API_KEY"] = "sk-JUbjcL4UL7rCP6mrU2qGQKTE8Um0KJwAnWGE5lDebQc1iO71"
     os.environ["OPENAI_API_BASE"] = "https://api.chatanywhere.tech/v1"
@@ -50,6 +50,7 @@ def process_rag(eval: RAGEvaluation):
         item, str) else item for item in df.get('reference_contexts', pd.Series([[]])).tolist()]
     method = eval.method
     if method == "基于大模型的无参考上下文准确性":
+        print("method here")
         process_LLMContextPrecisionWithoutReference(
             user_input, response, retrieved_contexts, df)
     elif method == "基于大模型的有参考上下文准确性":
@@ -94,15 +95,15 @@ def process_rag(eval: RAGEvaluation):
     elif method == "摘要得分":
         process_SummarizationScore(response, reference_contexts, df)
 
-    file_path = f'downloads/{eval.task_id}_{eval.id}_{method}.csv'
+    file_path = f'downloads/{output_id}'
     df.to_csv(file_path, index=False)
     file_size = os.path.getsize(file_path)
     last_column = df.iloc[:, -1]
     average = last_column.mean()
     result = average
     from task.utils import get_new_output_id
-    output_id = get_new_output_id(
-        eval.task_id, f'downloads/{eval.task_id}_{eval.id}_{method}.csv', file_size)
+    output_id = await get_new_output_id(
+        eval.task_id, f'downloads/{output_id}', file_size)
     eval.output_id = output_id
     result = int(output_id)
     return result

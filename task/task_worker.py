@@ -24,7 +24,8 @@ class TaskWorkerLauncher:
 
     def add_eval(self, eval_id: int, task_id: int, category: str):
         try:
-            self.q.put_nowait({"id": eval_id, "task_id": task_id, "category": category})
+            self.q.put_nowait(
+                {"id": eval_id, "task_id": task_id, "category": category})
         except Full:
             logger.error("Task queue full! {}".format(eval_id))
 
@@ -63,7 +64,7 @@ class TaskWorker(Thread):
                     break
         return self.queue.get()
 
-    def process_eval(self, eval: RAGEvaluation | PromptEvaluation, eval_info):
+    async def process_eval(self, eval: RAGEvaluation | PromptEvaluation, eval_info):
         category = eval_info['category']
         # task_id = eval_info['task_id']
         try:
@@ -73,17 +74,20 @@ class TaskWorker(Thread):
                 return {"success": True, "result": result}
             else:
                 # TODO
-                result = process_rag(eval)
+                result = await process_rag(eval)
                 return {"success": True, "result": result}
         except Exception as e:
             self.logger.error("Processing task failed: {}".format(e))
             return {"success": False}
 
-    def run(self):
+    async def run(self):
         self.logger.info("Started Task Worker")
+
         while not self.stop_event.is_set():
+
             db = self.session()
             try:
+                print("try here")
                 eval_info = self.get_eval(db)
                 if eval_info['category'] == 'prompt':
                     eval_in_db = db.get(PromptEvaluation, eval_info['id'])
@@ -96,7 +100,7 @@ class TaskWorker(Thread):
                 db.commit()
                 # start work
                 print("start work")
-                result = self.process_eval(eval_in_db, eval_info)
+                result = await self.process_eval(eval_in_db, eval_info)
                 # finish work
                 if eval_info['category'] == 'prompt':
                     eval_in_db = db.get(PromptEvaluation, eval_info['id'])
