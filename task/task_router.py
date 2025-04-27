@@ -112,7 +112,6 @@ async def getPlot(task_id: int = Query(...), method: str = Query(...), access_to
                 print(link)
             else:
                 pass
-
         return {"success": True, "url": link}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
