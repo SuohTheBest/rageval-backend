@@ -66,6 +66,10 @@ def get_prompt_plot(task_id ,method):
         plt.savefig(save_path, dpi=300, bbox_inches='tight')
         print(f"图表已保存至: {save_path}")
 
+        curr_prompt_plot = TaskPlot(task_id=task_id, method=method, link=filename)
+        db.add(curr_prompt_plot)
+        db.commit()
+
         # plt.show()
         return filename
 
