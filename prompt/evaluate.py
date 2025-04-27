@@ -38,7 +38,6 @@ def process_prompt_task(evaluation: PromptEvaluation) -> str:
         "结构设计": metricDesignMetric,
         "风险控制": riskControlMetric,
         "扩展性": extensionMetric,
-        "自定义": None
     }
 
     # TODO 进行优化任务
@@ -86,7 +85,7 @@ def process_prompt_task(evaluation: PromptEvaluation) -> str:
         metric_class = metric_mapping[evaluation.method]
         metric_instance = metric_class()
     except KeyError:
-        metric_instance = create_custom_metric(evaluation.custom_method)
+        metric_instance = create_custom_metric(evaluation.method)
 
     # 调用 evaluate 方法并获取返回值
     evaluation_result = metric_instance.evaluate(evaluation.input_text)
