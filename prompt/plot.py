@@ -76,7 +76,7 @@ def get_prompt_plot(task_id ,method):
         print(f"图表已保存至: {save_path}")
 
         # plt.show()
-        return save_path
+        return filename
 
     finally:
         db.close()
