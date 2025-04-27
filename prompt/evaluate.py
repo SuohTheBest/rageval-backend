@@ -67,7 +67,9 @@ def process_prompt_task(evaluation: PromptEvaluation) -> str:
                 .filter(PromptEvaluation.task_id == evaluation.task_id)
             )
 
+            print("=================")
             print(evals)
+
 
             # optimize_prompt(evaluation.input_text,)
 

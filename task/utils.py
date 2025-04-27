@@ -105,6 +105,8 @@ async def add_evals(r: AddTaskRequest, user_id: int):
         if curr_input != last_input:
             worker.add_eval(-1, eval["task_id"], r.category)  # 当前轮次结束
         worker.add_eval(eval_obj.id, eval["task_id"], r.category)
+    if len(new_evals)>0:
+        worker.add_eval(-1, new_evals[-1]["task_id"], r.category)
     db.commit()
     db.close()
 
