@@ -102,7 +102,7 @@ def process_rag(eval: RAGEvaluation, db):
     average = last_column.mean()
     result = average
     eval.output_id = output_id
-    result = int(output_id)
+    result = output_id
     return result
 
 

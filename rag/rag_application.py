@@ -1,17 +1,17 @@
+# fmt: off
 import sys
-
-sys.path.append("/home/lu/workspace/Projects/RagevalBackend")
-
 import os
-import logging
-import asyncio
-from typing import List, Dict, Optional, Any, Union
-
-from langchain_community.vectorstores import Chroma
-
-from rag.context_manager import Conversation, Role
-from rag.rag_chain import SimpleRagChain
+sys.path.append("C:\\Users\\15181\\Desktop\\SE3\\rageval-backend")
 from rag.llm import OpenAIEmbeddings, OpenAILLM
+from rag.rag_chain import SimpleRagChain
+from rag.context_manager import Conversation, Role
+from langchain_community.vectorstores import Chroma
+from typing import List, Dict, Optional, Any, Union
+import asyncio
+import logging
+
+# fmt: on
+
 
 # 配置日志
 logging.basicConfig(
@@ -87,7 +87,8 @@ async def rag_query(
     except Exception as e:
         logger.error(f"查询处理失败: {str(e)}")
         error_message = f"处理查询时出错: {str(e)}"
-        conversation.add_context({"role": Role.ASSISTANT, "content": error_message})
+        conversation.add_context(
+            {"role": Role.ASSISTANT, "content": error_message})
         return {"response": error_message, "quote": []}
 
 
@@ -98,7 +99,7 @@ async def main():
     conv = Conversation()
 
     # 发送查询
-    query = "介绍一下泰拉瑞亚有哪些常见敌人？"
+    query = "在《泰拉瑞亚》中，Sharanga Bow（夏兰加弓）所造成的 Cursed Inferno debuff（诅咒烈焰 debuff）有何独特效果？"
     result = await rag_query(query, conv)
 
     print(f"回答: {result['response']}")
@@ -106,14 +107,14 @@ async def main():
     for i, quote in enumerate(result["quote"]):
         print(f"{i+1}. {quote[:100]}...")
 
-    # 多轮对话示例
-    follow_up = "蚁狮会掉落什么东西？"
-    result2 = await rag_query(follow_up, conv)
+    # # 多轮对话示例
+    # follow_up = "蚁狮会掉落什么东西？"
+    # result2 = await rag_query(follow_up, conv)
 
-    print(f"\n回答: {result2['response']}")
-    print("\n引用:")
-    for i, quote in enumerate(result2["quote"]):
-        print(f"{i+1}. {quote[:100]}...")
+    # print(f"\n回答: {result2['response']}")
+    # print("\n引用:")
+    # for i, quote in enumerate(result2["quote"]):
+    #     print(f"{i+1}. {quote[:100]}...")
 
 
 if __name__ == "__main__":
