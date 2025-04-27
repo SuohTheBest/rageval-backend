@@ -7,6 +7,8 @@ from prompt.metrics import (
     safeMetric, effectiveMetric, metricDesignMetric, riskControlMetric, 
     extensionMetric
 )
+from prompt.optimizer import optimize_prompt
+
 
 # 使用指标来评估prompt
 def evaluate_prompt(prompt: str, metrics: list[Metric]) -> dict[str, float]:
@@ -35,6 +37,12 @@ def process_prompt_task(evaluation: PromptEvaluation) -> str:
         "扩展性": extensionMetric,
         "自定义": None
     }
+
+    # TODO 进行优化任务
+    if evaluation.id == -1:
+        # optimize_prompt()
+        print(evaluation)
+        pass
 
     if evaluation.method == "自定义":
         metric_instance = create_custom_metric(evaluation.custom_method)
