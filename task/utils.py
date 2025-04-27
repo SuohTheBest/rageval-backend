@@ -36,7 +36,7 @@ async def get_new_input_id(user_id: int, file_name: str, size: int) -> int:
         db.close()
 
 
-async def get_new_output_id(user_id: int, file_name: str, size: int) -> int:
+def get_new_output_id(user_id: int, file_name: str, size: int) -> int:
     db = SessionLocal()
     try:
         download_file = OutputFile(
@@ -203,7 +203,8 @@ async def get_plots(task_id: int):
 async def get_optimizations(task_id: int):
     db = SessionLocal()
     try:
-        optimizations = db.query(Optimization).filter(Optimization.task_id == task_id).all()
+        optimizations = db.query(Optimization).filter(
+            Optimization.task_id == task_id).all()
         if optimizations is None:
             return []
         return optimizations

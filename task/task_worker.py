@@ -23,7 +23,8 @@ class TaskWorkerLauncher:
         self.worker.start()
 
     def add_eval(self, eval_id: int, task_id: int, category: str):
-        self.q.put_nowait({"id": eval_id, "task_id": task_id, "category": category})
+        self.q.put_nowait(
+            {"id": eval_id, "task_id": task_id, "category": category})
 
     def signal_handler(self, sig, frame):
         self.event.set()
@@ -62,7 +63,7 @@ class TaskWorker(Thread):
 
     def process_eval(self, eval: RAGEvaluation | PromptEvaluation, eval_info):
         category = eval_info['category']
-        task_id = eval_info['task_id']
+        # task_id = eval_info['task_id']
         try:
             self.logger.info("Processing task: {}".format(eval))
             if category == 'prompt':
@@ -92,6 +93,7 @@ class TaskWorker(Thread):
                 eval_in_db.started = int(time.time())
                 db.commit()
                 # start work
+                print("start work")
                 result = self.process_eval(eval_in_db, eval_info)
                 # finish work
                 if eval_info['category'] == 'prompt':

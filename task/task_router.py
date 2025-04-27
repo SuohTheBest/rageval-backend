@@ -107,7 +107,7 @@ async def getPlot(task_id: int = Query(...), method: str = Query(...), access_to
         if link is None:
             # TODO 应该在这里生成图表
             if task.category == "prompt":
-                link = get_prompt_plot(task_id,method)
+                link = get_prompt_plot(task_id, method)
 
             else:
                 pass

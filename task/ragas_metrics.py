@@ -21,7 +21,8 @@ import ast
 from models.Task import Task, RAGEvaluation
 
 
-async def process_rag(eval: RAGEvaluation):
+def process_rag(eval: RAGEvaluation):
+    print("here is processing")
     os.environ["OPENAI_API_KEY"] = "sk-JUbjcL4UL7rCP6mrU2qGQKTE8Um0KJwAnWGE5lDebQc1iO71"
     os.environ["OPENAI_API_BASE"] = "https://api.chatanywhere.tech/v1"
     # llm = ChatOpenAI(model="gpt-3.5-turbo-0125")
@@ -47,10 +48,8 @@ async def process_rag(eval: RAGEvaluation):
         item, str) else item for item in df.get('retrieved_contexts', pd.Series([[]])).tolist()]
     reference_contexts = [ast.literal_eval(item) if isinstance(
         item, str) else item for item in df.get('reference_contexts', pd.Series([[]])).tolist()]
-    # print("here")
     method = eval.method
     if method == "基于大模型的无参考上下文准确性":
-        print("method here")
         process_LLMContextPrecisionWithoutReference(
             user_input, response, retrieved_contexts, df)
     elif method == "基于大模型的有参考上下文准确性":
@@ -95,19 +94,18 @@ async def process_rag(eval: RAGEvaluation):
     elif method == "摘要得分":
         process_SummarizationScore(response, reference_contexts, df)
 
-    # print("here")
     file_path = f'downloads/{eval.task_id}_{eval.id}_{method}.csv'
     df.to_csv(file_path, index=False)
-    file_size = os.path.getsize("1_output.csv")
-
+    file_size = os.path.getsize(file_path)
     last_column = df.iloc[:, -1]
     average = last_column.mean()
     result = average
     from task.utils import get_new_output_id
-    output_id = await get_new_output_id(
-        eval.task_id, f'{eval.task_id}_{eval.id}_{method}.csv', file_size)
+    output_id = get_new_output_id(
+        eval.task_id, f'downloads/{eval.task_id}_{eval.id}_{method}.csv', file_size)
     eval.output_id = output_id
-    return output_id
+    result = int(output_id)
+    return result
 
 
 def set_environment():
@@ -123,23 +121,6 @@ def generate_dataset(fields_data, field_names):
     通用的函数来生成 dataset，根据传入的字段动态生成 `SingleTurnSample`
     """
     dataset = []
-    # for field_set in zip(*fields):  # 这将自动处理多个字段的情况
-    #     sample_data = {}
-    #     if 'user_input' in field:
-    #         sample_data['user_input'] = field_set[fields.index('user_input')]
-    #     if 'response' in field:
-    #         sample_data['response'] = field_set[fields.index('response')]
-    #     if 'reference' in field:
-    #         sample_data['reference'] = field_set[fields.index('reference')]
-    #     if 'retrieved_contexts' in field:
-    #         sample_data['retrieved_contexts'] = field_set[fields.index(
-    #             'retrieved_contexts')]
-    #     if 'reference_contexts' in field:
-    #         sample_data['reference_contexts'] = field_set[fields.index(
-    #             'reference_contexts')]
-
-    #     # 根据提供的字段动态构建 SingleTurnSample
-    #     dataset.append(SingleTurnSample(**sample_data))
     for field_set in zip(*fields_data):  # 这将自动处理多个字段的情况
         sample_data = {}
 
@@ -162,12 +143,12 @@ def evaluate_and_store(dataset, metric, llm, df, name):
 
 
 def process_LLMContextPrecisionWithoutReference(user_inputs, responses, retrieved_contexts, df):
+    print("here is processing")
     fields = ['user_input', 'response', 'retrieved_contexts']
     dataset = generate_dataset(
         [user_inputs, responses, retrieved_contexts], fields)
     dataset = EvaluationDataset(dataset)
     evaluator_llm = set_environment()
-
     evaluate_and_store(
         dataset, LLMContextPrecisionWithoutReference(), evaluator_llm, df, 'LLMContextPrecisionWithoutReference')
 
