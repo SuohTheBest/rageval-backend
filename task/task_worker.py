@@ -109,7 +109,11 @@ class TaskWorker(Thread):
                 db.commit()
                 # start work
                 print("start work")
-                result = self.process_eval(eval_in_db, eval_info)
+                if eval_info['id'] == -1 and eval_info['category'] == 'prompt':
+                    eval_prompt = PromptEvaluation(id=eval_info['id'],task_id=eval_info['task_id'])
+                    result = self.process_eval(eval_prompt,eval_info)
+                else:
+                    result = self.process_eval(eval_in_db, eval_info)
                 # finish work
                 if eval_info['category'] == 'prompt':
                     eval_in_db = db.get(PromptEvaluation, eval_info['id'])
