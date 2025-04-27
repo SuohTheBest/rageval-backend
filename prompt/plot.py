@@ -21,7 +21,7 @@ def get_prompt_plot(task_id ,method):
         y_values = []
         length = len(evals)
         for i in range(length):
-            match = re.search(r"评估分数：(\d+)/10",evals[i].output_text)
+            match = re.search(r"评估分数：([\d.]+)/10",evals[i].output_text)
             if match:
                 x_values.append(i+1)
                 y_values.append(int(match.group(1)))
