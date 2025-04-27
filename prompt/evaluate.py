@@ -2,7 +2,7 @@ import ast
 
 from sqlalchemy import func
 
-from models.Task import PromptEvaluation
+from models.Task import PromptEvaluation, Optimization
 from models.database import SessionLocal
 from prompt.metrics import Metric, create_custom_metric
 from prompt.metrics import (
@@ -45,36 +45,41 @@ def process_prompt_task(evaluation: PromptEvaluation) -> str:
     if evaluation.id == -1:
         db = SessionLocal()
         try:
-            # 先获取每个method分组的最大id
+            # 获取每个method分组的最大id及其评估结果
             subquery = (
                 db.query(
                     PromptEvaluation.method,
-                    func.max(PromptEvaluation.id).label("max_id")
+                    func.max(PromptEvaluation.id).label("max_id"),
+                    PromptEvaluation.output_text,
                 )
                 .filter(PromptEvaluation.task_id == evaluation.task_id)
                 .group_by(PromptEvaluation.method)
-                .subquery()
+                .all()
             )
 
-            # 关联回原表获取完整记录
-            evals = (
-                db.query(PromptEvaluation)
-                .join(
-                    subquery,
-                    (PromptEvaluation.method == subquery.c.method) &
-                    (PromptEvaluation.id == subquery.c.max_id)
-                )
-                .filter(PromptEvaluation.task_id == evaluation.task_id)
-            )
-
-            print("=================")
-            print(evals)
+            # 提取分数并找出最低分数的指标
+            score_dict = {}
+            reasons = {}
+            for method, _, output_text in subquery:
+                try:
+                    # 提取分数和理由
+                    score = int(output_text.split("：")[1].split("/")[0])  # 提取分数
+                    reason = output_text.split("10，")[1]  # 提取理由
+                    score_dict[reason] = score
+                except Exception as e:
+                    print(f"解析失败：{e}")
 
 
-            # optimize_prompt(evaluation.input_text,)
+            # 调用 optimize_prompt 函数
+            optimized_result = optimize_prompt(evaluation.input_text, score_dict)
+            print(f"优化结果：{optimized_result}")
+            op = Optimization(task_id=evaluation.task_id, prompt=optimized_result['optimized_prompt'],reason = optimized_result['reason'])
+            db.add(op)
+            db.commit()
 
         finally:
             db.close()
+        return ''
 
 
     if evaluation.method == "自定义":
@@ -97,3 +102,7 @@ def process_prompt_task(evaluation: PromptEvaluation) -> str:
     except Exception as e:
         raise ValueError(f"解析评估结果失败：{e}")
 
+if __name__ == "__main__":
+    # 示例用法
+    eval_prompt = PromptEvaluation(id= -1, task_id=6)
+    process_prompt_task(eval_prompt)
