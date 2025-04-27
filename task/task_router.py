@@ -109,6 +109,7 @@ async def getPlot(task_id: int = Query(...), method: str = Query(...), access_to
             link = None
             if task.category == "prompt":
                 link = get_prompt_plot(task_id, method)
+                print(link)
             else:
                 pass
 

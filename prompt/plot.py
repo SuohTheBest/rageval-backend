@@ -17,16 +17,20 @@ def get_prompt_plot(task_id ,method):
                  .all()
                  )
 
+
         x_values = []
         y_values = []
         length = len(evals)
         for i in range(length):
-            match = re.search(r"[评估分数：(\d+)/10]",evals[i].output_text)
+            print(evals[i].output_text)
+            match = re.search(r"评估分数：(\d+)/10",evals[i].output_text)
             if match:
+                print(match)
                 x_values.append(i+1)
-                y_values.append(int(match.group(0)))
+                y_values.append(int(match.group(1)))
 
         import matplotlib.pyplot as plt
+
 
         # 设置中文字体（根据系统选择）
         plt.rcParams['font.sans-serif'] = ['SimHei']  # Windows
@@ -59,6 +63,8 @@ def get_prompt_plot(task_id ,method):
         # 创建保存目录（如果不存在）
         save_dir = "eval_plots"
         os.makedirs(save_dir, exist_ok=True)
+
+        print(save_dir)
 
         # 生成带时间戳的文件名
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
