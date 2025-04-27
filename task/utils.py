@@ -39,6 +39,7 @@ async def get_new_input_id(user_id: int, file_name: str, size: int) -> int:
     finally:
         db.close()
 
+
 async def add_evals(r: AddTaskRequest, user_id: int):
     db = SessionLocal()
     if r.task_id:
@@ -104,6 +105,7 @@ async def add_evals(r: AddTaskRequest, user_id: int):
         curr_input = eval["input_id"] if ("input_id" in eval) else eval["input_text"]
         if curr_input != last_input:
             worker.add_eval(-1, eval["task_id"], r.category)  # 当前轮次结束
+        db.commit()
         worker.add_eval(eval_obj.id, eval["task_id"], r.category)
     db.commit()
     db.close()
