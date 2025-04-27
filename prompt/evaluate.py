@@ -96,3 +96,4 @@ def process_prompt_task(evaluation: PromptEvaluation) -> str:
             raise ValueError("评估结果格式不正确")
     except Exception as e:
         raise ValueError(f"解析评估结果失败：{e}")
+
