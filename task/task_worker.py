@@ -5,6 +5,8 @@ from queue import Queue, Full
 from multiprocessing import Event
 from threading import Thread
 from sqlalchemy import Engine
+from tornado.process import task_id
+
 from models.Task import RAGEvaluation, PromptEvaluation
 from sqlalchemy.orm import sessionmaker
 from models.database import engine
@@ -88,6 +90,7 @@ class TaskWorker(Thread):
             try:
                 print("try here")
                 eval_info = self.get_eval(db)
+                print(eval_info)
                 if eval_info['category'] == 'prompt':
                     eval_in_db = db.get(PromptEvaluation, eval_info['id'])
                 else:
@@ -99,7 +102,11 @@ class TaskWorker(Thread):
                 db.commit()
                 # start work
                 print("start work")
-                result = self.process_eval(eval_in_db, eval_info)
+                if eval_info['id'] == -1 and eval_info['category'] == 'prompt':
+                    eval_prompt = PromptEvaluation(id=eval_info['id'],task_id=eval_info['task_id'])
+                    result = self.process_eval(eval_prompt,eval_info)
+                else:
+                    result = self.process_eval(eval_in_db, eval_info)
                 # finish work
                 if eval_info['category'] == 'prompt':
                     eval_in_db = db.get(PromptEvaluation, eval_info['id'])
