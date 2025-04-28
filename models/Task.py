@@ -1,6 +1,6 @@
 import time
 
-from sqlalchemy import Column, String, Integer, Index, Boolean
+from sqlalchemy import Column, String, Integer, Index, Boolean,Float
 
 from models.database import Base
 
@@ -31,7 +31,7 @@ class RAGEvaluation(Base):
     input_id = Column(Integer)
     input_text = Column(String)
     output_id = Column(Integer)
-    output_text = Column(String)
+    output_text = Column(Float)
     status = Column(String(16))  # waiting, evaluating, success, failed
     created = Column(Integer)
     started = Column(Integer)

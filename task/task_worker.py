@@ -10,7 +10,7 @@ from sqlalchemy.orm import sessionmaker
 from models.database import engine
 from logger import logger
 from prompt.evaluate import process_prompt_task
-from task.ragas_metrics import process_rag
+from rag_eval.ragas_metrics import process_rag
 
 
 class TaskWorkerLauncher:

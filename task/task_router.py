@@ -3,10 +3,11 @@ from fastapi.responses import FileResponse
 
 from prompt.metrics import metric_list
 from prompt.plot import get_prompt_plot
+from rag_eval.plot import get_rag_plot
 from access_token import get_user_id
 from task.request_model import *
 from task.utils import *
-from task.ragas_metrics import rag_list
+from rag_eval.ragas_metrics import rag_list
 
 router = APIRouter(prefix='/task', tags=['Tasks'])
 
@@ -100,7 +101,9 @@ async def getPlot(task_id: int = Query(...), method: str = Query(...), access_to
             link = None
             if task.category == "prompt":
                 link = get_prompt_plot(task_id, method)
-
+            elif task.category=="rag":
+                print("here")
+                link = get_rag_plot(task_id,method)
             else:
                 pass
 
