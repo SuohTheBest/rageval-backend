@@ -101,18 +101,15 @@ async def getPlot(task_id: int = Query(...), method: str = Query(...), access_to
         task = await get_task_from_id(task_id, user_id)
         if task is None:
             return {"success": False, "message": "No such task."}
-        link = await get_plot(task_id, method)
-        if link is None:
             # TODO 应该在这里生成图表
-            link = None
-            if task.category == "prompt":
-                link = get_prompt_plot(task_id, method)
-            elif task.category=="rag":
-                print("here")
-                link = get_rag_plot(task_id,method)
-            else:
-                pass
-
+        link = None
+        if task.category == "prompt":
+            link = get_prompt_plot(task_id, method)
+        elif task.category == "rag":
+            print("here")
+            link = get_rag_plot(task_id, method)
+        else:
+            pass
         return {"success": True, "url": link}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
