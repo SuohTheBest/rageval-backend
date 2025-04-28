@@ -20,7 +20,6 @@ init_fastapi:
     # 安装依赖
     - echo "安装依赖..."
     - source ${VENV_DIR}/bin/activate
-    - pip install -r ${DEPLOY_DIR}/requirements.txt
 
 
 pytest_test:
