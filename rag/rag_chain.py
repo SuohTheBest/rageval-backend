@@ -145,13 +145,7 @@ class SimpleRagChain:
         """
         logger.info(f"正在检索文档，查询: {query}")
         try:
-            # 假设retriever的get_relevant_documents也是异步方法，如果不是则需要调整
-            # 如果retriever.get_relevant_documents不是异步方法，可以去掉await关键字
-            if hasattr(self.retriever, "get_relevant_documents_async"):
-                docs = await self.retriever.get_relevant_documents_async(query)
-            else:
-                docs = self.retriever.get_relevant_documents(query)
-
+            docs = self.retriever.get_relevant_documents(query)
             logger.info(f"检索到 {len(docs)} 个文档")
             return docs[: self.max_documents]  # 限制文档数量
         except Exception as e:

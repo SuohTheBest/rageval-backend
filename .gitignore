@@ -14,3 +14,4 @@ __pycache__/
 uploads/
 downloads/
 eval_plots/
+.pytest_cache/
