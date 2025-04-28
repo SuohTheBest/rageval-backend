@@ -13,7 +13,7 @@ init_fastapi:
     - sudo mkdir -p ${DEPLOY_DIR}
 
     # 同步文件
-    - rsync -av --delete \
+    - sudo rsync -av --delete \
       --exclude='.git' \
       --exclude='.gitlab-ci.yml' \
       --exclude='venv' \
