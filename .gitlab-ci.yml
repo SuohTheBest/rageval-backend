@@ -11,7 +11,7 @@ init_fastapi:
   stage: init
   script:
     - sudo mkdir -p ${DEPLOY_DIR}
-
+    - sudo chown -R $USER:$USER ${DEPLOY_DIR}
     # 同步文件
     - sudo cp -r ./ ${DEPLOY_DIR}/
 
