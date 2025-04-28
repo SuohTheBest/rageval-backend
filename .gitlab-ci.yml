@@ -1,6 +1,4 @@
 stages:
-  - init
-  - test
   - deploy
 
 variables:
@@ -8,7 +6,7 @@ variables:
   VENV_DIR: "${DEPLOY_DIR}/venv"
 
 init_fastapi:
-  stage: init
+  stage: deploy
   script:
     - sudo mkdir -p ${DEPLOY_DIR}
     # 同步文件
@@ -20,16 +18,7 @@ init_fastapi:
     # 安装依赖
     - echo "安装依赖..."
     - source ${VENV_DIR}/bin/activate
-
-
-pytest_test:
-  stage: test
-  script:
     - echo "进行测试..."
     - pytest
-
-deploy_to_nginx:
-  stage: deploy
-  script:
     - echo "部署..."
     - sudo systemctl restart fastapi-service.service
