@@ -108,7 +108,7 @@ async def add_evals(r: AddTaskRequest, user_id: int):
         db.commit()
         worker.add_eval(eval_obj.id, curr_task.id, user_id, r.category)
     if len(new_evals) > 0:
-        worker.add_eval(-1, user_id, curr_task.id, r.category)
+        worker.add_eval(-1, curr_task.id, user_id, r.category)
     db.commit()
     db.close()
 
@@ -230,6 +230,10 @@ async def remove_task(task_id: int, user_id: int):
             db.delete(e)
         except Exception:
             pass
+    optimizations = db.query(Optimization).filter(Optimization.task_id == task_id).all()
+    if optimizations:
+        for e in optimizations:
+            db.delete(e)
     db.delete(task)
     db.commit()
     db.close()
@@ -238,6 +242,7 @@ async def remove_task(task_id: int, user_id: int):
 async def remove_eval(eval_ids: List[int], category: str):
     # need check user_id before use
     db = SessionLocal()
+    task_id = -1
     for eval_id in eval_ids:
         try:
             if category == 'prompt':
@@ -246,9 +251,14 @@ async def remove_eval(eval_ids: List[int], category: str):
                 eval = db.get(RAGEvaluation, eval_id)
             if eval is None:
                 return
+            task_id = eval.task_id
             db.delete(eval)
         except Exception:
             pass
+    optimizations = db.query(Optimization).filter(Optimization.task_id == task_id).all()
+    if optimizations:
+        for e in optimizations:
+            db.delete(e)
     db.commit()
     db.close()
 

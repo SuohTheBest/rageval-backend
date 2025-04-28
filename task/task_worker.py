@@ -95,7 +95,6 @@ class TaskWorker(Thread):
 
     def run(self):
         self.logger.info("Started Task Worker")
-
         while not self.stop_event.is_set():
             db = self.session()
             try:

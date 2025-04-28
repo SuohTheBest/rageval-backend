@@ -11,7 +11,7 @@ from ragas import SingleTurnSample, EvaluationDataset
 from ragas.metrics import BleuScore
 from ragas.llms import LangchainLLMWrapper
 import ast
-from models.Task import Task, RAGEvaluation, OutputFile
+from models.Task import RAGEvaluation, OutputFile
 
 
 def process_rag(eval: RAGEvaluation, db,user_id):
@@ -93,7 +93,7 @@ def process_rag(eval: RAGEvaluation, db,user_id):
     db.add(output_file)
     db.commit()
     output_id = output_file.id
-    file_path = f'downloads/{eval.id}_{output_id}.csv'
+    file_path = f'downloads/{output_id}'
     output_file.file_name=f"{eval.id}_{output_id}.csv"
     df.to_csv(file_path, index=False)
     file_size = os.path.getsize(file_path)
@@ -192,7 +192,7 @@ def process_NonLLMContextRecall(retrieved_contexts, reference_contexts, df):
 
 def process_ContextEntityRecall(reference, retrieved_contexts, df):
     fields = ['reference', 'retrieved_contexts']
-    dataset = [[reference, retrieved_contexts], fields]
+    dataset = generate_dataset([reference, retrieved_contexts], fields)
     evaluator_llm = set_environment()
     evaluate_and_store(
         dataset, ContextEntityRecall(), evaluator_llm, df, 'ContextEntityRecall')
@@ -200,7 +200,7 @@ def process_ContextEntityRecall(reference, retrieved_contexts, df):
 
 def process_NoiseSensitivity(user_input, response, reference, retrieved_contexts, df):
     fields = ['user_input', 'response', 'reference', 'retrieved_contexts']
-    dataset = [[user_input, response, reference, retrieved_contexts], fields]
+    dataset = generate_dataset([user_input, response, reference, retrieved_contexts], fields)
     evaluator_llm = set_environment()
     evaluate_and_store(
         dataset, NoiseSensitivity(), evaluator_llm, df, 'NoiseSensitivity')
@@ -208,7 +208,7 @@ def process_NoiseSensitivity(user_input, response, reference, retrieved_contexts
 
 def process_ResponseRelevancy(user_input, response, retrieved_contexts, df):
     fields = ['user_input', 'response', 'retrieved_contexts']
-    dataset = [[user_input, response, retrieved_contexts], fields]
+    dataset = generate_dataset([user_input, response, retrieved_contexts], fields)
     evaluator_llm = set_environment()
     evaluate_and_store(
         dataset, ResponseRelevancy(), evaluator_llm, df, 'ResponseRelevancy')
@@ -216,7 +216,7 @@ def process_ResponseRelevancy(user_input, response, retrieved_contexts, df):
 
 def process_Faithfulness(user_input, response, retrieved_contexts, df):
     fields = ['user_input', 'response', 'retrieved_contexts']
-    dataset = [[user_input, response, retrieved_contexts], fields]
+    dataset = generate_dataset([user_input, response, retrieved_contexts], fields)
     evaluator_llm = set_environment()
     evaluate_and_store(
         dataset, Faithfulness(), evaluator_llm, df, 'Faithfulness')
@@ -224,7 +224,7 @@ def process_Faithfulness(user_input, response, retrieved_contexts, df):
 
 def process_FaithfulnesswithHHEM(user_input, response, retrieved_contexts, df):
     fields = ['user_input', 'response', 'retrieved_contexts']
-    dataset = [[user_input, response, retrieved_contexts], fields]
+    dataset = generate_dataset([user_input, response, retrieved_contexts], fields)
     evaluator_llm = set_environment()
     evaluate_and_store(
         dataset, FaithfulnesswithHHEM(), evaluator_llm, df, 'FaithfulnesswithHHEM')
@@ -232,7 +232,7 @@ def process_FaithfulnesswithHHEM(user_input, response, retrieved_contexts, df):
 
 def process_AnswerAccuracy(user_input, response, reference, df):
     fields = ['user_input', 'response', 'reference']
-    dataset = [[user_input, response, reference], fields]
+    dataset = generate_dataset([user_input, response, reference], fields)
     evaluator_llm = set_environment()
     evaluate_and_store(
         dataset, AnswerAccuracy(), evaluator_llm, df, 'AnswerAccuracy')
@@ -240,7 +240,7 @@ def process_AnswerAccuracy(user_input, response, reference, df):
 
 def process_ContextRelevance(user_input, retrieved_contexts, df):
     fields = ['user_input', 'retrieved_contexts']
-    dataset = [[user_input, retrieved_contexts], fields]
+    dataset = generate_dataset([user_input, retrieved_contexts], fields)
     evaluator_llm = set_environment()
     evaluate_and_store(
         dataset, ContextRelevance(), evaluator_llm, df, 'ContextRelevance')
@@ -248,7 +248,7 @@ def process_ContextRelevance(user_input, retrieved_contexts, df):
 
 def process_ResponseGroundedness(response, retrieved_contexts, df):
     fields = ['response', 'retrieved_contexts']
-    dataset = [[response, retrieved_contexts], fields]
+    dataset = generate_dataset([response, retrieved_contexts], fields)
     evaluator_llm = set_environment()
     evaluate_and_store(
         dataset, ResponseGroundedness(), evaluator_llm, df, 'ResponseGroundedness')
@@ -256,7 +256,7 @@ def process_ResponseGroundedness(response, retrieved_contexts, df):
 
 def process_FactualCorrectness(response, reference, df):
     fields = ['response', 'reference']
-    dataset = [[response, reference], fields]
+    dataset = generate_dataset([response, reference], fields)
     evaluator_llm = set_environment()
     evaluate_and_store(
         dataset, FactualCorrectness(), evaluator_llm, df, 'FactualCorrectness')
@@ -264,7 +264,7 @@ def process_FactualCorrectness(response, reference, df):
 
 def process_SemanticSimilarity(response, reference, df):
     fields = ['response', 'reference']
-    dataset = [[response, reference], fields]
+    dataset = generate_dataset([response, reference], fields)
     evaluator_llm = set_environment()
     evaluate_and_store(
         dataset, SemanticSimilarity(), evaluator_llm, df, 'SemanticSimilarity')
@@ -272,7 +272,7 @@ def process_SemanticSimilarity(response, reference, df):
 
 def process_NonLLMStringSimilarity(response, reference, df):
     fields = ['response', 'reference']
-    dataset = [[response, reference], fields]
+    dataset = generate_dataset([response, reference], fields)
     evaluator_llm = set_environment()
     evaluate_and_store(
         dataset, NonLLMStringSimilarity(), evaluator_llm, df, 'NonLLMStringSimilarity')
@@ -280,7 +280,7 @@ def process_NonLLMStringSimilarity(response, reference, df):
 
 def process_BleuScore(response, reference, df):
     fields = ['response', 'reference']
-    dataset = [[response, reference], fields]
+    dataset = generate_dataset([response, reference], fields)
     evaluator_llm = set_environment()
     evaluate_and_store(
         dataset, BleuScore(), evaluator_llm, df, 'BleuScore')
@@ -288,7 +288,7 @@ def process_BleuScore(response, reference, df):
 
 def process_RougeScore(response, reference, df):
     fields = ['response', 'reference']
-    dataset = [[response, reference], fields]
+    dataset = generate_dataset([response, reference], fields)
     evaluator_llm = set_environment()
     evaluate_and_store(
         dataset, RougeScore(), evaluator_llm, df, 'RougeScore')
@@ -296,7 +296,7 @@ def process_RougeScore(response, reference, df):
 
 def process_ExactMatch(response, reference, df):
     fields = ['response', 'reference']
-    dataset = [[response, reference], fields]
+    dataset = generate_dataset([response, reference], fields)
     evaluator_llm = set_environment()
     evaluate_and_store(
         dataset, ExactMatch(), evaluator_llm, df, 'ExactMatch')
@@ -304,7 +304,7 @@ def process_ExactMatch(response, reference, df):
 
 def process_StringPresence(response, reference, df):
     fields = ['response', 'reference']
-    dataset = [[response, reference], fields]
+    dataset = generate_dataset([response, reference], fields)
     evaluator_llm = set_environment()
     evaluate_and_store(
         dataset, StringPresence(), evaluator_llm, df, 'StringPresence')
@@ -312,7 +312,7 @@ def process_StringPresence(response, reference, df):
 
 def process_SummarizationScore(response, reference_contexts, df):
     fields = ['response', 'reference_contexts']
-    dataset = [[response, reference_contexts], fields]
+    dataset = generate_dataset([response, reference_contexts], fields)
     evaluator_llm = set_environment()
     evaluate_and_store(
         dataset, SummarizationScore(), evaluator_llm, df, 'SummarizationScore')
