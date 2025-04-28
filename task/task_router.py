@@ -7,7 +7,7 @@ from rag_eval.plot import get_rag_plot
 from access_token import get_user_id
 from task.request_model import *
 from task.utils import *
-from rag_eval.ragas_metrics import rag_list
+from rag_eval.rag_eval import rag_list
 
 router = APIRouter(prefix='/task', tags=['Tasks'])
 

@@ -2,7 +2,7 @@ import pytest
 from unittest.mock import patch, Mock, MagicMock
 import pandas as pd
 import os
-from rag_eval.ragas_metrics import process_rag
+from rag_eval.rag_eval import process_rag
 from models.Task import RAGEvaluation, OutputFile
 
 
@@ -40,10 +40,10 @@ def mock_dataframe():
     return pd.DataFrame(data)
 
 
-@patch("rag_eval.ragas_metrics.os")
+@patch("rag_eval.rag_eval.os")
 @patch("task.utils.get_upload_filepath")
 @patch("pandas.read_csv")
-@patch("rag_eval.ragas_metrics.process_LLMContextPrecisionWithoutReference")
+@patch("rag_eval.rag_eval.process_LLMContextPrecisionWithoutReference")
 def test_process_rag_llm_context_precision_without_reference(
     mock_processor,
     mock_read_csv,
@@ -71,10 +71,10 @@ def test_process_rag_llm_context_precision_without_reference(
     assert mock_evaluation.output_text == mock_dataframe.iloc[:, -1].mean()
 
 
-@patch("rag_eval.ragas_metrics.os")
+@patch("rag_eval.rag_eval.os")
 @patch("task.utils.get_upload_filepath")
 @patch("pandas.read_csv")
-@patch("rag_eval.ragas_metrics.process_LLMContextPrecisionWithReference")
+@patch("rag_eval.rag_eval.process_LLMContextPrecisionWithReference")
 def test_process_rag_llm_context_precision_with_reference(
     mock_processor,
     mock_read_csv,
@@ -97,10 +97,10 @@ def test_process_rag_llm_context_precision_with_reference(
     assert result == mock_dataframe.iloc[:, -1].mean()
 
 
-@patch("rag_eval.ragas_metrics.os")
+@patch("rag_eval.rag_eval.os")
 @patch("task.utils.get_upload_filepath")
 @patch("pandas.read_csv")
-@patch("rag_eval.ragas_metrics.process_NonLLMContextPrecisionWithReference")
+@patch("rag_eval.rag_eval.process_NonLLMContextPrecisionWithReference")
 def test_process_rag_non_llm_context_precision(
     mock_processor,
     mock_read_csv,
@@ -123,11 +123,11 @@ def test_process_rag_non_llm_context_precision(
     assert result == mock_dataframe.iloc[:, -1].mean()
 
 
-@patch("rag_eval.ragas_metrics.os")
+@patch("rag_eval.rag_eval.os")
 @patch("task.utils.get_upload_filepath")
 @patch("pandas.read_csv")
-@patch("rag_eval.ragas_metrics.OutputFile")
-@patch("rag_eval.ragas_metrics.process_BleuScore")
+@patch("rag_eval.rag_eval.OutputFile")
+@patch("rag_eval.rag_eval.process_BleuScore")
 def test_process_rag_file_output(
     mock_processor,
     mock_output_file,
