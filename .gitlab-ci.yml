@@ -13,12 +13,7 @@ init_fastapi:
     - sudo mkdir -p ${DEPLOY_DIR}
 
     # 同步文件
-    - sudo rsync -av --delete \
-      --exclude='.git' \
-      --exclude='.gitlab-ci.yml' \
-      --exclude='venv' \
-      --exclude='__pycache__' \
-      ./ ${DEPLOY_DIR}/
+    - sudo cp -r ./ ${DEPLOY_DIR}/
 
     # 创建/更新虚拟环境
     - |
