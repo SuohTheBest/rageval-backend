@@ -20,9 +20,9 @@ init_fastapi:
 
     # 安装依赖
     - echo "安装依赖..."
-    - source ${VENV_DIR}/bin/activate
-    - pip install --upgrade pip
-    - pip install -r ${DEPLOY_DIR}/requirements.txt
+    - sudo source ${VENV_DIR}/bin/activate
+    - sudo pip install --upgrade pip
+    - sudo pip install -r ${DEPLOY_DIR}/requirements.txt
 
 
 pytest_test:
