@@ -234,6 +234,10 @@ async def remove_task(task_id: int, user_id: int):
     if optimizations:
         for e in optimizations:
             db.delete(e)
+    plots = db.query(TaskPlot).filter(TaskPlot.task_id == task_id).all()
+    if plots:
+        for e in plots:
+            db.delete(e)
     db.delete(task)
     db.commit()
     db.close()
@@ -250,8 +254,11 @@ async def remove_eval(eval_ids: List[int], category: str):
             else:
                 eval = db.get(RAGEvaluation, eval_id)
             if eval is None:
-                return
+                continue
             task_id = eval.task_id
+            plot = db.query(TaskPlot).filter((TaskPlot.task_id == task_id) & (TaskPlot.method == eval.method)).first()
+            if plot:
+                db.delete(plot)
             db.delete(eval)
         except Exception:
             pass
