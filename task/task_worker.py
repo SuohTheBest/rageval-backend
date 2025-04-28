@@ -101,6 +101,7 @@ class TaskWorker(Thread):
             try:
                 print("try here")
                 eval_info = self.get_eval(db)
+                print(eval_info)
                 if eval_info['id'] == -1 and eval_info['category'] == 'prompt':
                     eval_prompt = PromptEvaluation(id=eval_info['id'], task_id=eval_info['task_id'])
                     self.process_eval(eval_prompt, eval_info)
