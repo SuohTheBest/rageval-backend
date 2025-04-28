@@ -1,0 +1,47 @@
+stages:
+  - init
+  - test
+  - deploy
+
+variables:
+  DEPLOY_DIR: "/root/html/rageval-backend"
+  VENV_DIR: "${DEPLOY_DIR}/venv"
+
+init_fastapi:
+  stage: init
+  script:
+    - sudo mkdir -p ${DEPLOY_DIR}
+
+    # 同步文件
+    - rsync -av --delete \
+      --exclude='.git' \
+      --exclude='.gitlab-ci.yml' \
+      --exclude='venv' \
+      --exclude='__pycache__' \
+      ./ ${DEPLOY_DIR}/
+
+    # 创建/更新虚拟环境
+    - |
+      if [ ! -d "${VENV_DIR}" ]; then
+        python3 -m venv ${VENV_DIR}
+        echo "Virtual environment created"
+      fi
+
+    # 安装依赖
+    - echo "安装依赖..."
+    - source ${VENV_DIR}/bin/activate
+    - pip install --upgrade pip
+    - pip install -r ${DEPLOY_DIR}/requirements.txt
+
+
+pytest_test:
+  stage: test
+  script:
+    - echo "进行测试..."
+    - pytest
+
+deploy_to_nginx:
+  stage: deploy
+  script:
+    - echo "部署..."
+    - sudo systemctl restart fastapi-service.service
