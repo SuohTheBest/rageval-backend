@@ -16,6 +16,7 @@ init_fastapi:
     - sudo cp -r ./ ${DEPLOY_DIR}/
 
     # 创建/更新虚拟环境
+    - echo ${VENV_DIR}
     - sudo bash -c 'if [ ! -d "/root/html/rageval-backend/venv" ]; then python3 -m venv /root/html/rageval-backend/venv; echo "Virtual environment created"; fi'
     - sudo chmod 777 ${VENV_DIR}/bin/activate
     # 安装依赖
