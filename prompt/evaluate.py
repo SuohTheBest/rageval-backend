@@ -51,26 +51,29 @@ def process_prompt_task(evaluation: PromptEvaluation) -> str:
                     PromptEvaluation.method,
                     func.max(PromptEvaluation.id).label("max_id"),
                     PromptEvaluation.output_text,
+                    PromptEvaluation.input_text
                 )
                 .filter(PromptEvaluation.task_id == evaluation.task_id)
                 .group_by(PromptEvaluation.method)
                 .all()
             )
 
+            r_prompt = ''
             # 提取分数并找出最低分数的指标
             score_dict = {}
-            for method, _, output_text in subquery:
+            for method, _, output_text, raw_prompt in subquery:
                 try:
                     # 提取分数和理由
                     score = float(output_text.split("：")[1].split("/")[0])  # 提取分数
                     reason = output_text.split("/10，")[1]  # 提取理由
                     score_dict[reason] = score
+                    r_prompt = raw_prompt
                 except Exception as e:
                     print(f"解析失败：{e}")
 
 
             # 调用 optimize_prompt 函数
-            optimized_result = optimize_prompt(evaluation.input_text, score_dict)
+            optimized_result = optimize_prompt(r_prompt, score_dict)
             print(f"优化结果：{optimized_result}")
             op = Optimization(task_id=evaluation.task_id, prompt=optimized_result['optimized_prompt'],reason = optimized_result['reason'])
             db.add(op)
@@ -114,5 +117,5 @@ def process_prompt_task(evaluation: PromptEvaluation) -> str:
 
 if __name__ == "__main__":
     # 示例用法
-    eval_prompt = PromptEvaluation(id= -1, task_id=6)
+    eval_prompt = PromptEvaluation(id= -1, task_id=2)
     process_prompt_task(eval_prompt)
