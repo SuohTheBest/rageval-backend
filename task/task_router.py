@@ -14,6 +14,7 @@ router = APIRouter(prefix='/task', tags=['Tasks'])
 
 @router.get("/methods")
 async def get_methods(category: Literal["rag", "prompt"] = Query(...)):
+    """获取所有可用指标"""
     # TODO
     if category == "rag":
         return rag_list()
@@ -23,6 +24,7 @@ async def get_methods(category: Literal["rag", "prompt"] = Query(...)):
 
 @router.post("/")
 async def addEvals(r: AddTaskRequest, access_token: str = Cookie(None)):
+    """增加任务"""
     try:
         user_id = await get_user_id(access_token)
         await add_evals(r, user_id)
@@ -33,6 +35,7 @@ async def addEvals(r: AddTaskRequest, access_token: str = Cookie(None)):
 
 @router.post("/upload")
 async def upload(file: UploadFile = File, access_token: str = Cookie(None)):
+    """上传文件"""
     try:
         user_id = await get_user_id(access_token)
         content = await file.read()
@@ -54,6 +57,7 @@ async def upload(file: UploadFile = File, access_token: str = Cookie(None)):
 
 @router.get("/download")
 async def download(category: Literal["input", "output"], file_id: int, access_token: str = Cookie(None)):
+    """下载文件"""
     try:
         user_id = await get_user_id(access_token)
         if category == 'input':
@@ -74,6 +78,7 @@ async def download(category: Literal["input", "output"], file_id: int, access_to
 
 @router.post("/delete")
 async def delete_task(r: DeleteTaskRequest, access_token: str = Cookie(None)):
+    """删除任务"""
     try:
         user_id = await get_user_id(access_token)
         if r.eval_ids is None or len(r.eval_ids) <= 0:
@@ -90,6 +95,7 @@ async def delete_task(r: DeleteTaskRequest, access_token: str = Cookie(None)):
 
 @router.get("/plot")
 async def getPlot(task_id: int = Query(...), method: str = Query(...), access_token: str = Cookie(None)):
+    """获取统计图表"""
     try:
         user_id = await get_user_id(access_token)
         task = await get_task_from_id(task_id, user_id)
@@ -115,6 +121,7 @@ async def getPlot(task_id: int = Query(...), method: str = Query(...), access_to
 @router.get("/")
 async def get_tasks(category: Literal["rag", "prompt"],
                     access_token: str = Cookie(None)):
+    """获取当前用户全部任务"""
     try:
         user_id = await get_user_id(access_token)
         tasks = await get_tasks_from_user_id(user_id, category)
@@ -125,6 +132,7 @@ async def get_tasks(category: Literal["rag", "prompt"],
 
 @router.get("/optimization")
 async def getOptimizations(task_id: int = Query(...), access_token: str = Cookie(None)):
+    """获取当前用户全部单轮优化结果"""
     try:
         user_id = await get_user_id(access_token)
         task = await get_task_from_id(task_id, user_id)
@@ -138,6 +146,7 @@ async def getOptimizations(task_id: int = Query(...), access_token: str = Cookie
 
 @router.get("/allevals")
 async def get_evals(task_id: int = Query(...), access_token: str = Cookie(None)):
+    """获取当前用户的全部单轮评估"""
     try:
         user_id = await get_user_id(access_token)
         task = await get_task_from_id(task_id, user_id)
@@ -152,6 +161,7 @@ async def get_evals(task_id: int = Query(...), access_token: str = Cookie(None))
 
 @router.post("/fileinfo")
 async def getFileinfo(r: GetFileInfoRequest, access_token: str = Cookie(None)):
+    """获取文件信息"""
     try:
         user_id = await get_user_id(access_token)
         file_info = await get_fileinfo(user_id, r.category, r.file_ids)

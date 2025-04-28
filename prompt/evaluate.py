@@ -5,7 +5,7 @@ from sqlalchemy import func
 import re
 from models.Task import PromptEvaluation, Optimization
 from models.database import SessionLocal
-from prompt.auto_fill import autofill_prompt
+from prompt.auto_fill import fill_prompt
 from prompt.metrics import Metric, create_custom_metric
 from prompt.metrics import (
     liquidityMetric, ethicalMetric, clarityMetric, robustnessMetric, 
@@ -83,17 +83,9 @@ def process_prompt_task(evaluation: PromptEvaluation) -> str:
             db.close()
         return ''
 
-    if evaluation.autofill == "manual":
-        # 用户手动填充的内容
-        parts = re.split(r'[;；]', evaluation.user_fill)
-        placeholders = re.findall(r'\{[^\}]+\}', evaluation.input_text)
+    # 填充Prompt模版
+    fill_prompt(evaluation)
 
-        for placeholder, value in zip(placeholders, parts):
-            evaluation.input_text = evaluation.input_text.replace(placeholder, value,1)
-
-    elif evaluation.autofill == "auto":
-        # 系统自动填充的内容
-        evaluation.input_text = autofill_prompt(evaluation.input_text)
     # 如果是评估任务，获取对应的指标类
     try:
         metric_class = metric_mapping[evaluation.method]
