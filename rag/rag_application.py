@@ -1,7 +1,7 @@
 # fmt: off
 import sys
 import os
-sys.path.append("C:\\Users\\15181\\Desktop\\SE3\\rageval-backend")
+sys.path.append("./")
 from rag.llm import OpenAIEmbeddings, OpenAILLM
 from rag.rag_chain import SimpleRagChain
 from rag.context_manager import Conversation, Role
