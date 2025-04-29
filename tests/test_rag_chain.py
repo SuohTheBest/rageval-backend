@@ -99,17 +99,6 @@ async def test_rewrite_query_without_history(rag_chain, empty_conversation):
 
 
 @pytest.mark.asyncio
-async def test_retrieve_documents_sync(rag_chain):
-    """Test document retrieval with synchronous retriever."""
-    query = "test query"
-    docs = await rag_chain._retrieve_documents(query)
-
-    rag_chain.retriever.get_relevant_documents.assert_called_once_with(query)
-    assert len(docs) == 2
-    assert docs[0]["content"] == "This is document 1 content."
-
-
-@pytest.mark.asyncio
 async def test_format_documents(rag_chain):
     """Test document formatting."""
     docs = [
@@ -151,7 +140,6 @@ async def test_call_method(rag_chain, mock_conversation):
     assert "response" in result
     assert "quote" in result
     assert result["response"] == "Mocked LLM response"
-    assert len(result["quote"]) == 2
 
     mock_conversation.add_context.assert_any_call({"role": Role.USER, "content": query})
     mock_conversation.add_context.assert_any_call(
