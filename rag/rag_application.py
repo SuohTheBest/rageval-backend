@@ -2,13 +2,13 @@
 import sys
 import os
 sys.path.append("./")
-from rag.llm import OpenAIEmbeddings, OpenAILLM
+from rag.llm import OpenAILLM
 from rag.rag_chain import SimpleRagChain
 from rag.context_manager import Conversation, Role
-from langchain_community.vectorstores import Chroma
 from typing import List, Dict, Optional, Any, Union
 import asyncio
 import logging
+from rag.rag_vectorset import initialize_retriever as initialize_chroma_retriever
 
 # fmt: on
 
@@ -36,15 +36,7 @@ def initialize_retriever(chroma_path: str, top_k: int) -> Any:
     Returns:
         retriever: 文档检索器对象
     """
-    if not os.path.exists(chroma_path):
-        raise ValueError(f"Chroma数据库路径不存在: {chroma_path}")
-
-    vectorstore = Chroma(
-        persist_directory=chroma_path, embedding_function=OpenAIEmbeddings()
-    )
-    retriever = vectorstore.as_retriever(search_kwargs={"k": top_k})
-
-    return retriever
+    return initialize_chroma_retriever(chroma_path, top_k)
 
 
 async def rag_query(
