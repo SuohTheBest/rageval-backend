@@ -13,10 +13,17 @@ g_prefix = "/api"
 
 Base.metadata.create_all(bind=engine)
 
+origins = [
+    "http://47.97.175.75",
+    "https://47.97.175.75",
+    "http://localhost",
+    "https://localhost",
+]
+
 app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://http://47.97.175.75:80"],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["Content-Type", "Authorization"],
