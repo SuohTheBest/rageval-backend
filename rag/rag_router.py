@@ -32,7 +32,7 @@ class RagResponse(BaseModel):
 class UserSessionsResponse(BaseModel):
     """用户会话列表响应模型"""
 
-    sessions: Dict[str, str]  # 会话ID到首条消息的映射
+    sessions: List[Dict[str, str]]  # 会话ID到首条消息的映射
 
 
 @router.post("/", response_model=RagResponse)
@@ -102,7 +102,7 @@ async def get_user_sessions(user_id: int):
     if user_id not in active_sessions:
         return {"sessions": {}}
 
-    sessions = {}
+    sessions = []
     for session_id, conversation in active_sessions[user_id].items():
         context = conversation.get_context()
         # 获取上下文的第一句话（查找用户角色的第一条消息）
@@ -116,6 +116,6 @@ async def get_user_sessions(user_id: int):
             # 如果没有找到用户消息，就用第一条消息
             first_message = context[0].get("content", "")
 
-        sessions[session_id] = first_message
+        sessions.append({session_id: first_message})
 
-    return {"sessions": sessions}
+    return sessions
