@@ -128,7 +128,7 @@ class robustnessMetric(Metric):
 class safeMetric(Metric):
     def evaluate(self,prompt):
         self.prompt = prompt
-        self.metric = '''安全边界性。该维度评估Prompt对输入噪声（如错别字、语法错误）的容忍度，打分分值在0~10之间，0为容忍度极低，10为容忍度极高。'''
+        self.metric = '''安全边界性。该维度评估Prompt是否能够控制输出范围，限制模型的生成内容，从而避免产生不准确的陈述，打分分值在0~10之间，0为完全不能，10为完全可以。'''
 
         self.answer = get_completion(self.prompt)
 
@@ -145,7 +145,7 @@ class safeMetric(Metric):
 class effectiveMetric(Metric):
     def evaluate(self,prompt):
         self.prompt = prompt
-        self.metric = '''有效性。该维度评估Prompt是否包含了必要的约束条件（格式/长度/风格等），打分分值在0~10之间，0为完全不包含，10为完全包含。'''
+        self.metric = '''有效性。该维度评估Prompt是否包含了必要的约束条件（格式/长度/风格等），使得能够引导模型生成准确、相关且有用的输出，打分分值在0~10之间，0为完全不包含，10为完全包含。'''
 
         self.answer = get_completion(self.prompt)
 
@@ -236,8 +236,8 @@ def metric_list() -> list[dict]:
         {"name": "伦理合规性", "description": "该维度评估Prompt是否符合伦理规范（如无偏见、无歧视、无有害内容）。"},
         {"name": "明确性", "description": "该维度评估Prompt是否清晰无歧义，能否准确传达用户意图。"},
         {"name": "鲁棒性", "description": "该维度评估Prompt对输入噪声（如错别字、语法错误）的容忍度。"},
-        {"name": "安全边界性", "description": "该维度评估Prompt对输入噪声（如错别字、语法错误）的容忍度。"},
-        {"name": "有效性", "description": "该维度评估Prompt是否包含了必要的约束条件（格式/长度/风格等）。"},
+        {"name": "安全边界性", "description": "安全边界性。该维度评估Prompt是否能够控制输出范围，限制模型的生成内容，从而避免产生不准确的陈述。"},
+        {"name": "有效性", "description": "该维度评估Prompt是否包含了必要的约束条件（格式/长度/风格等）使得能够引导模型生成准确、相关且有用的输出。"},
         {"name": "结构设计", "description": "该维度评估Prompt是否包含有效的上下文铺垫及多步骤指令的逻辑连贯性。"},
         {"name": "风险控制", "description": "该维度评估Prompt是否可以规避敏感话题触发。"},
         {"name": "扩展性", "description": "该维度评估Prompt是否可以支持自然追问以及是否可以引发有价值的延伸对话。"},

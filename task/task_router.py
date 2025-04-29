@@ -3,16 +3,18 @@ from fastapi.responses import FileResponse
 
 from prompt.metrics import metric_list
 from prompt.plot import get_prompt_plot
+from rag_eval.plot import get_rag_plot
 from access_token import get_user_id
 from task.request_model import *
 from task.utils import *
-from task.ragas_metrics import rag_list
+from rag_eval.rag_eval import rag_list
 
 router = APIRouter(prefix='/task', tags=['Tasks'])
 
 
 @router.get("/methods")
 async def get_methods(category: Literal["rag", "prompt"] = Query(...)):
+    """获取所有可用指标"""
     # TODO
     if category == "rag":
         return rag_list()
@@ -22,6 +24,7 @@ async def get_methods(category: Literal["rag", "prompt"] = Query(...)):
 
 @router.post("/")
 async def addEvals(r: AddTaskRequest, access_token: str = Cookie(None)):
+    """增加任务"""
     try:
         user_id = await get_user_id(access_token)
         await add_evals(r, user_id)
@@ -32,6 +35,7 @@ async def addEvals(r: AddTaskRequest, access_token: str = Cookie(None)):
 
 @router.post("/upload")
 async def upload(file: UploadFile = File, access_token: str = Cookie(None)):
+    """上传文件"""
     try:
         user_id = await get_user_id(access_token)
         content = await file.read()
@@ -53,6 +57,7 @@ async def upload(file: UploadFile = File, access_token: str = Cookie(None)):
 
 @router.get("/download")
 async def download(category: Literal["input", "output"], file_id: int, access_token: str = Cookie(None)):
+    """下载文件"""
     try:
         user_id = await get_user_id(access_token)
         if category == 'input':
@@ -73,6 +78,7 @@ async def download(category: Literal["input", "output"], file_id: int, access_to
 
 @router.post("/delete")
 async def delete_task(r: DeleteTaskRequest, access_token: str = Cookie(None)):
+    """删除任务"""
     try:
         user_id = await get_user_id(access_token)
         if r.eval_ids is None or len(r.eval_ids) <= 0:
@@ -89,21 +95,21 @@ async def delete_task(r: DeleteTaskRequest, access_token: str = Cookie(None)):
 
 @router.get("/plot")
 async def getPlot(task_id: int = Query(...), method: str = Query(...), access_token: str = Cookie(None)):
+    """获取统计图表"""
     try:
         user_id = await get_user_id(access_token)
         task = await get_task_from_id(task_id, user_id)
         if task is None:
             return {"success": False, "message": "No such task."}
-        link = await get_plot(task_id, method)
-        if link is None:
             # TODO 应该在这里生成图表
-            link = None
-            if task.category == "prompt":
-                link = get_prompt_plot(task_id, method)
-
-            else:
-                pass
-
+        link = None
+        if task.category == "prompt":
+            link = get_prompt_plot(task_id, method)
+        elif task.category == "rag":
+            print("here")
+            link = get_rag_plot(task_id, method)
+        else:
+            pass
         return {"success": True, "url": link}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -112,6 +118,7 @@ async def getPlot(task_id: int = Query(...), method: str = Query(...), access_to
 @router.get("/")
 async def get_tasks(category: Literal["rag", "prompt"],
                     access_token: str = Cookie(None)):
+    """获取当前用户全部任务"""
     try:
         user_id = await get_user_id(access_token)
         tasks = await get_tasks_from_user_id(user_id, category)
@@ -122,6 +129,7 @@ async def get_tasks(category: Literal["rag", "prompt"],
 
 @router.get("/optimization")
 async def getOptimizations(task_id: int = Query(...), access_token: str = Cookie(None)):
+    """获取当前用户全部单轮优化结果"""
     try:
         user_id = await get_user_id(access_token)
         task = await get_task_from_id(task_id, user_id)
@@ -135,6 +143,7 @@ async def getOptimizations(task_id: int = Query(...), access_token: str = Cookie
 
 @router.get("/allevals")
 async def get_evals(task_id: int = Query(...), access_token: str = Cookie(None)):
+    """获取当前用户的全部单轮评估"""
     try:
         user_id = await get_user_id(access_token)
         task = await get_task_from_id(task_id, user_id)
@@ -149,6 +158,7 @@ async def get_evals(task_id: int = Query(...), access_token: str = Cookie(None))
 
 @router.post("/fileinfo")
 async def getFileinfo(r: GetFileInfoRequest, access_token: str = Cookie(None)):
+    """获取文件信息"""
     try:
         user_id = await get_user_id(access_token)
         file_info = await get_fileinfo(user_id, r.category, r.file_ids)

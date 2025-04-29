@@ -1,0 +1,24 @@
+stages:
+  - deploy
+
+variables:
+  DEPLOY_DIR: "/root/html/rageval-backend"
+  VENV_DIR: "${DEPLOY_DIR}/venv"
+
+init_fastapi:
+  stage: deploy
+  script:
+    - sudo mkdir -p ${DEPLOY_DIR}
+    # 同步文件
+    - sudo cp -r ./ ${DEPLOY_DIR}/
+
+    # 创建/更新虚拟环境
+    - echo ${VENV_DIR}
+    - sudo bash -c 'if [ ! -d "/root/html/rageval-backend/venv" ]; then python3 -m venv /root/html/rageval-backend/venv; echo "Virtual environment created"; fi'
+    # 安装依赖
+    - echo "安装依赖..."
+    - source ${VENV_DIR}/bin/activate
+    - echo "进行测试..."
+    - pytest
+    - echo "部署..."
+    - sudo systemctl restart fastapi-service.service
