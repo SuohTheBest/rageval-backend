@@ -109,5 +109,5 @@ def process_prompt_task(evaluation: PromptEvaluation) -> str:
 
 if __name__ == "__main__":
     # 示例用法
-    eval_prompt = PromptEvaluation(id= -1, task_id=2)
+    eval_prompt = PromptEvaluation(id= -1, task_id=1)
     process_prompt_task(eval_prompt)
