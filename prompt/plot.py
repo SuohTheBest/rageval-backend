@@ -1,5 +1,6 @@
 import os
 import re
+import sys
 from datetime import datetime
 
 from models.Task import PromptEvaluation, TaskPlot
@@ -27,9 +28,12 @@ def get_prompt_plot(task_id ,method):
                 y_values.append(float(match.group(1)))
 
         # 设置中文字体（根据系统选择）
-        plt.rcParams['font.sans-serif'] = ['SimHei']  # Windows
-        # plt.rcParams['font.sans-serif'] = ['Arial Unicode MS']  # Mac
-        # plt.rcParams['font.sans-serif'] = ['Noto Sans CJK JP']  # Linux
+        if sys.platform == "linux":
+            plt.rcParams['font.sans-serif'] = ['Noto Sans CJK JP']  # Linux
+        elif sys.platform == "win32":
+            plt.rcParams['font.sans-serif'] = ['SimHei']  # Windows
+        else:
+            plt.rcParams['font.sans-serif'] = ['Arial Unicode MS']  # Mac
 
         # 解决负号显示问题
         plt.rcParams['axes.unicode_minus'] = False

@@ -1,13 +1,17 @@
 import json
 import os
 import sys
+import re  # 将正则表达式模块移到顶部导入
+
+# 添加opencc库导入
+from opencc import OpenCC
 
 sys.path.append("./")
 
 import logging
 from sqlalchemy.exc import SQLAlchemyError
 from models.Text import RAGText
-from models.database import SessionLocal
+from models.database import Base, SessionLocal, engine
 
 # 配置日志
 logging.basicConfig(
@@ -28,20 +32,115 @@ def read_json_file(file_path):
         return None
 
 
+def clean_and_validate_content(content_str, cc):
+    """
+    清洗和验证内容文本
+
+    执行以下操作:
+    1. 删除空的中括号对[]和空的大括号对{}
+    2. 删除不可渲染字符
+    3. 检查内容长度是否至少为20
+    4. 将繁体中文转换为简体中文
+
+    参数:
+    content_str - 要清洗的原始内容字符串
+    cc - OpenCC转换器实例
+
+    返回:
+    清洗后的内容字符串，如果内容长度小于20则返回None
+    """
+    # 删除空的中括号对[]和空的大括号对{}
+    content_str = re.sub(r"\[\s*\]", "", content_str)
+    content_str = re.sub(r"\{\s*\}", "", content_str)
+
+    # 删除不可渲染字符
+    content_str = re.sub(r"\\x[0-9a-fA-F]{2}", "", content_str)
+    content_str = re.sub(r"\\u[0-9a-fA-F]{4}", "", content_str)
+    content_str = content_str.replace("\xa0", "").replace("\u2002", "")
+
+    # 如果内容长度小于20，返回None
+    if len(content_str) < 20:
+        return None
+
+    # 将内容从繁体转换为简体
+    content_str = cc.convert(content_str)
+
+    return content_str
+
+
+def combine_text_contents(data):
+    """
+    组合文本内容，处理短内容合并逻辑
+
+    执行以下操作:
+    1. 清洗和验证每个内容
+    2. 处理短内容(长度小于50)的合并逻辑
+    3. 组合成最终文本格式
+
+    参数:
+    data - 原始JSON数据
+
+    返回:
+    组合后的文本列表，格式为"{item}\n---\n{title}:{content}"
+    """
+    text_list = []
+    # 初始化繁体到简体的转换器
+    cc = OpenCC("t2s")
+
+    for item, content_dict in data.items():
+        # 将字典转换为列表，以便我们可以按顺序访问并知道"下一个"元素
+        titles_contents = list(content_dict.items())
+        i = 0
+        pending_content = ""  # 用于存储待合并的短内容
+
+        while i < len(titles_contents):
+            title, content = titles_contents[i]
+            content_str = str(content)
+
+            # 清洗和验证内容
+            cleaned_content = clean_and_validate_content(content_str, cc)
+
+            if cleaned_content is None:
+                i += 1
+                continue
+
+            # 处理短内容合并逻辑
+            if pending_content:
+                cleaned_content = f"{pending_content}\n{cleaned_content}"
+                pending_content = ""
+
+            # 检查当前内容是否需要合并到下一个
+            if len(cleaned_content) < 50 and i + 1 < len(titles_contents):
+                pending_content = f"{title}:{cleaned_content}"
+                i += 1
+                continue
+
+            # 将item也转换为简体
+            item_simplified = cc.convert(item)
+            text = f"{item_simplified}\n---\n{title}:{cleaned_content}"
+            text_list.append(text)
+            i += 1
+
+        # 处理最后一个短内容（如果存在）
+        if pending_content:
+            text_list.append(f"{cc.convert(item)}\n---\n{pending_content}")
+
+    return text_list
+
+
 def convert_to_text_list(data):
     """
     将JSON数据转换为文本列表
     格式: "{item}\n---\n{title}:{str(content)}"
+
+    特性:
+    1. 过滤掉内容长度小于20的条目
+    2. 将繁体中文转换为简体中文
+    3. 当内容长度小于50时，合并到下一个title
+    4. 删除空的中括号对[]和空的大括号对{}
+    5. 删除形如"\xa0"或"\u2002"这样的不可渲染字符
     """
-    text_list = []
-
-    for item, content_dict in data.items():
-        for title, content in content_dict.items():
-            # 将内容转换为字符串，无论是列表、字典还是其他类型
-            text = f"{item}\n---\n{title}:{str(content)}"
-            text_list.append(text)
-
-    return text_list
+    return combine_text_contents(data)
 
 
 def insert_texts_to_db(text_list):
@@ -95,7 +194,7 @@ def load_texts_from_json(json_path):
 def main(json_path=None):
     """主函数，处理命令行参数"""
     if not json_path:
-        json_path = "./data/result_weapons.json"  # 默认路径
+        json_path = "./data/result_tools.json"  # 默认路径
 
     success = load_texts_from_json(json_path)
     if success:
@@ -105,8 +204,6 @@ def main(json_path=None):
 
 
 if __name__ == "__main__":
-    import sys
-
-    # 允许通过命令行参数指定JSON文件路径
+    Base.metadata.create_all(bind=engine)
     json_path = sys.argv[1] if len(sys.argv) > 1 else None
     main(json_path)

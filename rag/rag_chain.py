@@ -31,7 +31,11 @@ REWRITE_PROMPT = """
 # 用于生成最终回答的提示词模板
 ANSWER_PROMPT = """
 你是一个《泰拉瑞亚》问答助手。请参考检索到的文档回答用户的问题。
-尽量使答案简洁明了，但要确保包含所有相关信息。
+尽量使答案简洁明了，但要确保包含所有相关信息，不需要指出引用的文档。
+每个答案应包括明确的标题和必要的部分，如产物、所需材料、制作站等。
+回答中应使用适当的 Markdown 语法，如标题、表格、列表等，使信息清晰且易于阅读。
+保持回答结构的紧凑，内容不要输出超过一个的换行。
+段落和表格之间可以适当使用 --- 分隔线，增强视觉层次感。
 
 检索到的文档:
 {documents}
@@ -137,8 +141,7 @@ class SimpleRagChain:
 
     async def _retrieve_documents(self, query: str) -> List[Any]:
         """
-        检索相关文档，处理"title\n---\ncontent"格式的文档，
-        过滤内容少于20字符的文档，并进行繁体到简体的转换
+        检索相关文档，处理标题和内容格式，过滤短内容文档
 
         Args:
             query: 查询字符串
@@ -148,52 +151,46 @@ class SimpleRagChain:
         """
         logger.info(f"正在检索文档，查询: {query}")
         try:
-            # 检索所有相关文档
             all_docs = self.retriever.get_relevant_documents(query)
             logger.info(f"检索到 {len(all_docs)} 个文档")
 
-            # 过滤并处理文档
             filtered_docs = []
 
             for doc in all_docs:
                 # 获取文档内容
-                if hasattr(doc, "page_content"):
-                    content = doc.page_content
-                elif isinstance(doc, dict) and "content" in doc:
-                    content = doc["content"]
-                else:
-                    content = str(doc)
+                content = (
+                    doc.page_content
+                    if hasattr(doc, "page_content")
+                    else (
+                        doc.get("page_content", str(doc))
+                        if isinstance(doc, dict)
+                        else str(doc)
+                    )
+                )
 
-                # 处理"title\n---\ncontent"格式
+                # 处理标题和内容格式
                 parts = content.split("---", 1)
                 if len(parts) != 2:
-                    logger.debug("跳过格式不符的文档")
                     continue
 
-                title = parts[0].strip()
-                doc_content = parts[1].strip()
+                title, doc_content = parts[0].strip(), parts[1].strip()
 
-                # 过滤掉内容少于20字符的文档
+                # 过滤短内容
                 if len(doc_content) < 20:
-                    logger.debug("跳过内容过短的文档")
                     continue
-
-                # 对内容进行繁体到简体的转换
-                simplified_content = self.cc.convert(doc_content)
 
                 # 更新文档内容
+                formatted_content = f"{title}\n---\n{doc_content}"
                 if hasattr(doc, "page_content"):
-                    doc.page_content = f"{title}\n---\n{simplified_content}"
-                elif isinstance(doc, dict) and "content" in doc:
-                    doc["content"] = f"{title}\n---\n{simplified_content}"
+                    doc.page_content = formatted_content
+                elif isinstance(doc, dict) and "page_content" in doc:
+                    doc["page_content"] = formatted_content
 
                 filtered_docs.append(doc)
-
-                # 如果已经达到所需文档数量，停止处理
                 if len(filtered_docs) >= self.max_documents:
                     break
 
-            logger.info(f"过滤并转换后保留了 {len(filtered_docs)} 个文档")
+            logger.info(f"过滤后保留了 {len(filtered_docs)} 个文档")
             return filtered_docs
 
         except Exception as e:
@@ -218,8 +215,8 @@ class SimpleRagChain:
             # 处理不同类型的文档对象
             if hasattr(doc, "page_content"):  # langchain 文档类型
                 content = doc.page_content
-            elif isinstance(doc, dict) and "content" in doc:
-                content = doc["content"]
+            elif isinstance(doc, dict) and "page_content" in doc:
+                content = doc["page_content"]
             else:
                 content = str(doc)
 
@@ -282,8 +279,8 @@ class SimpleRagChain:
         for doc in retrieved_docs:
             if hasattr(doc, "page_content"):
                 quotes.append(doc.page_content)
-            elif isinstance(doc, dict) and "content" in doc:
-                quotes.append(doc["content"])
+            elif isinstance(doc, dict) and "page_content" in doc:
+                quotes.append(doc["page_content"])
             else:
                 quotes.append(str(doc))
 

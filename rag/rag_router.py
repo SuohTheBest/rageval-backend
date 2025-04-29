@@ -8,7 +8,7 @@ from rag.rag_application import rag_query
 # 存储所有活跃会话
 active_sessions: Dict[str, Conversation] = {}
 
-router = APIRouter(prefix='/rag', tags=['RAG'])
+router = APIRouter(prefix="/rag", tags=["RAG"])
 
 
 class RagRequest(BaseModel):
