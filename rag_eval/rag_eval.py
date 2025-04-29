@@ -18,11 +18,6 @@ def process_rag(eval: RAGEvaluation, db,user_id):
     print("here is processing")
     os.environ["OPENAI_API_KEY"] = "sk-JUbjcL4UL7rCP6mrU2qGQKTE8Um0KJwAnWGE5lDebQc1iO71"
     os.environ["OPENAI_API_BASE"] = "https://api.chatanywhere.tech/v1"
-    # llm = ChatOpenAI(model="gpt-3.5-turbo-0125")
-    # evaluator_llm = LangchainLLMWrapper(llm)
-    # 这里回头当做做表用的ids，到时候需要解包
-    # input_ids = []
-    # input_ids.append(eval.input_id)
     # 这里要处理的肯定是最后一个文件
     from task.utils import get_upload_filepath
     file = get_upload_filepath(eval.input_id)
@@ -88,24 +83,26 @@ def process_rag(eval: RAGEvaluation, db,user_id):
     elif method == "摘要得分":
         process_SummarizationScore(response, reference_contexts, df)
 
-
-    output_file = OutputFile(user_id=user_id, file_name='temp', size=0)
-    db.add(output_file)
-    db.commit()
-    output_id = output_file.id
-    file_path = f'downloads/{output_id}'
-    output_file.file_name=f"{eval.id}_{output_id}.csv"
-    df.to_csv(file_path, index=False)
-    file_size = os.path.getsize(file_path)
-    output_file.size = file_size
-    db.commit()
-    db.close()
-
     last_column = df.iloc[:, -1]
     average = last_column.mean()
-    eval.output_id = output_id
-    # result = output_id
-    eval.output_text=average
+    if average is None:
+        df = df.drop(df.columns[-1], axis=1)
+        average = process_rag(eval,db,user_id)
+    else:
+        output_file = OutputFile(user_id=user_id, file_name='temp', size=0)
+        db.add(output_file)
+        db.commit()
+        output_id = output_file.id
+        file_path = f'downloads/{output_id}'
+        output_file.file_name=f"{eval.id}_{output_id}.csv"
+        df.to_csv(file_path, index=False)
+        file_size = os.path.getsize(file_path)
+        output_file.size = file_size
+        db.commit()
+        db.close()
+        eval.output_id = output_id
+        # result = output_id
+        eval.output_text=average
     print(f"average:{average}")
     return average
 

@@ -26,10 +26,11 @@ def get_rag_plot(task_id,method):
         print(x_values)
         print(y_values)
         # 设置中文字体（根据系统选择）
-        plt.rcParams['font.sans-serif'] = ['SimHei']  # Windows
-        # plt.rcParams['font.sans-serif'] = ['Arial Unicode MS']  # Mac
-        # plt.rcParams['font.sans-serif'] = ['Noto Sans CJK JP']  # Linux
-
+        if os.name=='nt':
+            plt.rcParams['font.sans-serif'] = ['SimHei']  # Windows
+        elif os.name=='posix':
+            plt.rcParams['font.sans-serif'] = ['Noto Sans CJK JP']  # Linux
+# plt.rcParams['font.sans-serif'] = ['Arial Unicode MS']  # Mac
         # 解决负号显示问题
         plt.rcParams['axes.unicode_minus'] = False
 
