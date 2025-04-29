@@ -71,7 +71,7 @@ async def rag_query(
         raise ValueError("Conversation对象不能为空")
 
     try:
-        retriever = initialize_retriever(chroma_path, top_k)
+        retriever = initialize_retriever(chroma_path, top_k * 2)
     except Exception as e:
         logger.error(f"初始化检索器失败: {str(e)}")
         return {"response": "系统错误: 无法访问知识库", "quote": []}
@@ -87,8 +87,7 @@ async def rag_query(
     except Exception as e:
         logger.error(f"查询处理失败: {str(e)}")
         error_message = f"处理查询时出错: {str(e)}"
-        conversation.add_context(
-            {"role": Role.ASSISTANT, "content": error_message})
+        conversation.add_context({"role": Role.ASSISTANT, "content": error_message})
         return {"response": error_message, "quote": []}
 
 
