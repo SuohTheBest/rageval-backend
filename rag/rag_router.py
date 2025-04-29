@@ -29,12 +29,6 @@ class RagResponse(BaseModel):
     quote: List[str]  # 引用列表
 
 
-class UserSessionsResponse(BaseModel):
-    """用户会话列表响应模型"""
-
-    sessions: List[Dict[str, str]]  # 会话ID到首条消息的映射
-
-
 @router.post("/", response_model=RagResponse)
 async def process_rag(request: RagRequest):
     """处理RAG请求"""
@@ -96,11 +90,11 @@ async def delete_session(user_id: int, session_id: str):
         )
 
 
-@router.get("/{user_id}/sessions", response_model=UserSessionsResponse)
+@router.get("/{user_id}/sessions")
 async def get_user_sessions(user_id: int):
     """获取指定用户的所有会话列表"""
     if user_id not in active_sessions:
-        return {"sessions": {}}
+        return {"sessions": []}
 
     sessions = []
     for session_id, conversation in active_sessions[user_id].items():
@@ -116,6 +110,6 @@ async def get_user_sessions(user_id: int):
             # 如果没有找到用户消息，就用第一条消息
             first_message = context[0].get("content", "")
 
-        sessions.append({session_id: first_message})
+        sessions.append({"id": session_id, "title": first_message})
 
-    return sessions
+    return {"sessions": sessions}
