@@ -25,7 +25,6 @@ class RagRequest(BaseModel):
 
 class RagResponse(BaseModel):
     """RAG响应模型"""
-
     id: str  # 会话ID
     conversation: List[Dict[str, Any]]  # 会话上下文
     quote: List[str]  # 引用列表
@@ -86,7 +85,7 @@ async def process_rag(request: RagRequest):
         raise HTTPException(status_code=500, detail=f"处理查询时出错: {str(e)}")
 
 
-@router.delete("/{user_id}/{session_id}")
+@router.delete("/")
 async def delete_session(user_id: int, session_id: str):
     """删除指定用户的指定会话"""
     if user_id in active_sessions and session_id in active_sessions[user_id]:
@@ -107,7 +106,7 @@ async def delete_session(user_id: int, session_id: str):
         )
 
 
-@router.get("/{user_id}/{session_id}", response_model=RagResponse)
+@router.get("/", response_model=RagResponse)
 async def get_session(user_id: int, session_id: str):
     """获取指定用户的指定会话内容"""
     if user_id in active_sessions and session_id in active_sessions[user_id]:
@@ -129,7 +128,7 @@ async def get_session(user_id: int, session_id: str):
         )
 
 
-@router.get("/{user_id}/sessions")
+@router.get("/all")
 async def get_user_sessions(user_id: int):
     """获取指定用户的所有会话列表"""
     if user_id not in active_sessions:
@@ -149,6 +148,6 @@ async def get_user_sessions(user_id: int):
             # 如果没有找到用户消息，就用第一条消息
             first_message = context[0].get("content", "")
 
-        sessions.append({session_id: first_message})
+        sessions.append({"id": session_id, "title": first_message})
 
     return {"sessions": sessions}
