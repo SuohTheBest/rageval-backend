@@ -4,7 +4,7 @@ import time
 
 sys.path.append("./")
 
-from langchain_openai import OpenAIEmbeddings
+from rag.llm import OpenAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_community.vectorstores import Chroma
 import os
