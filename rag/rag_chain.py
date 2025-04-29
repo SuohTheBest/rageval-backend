@@ -2,6 +2,7 @@ import logging
 from typing import List, Dict, Any, Union, Optional
 
 from rag.context_manager import Conversation, Role
+from opencc import OpenCC
 
 # 配置日志
 logging.basicConfig(
@@ -12,7 +13,8 @@ logger = logging.getLogger(__name__)
 
 # 用于生成搜索查询的提示词模板
 REWRITE_PROMPT = """
-你是一个有帮助的AI助手。基于以下聊天历史和当前用户问题，请生成一个新的搜索查询，
+你是一个提供上下文总结并生成新的查询的AI助手。
+基于聊天历史、当前用户问题和《泰拉瑞亚》游戏有关信息生成一个新的搜索查询，
 该查询应该能够帮助我们更好地检索相关文档来回答用户的问题。
 
 如果当前问题是独立的，不依赖于之前的对话，可以直接使用它作为查询。
@@ -28,8 +30,7 @@ REWRITE_PROMPT = """
 
 # 用于生成最终回答的提示词模板
 ANSWER_PROMPT = """
-你是一个有用的AI助手。请基于以下检索到的文档回答用户的问题。
-如果文档中没有足够的信息来回答问题，请说明你不知道，不要编造答案。
+你是一个《泰拉瑞亚》问答助手。请参考检索到的文档回答用户的问题。
 尽量使答案简洁明了，但要确保包含所有相关信息。
 
 检索到的文档:
@@ -37,7 +38,7 @@ ANSWER_PROMPT = """
 
 用户问题: {query}
 
-请提供详细回答:
+请提供回答:
 """
 
 
@@ -73,6 +74,7 @@ class SimpleRagChain:
         self.answer_prompt = answer_prompt if answer_prompt else ANSWER_PROMPT
         self.chat_history_limit = chat_history_limit
         self.max_documents = max_documents
+        self.cc = OpenCC("t2s")
 
         logger.info("SimpleRagChain 初始化完成")
 
@@ -135,19 +137,65 @@ class SimpleRagChain:
 
     async def _retrieve_documents(self, query: str) -> List[Any]:
         """
-        检索相关文档
+        检索相关文档，处理"title\n---\ncontent"格式的文档，
+        过滤内容少于20字符的文档，并进行繁体到简体的转换
 
         Args:
             query: 查询字符串
 
         Returns:
-            检索到的文档列表
+            处理后的文档列表
         """
         logger.info(f"正在检索文档，查询: {query}")
         try:
-            docs = self.retriever.get_relevant_documents(query)
-            logger.info(f"检索到 {len(docs)} 个文档")
-            return docs[: self.max_documents]  # 限制文档数量
+            # 检索所有相关文档
+            all_docs = self.retriever.get_relevant_documents(query)
+            logger.info(f"检索到 {len(all_docs)} 个文档")
+
+            # 过滤并处理文档
+            filtered_docs = []
+
+            for doc in all_docs:
+                # 获取文档内容
+                if hasattr(doc, "page_content"):
+                    content = doc.page_content
+                elif isinstance(doc, dict) and "content" in doc:
+                    content = doc["content"]
+                else:
+                    content = str(doc)
+
+                # 处理"title\n---\ncontent"格式
+                parts = content.split("---", 1)
+                if len(parts) != 2:
+                    logger.debug("跳过格式不符的文档")
+                    continue
+
+                title = parts[0].strip()
+                doc_content = parts[1].strip()
+
+                # 过滤掉内容少于20字符的文档
+                if len(doc_content) < 20:
+                    logger.debug("跳过内容过短的文档")
+                    continue
+
+                # 对内容进行繁体到简体的转换
+                simplified_content = self.cc.convert(doc_content)
+
+                # 更新文档内容
+                if hasattr(doc, "page_content"):
+                    doc.page_content = f"{title}\n---\n{simplified_content}"
+                elif isinstance(doc, dict) and "content" in doc:
+                    doc["content"] = f"{title}\n---\n{simplified_content}"
+
+                filtered_docs.append(doc)
+
+                # 如果已经达到所需文档数量，停止处理
+                if len(filtered_docs) >= self.max_documents:
+                    break
+
+            logger.info(f"过滤并转换后保留了 {len(filtered_docs)} 个文档")
+            return filtered_docs
+
         except Exception as e:
             logger.error(f"文档检索失败: {str(e)}")
             return []
