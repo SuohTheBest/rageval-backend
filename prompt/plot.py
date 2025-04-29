@@ -27,9 +27,9 @@ def get_prompt_plot(task_id ,method):
                 y_values.append(float(match.group(1)))
 
         # 设置中文字体（根据系统选择）
-        plt.rcParams['font.sans-serif'] = ['SimHei']  # Windows
+        # plt.rcParams['font.sans-serif'] = ['SimHei']  # Windows
         # plt.rcParams['font.sans-serif'] = ['Arial Unicode MS']  # Mac
-        # plt.rcParams['font.sans-serif'] = ['Noto Sans CJK JP']  # Linux
+        plt.rcParams['font.sans-serif'] = ['Noto Sans CJK JP']  # Linux
 
         # 解决负号显示问题
         plt.rcParams['axes.unicode_minus'] = False
