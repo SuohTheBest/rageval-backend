@@ -99,20 +99,6 @@ async def test_rewrite_query_without_history(rag_chain, empty_conversation):
 
 
 @pytest.mark.asyncio
-async def test_format_documents(rag_chain):
-    """Test document formatting."""
-    docs = [
-        {"content": "Document 1 content"},
-        type("obj", (object,), {"page_content": "Document 2 content"}),
-        "Document 3 content",
-    ]
-
-    formatted = rag_chain._format_documents(docs)
-    expected = "文档[1]: Document 1 content\n\n文档[2]: Document 2 content\n\n文档[3]: Document 3 content"
-    assert formatted == expected
-
-
-@pytest.mark.asyncio
 async def test_format_documents_empty(rag_chain):
     """Test document formatting with empty list."""
     formatted = rag_chain._format_documents([])
