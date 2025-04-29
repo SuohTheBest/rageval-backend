@@ -162,7 +162,7 @@ class SimpleRagChain:
                     doc.page_content
                     if hasattr(doc, "page_content")
                     else (
-                        doc.get("content", str(doc))
+                        doc.get("page_content", str(doc))
                         if isinstance(doc, dict)
                         else str(doc)
                     )
@@ -183,8 +183,8 @@ class SimpleRagChain:
                 formatted_content = f"{title}\n---\n{doc_content}"
                 if hasattr(doc, "page_content"):
                     doc.page_content = formatted_content
-                elif isinstance(doc, dict) and "content" in doc:
-                    doc["content"] = formatted_content
+                elif isinstance(doc, dict) and "page_content" in doc:
+                    doc["page_content"] = formatted_content
 
                 filtered_docs.append(doc)
                 if len(filtered_docs) >= self.max_documents:
@@ -215,8 +215,8 @@ class SimpleRagChain:
             # 处理不同类型的文档对象
             if hasattr(doc, "page_content"):  # langchain 文档类型
                 content = doc.page_content
-            elif isinstance(doc, dict) and "content" in doc:
-                content = doc["content"]
+            elif isinstance(doc, dict) and "page_content" in doc:
+                content = doc["page_content"]
             else:
                 content = str(doc)
 
@@ -279,8 +279,8 @@ class SimpleRagChain:
         for doc in retrieved_docs:
             if hasattr(doc, "page_content"):
                 quotes.append(doc.page_content)
-            elif isinstance(doc, dict) and "content" in doc:
-                quotes.append(doc["content"])
+            elif isinstance(doc, dict) and "page_content" in doc:
+                quotes.append(doc["page_content"])
             else:
                 quotes.append(str(doc))
 

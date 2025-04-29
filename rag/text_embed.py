@@ -1,12 +1,12 @@
 import sys
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import time
+import re
 
 sys.path.append("./")
 
 from rag.llm import OpenAIEmbeddings
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain_community.vectorstores import Chroma
+from rag.rag_vectorset import ChromaRetriever
 import os
 from models.Text import RAGText
 from models.database import SessionLocal
@@ -14,7 +14,7 @@ import logging
 
 # 配置日志
 logging.basicConfig(
-    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levellevel)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
@@ -23,6 +23,132 @@ CHROMA_PATH = "./data/chroma_db"
 
 # 最大并发数
 MAX_WORKERS = 64
+
+
+class RecursiveCharacterTextSplitter:
+    """
+    递归字符文本分割器的自定义实现
+    """
+
+    def __init__(
+        self,
+        chunk_size=1000,
+        chunk_overlap=100,
+        length_function=len,
+        separators=["\n\n", "\n", " ", ""],
+    ):
+        self.chunk_size = chunk_size
+        self.chunk_overlap = chunk_overlap
+        self.length_function = length_function
+        self.separators = separators
+
+    def create_documents(self, texts, metadatas=None):
+        """
+        将文本列表分割成文档
+
+        Args:
+            texts: 要分割的文本列表
+            metadatas: 元数据列表，与texts长度相同
+
+        Returns:
+            文档列表，每个文档包含page_content和metadata
+        """
+        if metadatas is None:
+            metadatas = [{} for _ in texts]
+
+        documents = []
+
+        for i, text in enumerate(texts):
+            chunks = self._split_text(text)
+            for chunk in chunks:
+                doc = {
+                    "page_content": chunk,
+                    "metadata": metadatas[i].copy() if i < len(metadatas) else {},
+                }
+                documents.append(doc)
+
+        return documents
+
+    def _split_text(self, text):
+        """
+        递归分割文本
+
+        Args:
+            text: 要分割的文本
+
+        Returns:
+            文本块列表
+        """
+        # 如果文本足够小，直接返回
+        if self.length_function(text) <= self.chunk_size:
+            return [text]
+
+        # 尝试使用不同的分隔符进行分割
+        for separator in self.separators:
+            if separator == "":
+                # 如果到达最后的分隔符，按字符分割
+                return self._split_by_character(text)
+
+            if separator in text:
+                splits = text.split(separator)
+                chunks = []
+                current_chunk = []
+                current_length = 0
+
+                # 重组分割后的部分
+                for split in splits:
+                    split_with_sep = split + separator if split != splits[-1] else split
+                    split_length = self.length_function(split_with_sep)
+
+                    # 如果当前块加上新的分段超过了块大小，保存当前块并开始新块
+                    if current_length + split_length > self.chunk_size:
+                        if current_chunk:
+                            chunks.append(separator.join(current_chunk))
+
+                        # 如果单个分段超过块大小，递归处理
+                        if split_length > self.chunk_size:
+                            sub_chunks = self._split_text(split_with_sep)
+                            chunks.extend(sub_chunks)
+                        else:
+                            current_chunk = [split]
+                            current_length = split_length
+                    else:
+                        current_chunk.append(split)
+                        current_length += split_length
+
+                # 添加最后一个块
+                if current_chunk:
+                    chunks.append(separator.join(current_chunk))
+
+                # 应用重叠
+                result = []
+                for i in range(len(chunks)):
+                    if i == 0:
+                        result.append(chunks[i])
+                    else:
+                        # 获取前一个块的末尾作为重叠
+                        prev_chunk = chunks[i - 1]
+                        overlap_start = max(
+                            0, self.length_function(prev_chunk) - self.chunk_overlap
+                        )
+                        overlap = prev_chunk[overlap_start:]
+                        result.append(overlap + separator + chunks[i])
+
+                return result
+
+        # 如果没有找到分隔符，按字符分割
+        return self._split_by_character(text)
+
+    def _split_by_character(self, text):
+        """
+        按字符分割文本
+        """
+        chunks = []
+        for i in range(0, len(text), self.chunk_size - self.chunk_overlap):
+            # 确保不超出文本长度
+            end = min(i + self.chunk_size, len(text))
+            chunks.append(text[i:end])
+        return chunks
 
 
 def process_single_record(text_splitter, vectorstore, record):
@@ -61,15 +187,15 @@ def process_database_to_chroma():
         chunk_size=1000, chunk_overlap=100, length_function=len
     )
 
-    # 初始化Chroma向量存储
+    # 初始化自定义Chroma向量存储
     if os.path.exists(CHROMA_PATH):
         logger.info(f"加载现有Chroma数据库从 {CHROMA_PATH}")
-        vectorstore = Chroma(
+        vectorstore = ChromaRetriever(
             persist_directory=CHROMA_PATH, embedding_function=embeddings
         )
     else:
         logger.info(f"创建新的Chroma数据库于 {CHROMA_PATH}")
-        vectorstore = Chroma(
+        vectorstore = ChromaRetriever(
             persist_directory=CHROMA_PATH, embedding_function=embeddings
         )
 
