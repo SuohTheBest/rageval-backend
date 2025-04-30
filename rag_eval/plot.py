@@ -43,7 +43,7 @@ def get_rag_plot(task_id,method):
             label='score'
         )
 
-        plt.title(f"Prompt评估分数 - 指标: {method}",fontsize=14)
+        plt.title(f"Rag评估分数 - 指标: {method}",fontsize=14)
         plt.xlabel("评估轮数", fontsize=12)
         plt.ylabel("分数(/10)", fontsize=12)
         plt.xticks(x_values)  # 显示所有x刻度
