@@ -3,7 +3,7 @@
 # from ragas import evaluate
 from langchain_openai import ChatOpenAI
 from ragas.metrics import *
-
+import numpy as np
 # rag
 import pandas as pd
 import os
@@ -85,26 +85,48 @@ def process_rag(eval: RAGEvaluation, db,user_id):
 
     last_column = df.iloc[:, -1]
     average = last_column.mean()
-    if average is None:
-        df = df.drop(df.columns[-1], axis=1)
-        average = process_rag(eval,db,user_id)
+    # 判断是否是 NaN
+    if np.isnan(average):
+        print("average is NaN, calling process_rag again")
+        # 递归调用，但要确保数据更新
+        return process_rag(eval, db, user_id)
     else:
         output_file = OutputFile(user_id=user_id, file_name='temp', size=0)
         db.add(output_file)
         db.commit()
         output_id = output_file.id
         file_path = f'downloads/{output_id}'
-        output_file.file_name=f"{eval.id}_{output_id}.csv"
+        output_file.file_name = f"{eval.id}_{output_id}.csv"
         df.to_csv(file_path, index=False)
         file_size = os.path.getsize(file_path)
         output_file.size = file_size
         db.commit()
         db.close()
         eval.output_id = output_id
-        # result = output_id
-        eval.output_text=average
-    print(f"average:{average}")
-    return average
+        eval.output_text = average
+        
+        print(f"average: {average}")
+        return average
+    # if average == float('nan'):
+    #     df = df.drop(df.columns[-1], axis=1)
+    #     average = process_rag(eval,db,user_id)
+    # else:
+    #     output_file = OutputFile(user_id=user_id, file_name='temp', size=0)
+    #     db.add(output_file)
+    #     db.commit()
+    #     output_id = output_file.id
+    #     file_path = f'downloads/{output_id}'
+    #     output_file.file_name=f"{eval.id}_{output_id}.csv"
+    #     df.to_csv(file_path, index=False)
+    #     file_size = os.path.getsize(file_path)
+    #     output_file.size = file_size
+    #     db.commit()
+    #     db.close()
+    #     eval.output_id = output_id
+    #     # result = output_id
+    #     eval.output_text=average
+    # print(f"average:{average}")
+    # return average
 
 
 def set_environment():
