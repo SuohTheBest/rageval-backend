@@ -15,7 +15,6 @@ router = APIRouter(prefix="/rag", tags=["RAG"])
 
 class RagRequest(BaseModel):
     """RAG请求模型"""
-
     user_id: int  # 用户ID
     session_id: str  # 会话ID，-1表示新建会话
     query: str  # 用户查询内容

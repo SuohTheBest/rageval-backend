@@ -16,6 +16,8 @@ init_fastapi:
     - echo ${VENV_DIR}
     - sudo bash -c 'if [ ! -d "/root/html/rageval-backend/venv" ]; then python3 -m venv /root/html/rageval-backend/venv; echo "Virtual environment created"; fi'
     - source ${VENV_DIR}/bin/activate
+    - pip config set global.index-url https://mirrors.aliyun.com/pypi/simple
+    - pip config set install.trusted-host mirrors.aliyun.com
     - echo "进行测试..."
     - pytest
     - echo "部署..."
