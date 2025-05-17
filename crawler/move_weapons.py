@@ -1,9 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
 import json
+from urllib.parse import urljoin
 
 # 示例网页 URL
-url = "https://terraria.wiki.gg/zh/wiki/武器"
+base_url = "https://terraria.wiki.gg"
+url = f"{base_url}/zh/wiki/武器"
 
 # 发送请求获取网页内容
 response = requests.get(url)
@@ -12,7 +14,7 @@ html_content = response.text
 # 使用 BeautifulSoup 解析 HTML
 soup = BeautifulSoup(html_content, 'html.parser')
 
-# 定义一个列表来存储提取的名称和链接
+# 定义一个列表来存储提取的名称、链接和图片
 items = []
 
 # 找到所有的 infocard 容器
@@ -44,18 +46,28 @@ for infocard in soup.find_all('div', class_='infocard'):
                     # 提取中文名称（从 title 属性中提取）
                     name = a_tag.get('title', '').strip()
                     
+                    # 提取图片URL（从 img 标签的 src 属性）
+                    img_tag = a_tag.find('img')
+                    image_url = None
+                    if img_tag and img_tag.get('src'):
+
+                        image_url = img_tag.get('src')
+                        # 确保 URL 是完整的（如果 src 是相对路径）
+                        image_url = urljoin(base_url, image_url)
+                    
                     # 确保 name 不为空
                     if name:
                         # 将提取的数据以字典形式存入列表
                         items.append({
                             "name": name,
-                            "url": url
+                            "image": image_url,
+                            "url": urljoin(base_url, url)
                         })
                     else:
                         print(f"跳过空名称的条目: {a_tag}")
 
 # 将数据写入 JSON 文件
-with open('./crawler/tools.json', 'w', encoding='utf-8') as json_file:
+with open('./crawler/weapons.json', 'w', encoding='utf-8') as json_file:
     json.dump(items, json_file, ensure_ascii=False, indent=4)
 
-print(f"成功抓取 {len(items)} 个武器数据，已写入 tools.json 文件")
+print(f"成功抓取 {len(items)} 个武器数据，已写入 weapons.json 文件")
