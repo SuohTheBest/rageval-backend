@@ -1,12 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
 import json
-
+from urllib.parse import urljoin
 # 工具网页 URL
-url = "https://terraria.wiki.gg/zh/wiki/工具"
+base_url = "https://terraria.wiki.gg"
+page_url = f"{base_url}/zh/wiki/工具"
 
 # 发送请求获取网页内容
-response = requests.get(url)
+response = requests.get(page_url)
 html_content = response.text
 
 # 使用 BeautifulSoup 解析 HTML
@@ -31,25 +32,28 @@ for itemlist in soup.find_all('div', class_='itemlist'):
             # 提取名称和链接
             if a_tag and a_tag.get('href') and a_tag.get('title'):
                 # 获取URL
-                url = a_tag.get('href')
+                item_url = a_tag.get('href')
                 
                 # 确保URL是中文wiki链接
-                if not url.startswith("/zh/wiki/"):
+                if not item_url.startswith("/zh/wiki/"):
                     # 如果不是中文链接，转换为中文路径
-                    if url.startswith("/wiki/"):
-                        url = "/zh" + url
+                    if item_url.startswith("/wiki/"):
+                        item_url = "/zh" + item_url
                     else:
                         continue  # 跳过非wiki链接
                 
                 # 提取中文名称（从 title 属性中提取）
                 name = a_tag.get('title', '').strip()
-                
-                # 确保 name 不为空
+                # 提取图片URL
+                img_tag = a_tag.find('img')
+                image_url = None
+                if img_tag and img_tag.get('src'):
+                    image_url = urljoin(base_url, img_tag.get('src'))
                 if name:
-                    # 将提取的数据以字典形式存入列表
                     items.append({
                         "name": name,
-                        "url": url
+                        "image": image_url,
+                        "url": urljoin(base_url, item_url)
                     })
                 else:
                     print(f"跳过空名称的条目: {a_tag}")
