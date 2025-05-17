@@ -26,12 +26,28 @@ async def get_metrics(category: Literal["rag", "prompt"] = Query(...), access_to
             system_metrics = rag_metric_list()
         else:
             system_metrics = prompt_metric_list()
-        system_metrics = [{"name": m['name'], "type": "system", "description": m['description'], "created": None}
-                          for m in system_metrics]
-        custom_metrics = [
-            {"id": m.id, "name": m.name, "type": "custom", "description": m.description, "created": m.created}
-            for m in custom_metrics]
-        return system_metrics + custom_metrics
+
+        # 统一指标格式
+        metrics = []
+        # 添加系统指标
+        for m in system_metrics:
+            metrics.append({
+                "id": -1,
+                "name": m['name'],
+                "type": "system",
+                "description": m['description'],
+                "created": None
+            })
+        # 添加自定义指标
+        for m in custom_metrics:
+            metrics.append({
+                "id": m.id,
+                "name": m.name,
+                "type": "custom",
+                "description": m.description,
+                "created": m.created
+            })
+        return metrics
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
