@@ -1,878 +1,1097 @@
 [
     {
         "name": "铜短剑",
-        "url": "/zh/wiki/%E9%93%9C%E7%9F%AD%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/8/8b/Copper_Shortsword.png?2ed47b",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%9C%E7%9F%AD%E5%89%91"
     },
     {
         "name": "锡短剑",
-        "url": "/zh/wiki/%E9%94%A1%E7%9F%AD%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/8/85/Tin_Shortsword.png?52f2ba",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%94%A1%E7%9F%AD%E5%89%91"
     },
     {
         "name": "木剑",
-        "url": "/zh/wiki/%E6%9C%A8%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/c/cd/Wooden_Sword.png?7b2018",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%9C%A8%E5%89%91"
     },
     {
         "name": "针叶木剑",
-        "url": "/zh/wiki/%E9%92%88%E5%8F%B6%E6%9C%A8%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/2/27/Boreal_Wood_Sword.png?b09c19",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%88%E5%8F%B6%E6%9C%A8%E5%89%91"
     },
     {
         "name": "铜阔剑",
-        "url": "/zh/wiki/%E9%93%9C%E9%98%94%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/c/cb/Copper_Broadsword.png?25612f",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%9C%E9%98%94%E5%89%91"
     },
     {
         "name": "铁短剑",
-        "url": "/zh/wiki/%E9%93%81%E7%9F%AD%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/c/c8/Iron_Shortsword.png?64e97b",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%81%E7%9F%AD%E5%89%91"
     },
     {
         "name": "棕榈木剑",
-        "url": "/zh/wiki/%E6%A3%95%E6%A6%88%E6%9C%A8%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/b/b3/Palm_Wood_Sword.png?27ffea",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%A3%95%E6%A6%88%E6%9C%A8%E5%89%91"
     },
     {
         "name": "红木剑",
-        "url": "/zh/wiki/%E7%BA%A2%E6%9C%A8%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/8/87/Rich_Mahogany_Sword.png?75acb9",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%BA%A2%E6%9C%A8%E5%89%91"
     },
     {
         "name": "仙人掌剑",
-        "url": "/zh/wiki/%E4%BB%99%E4%BA%BA%E6%8E%8C%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/d/da/Cactus_Sword.png?380fc5",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E4%BB%99%E4%BA%BA%E6%8E%8C%E5%89%91"
     },
     {
         "name": "铅短剑",
-        "url": "/zh/wiki/%E9%93%85%E7%9F%AD%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/3/35/Lead_Shortsword.png?d828f4",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%85%E7%9F%AD%E5%89%91"
     },
     {
         "name": "银短剑",
-        "url": "/zh/wiki/%E9%93%B6%E7%9F%AD%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/6/61/Silver_Shortsword.png?62201f",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%B6%E7%9F%AD%E5%89%91"
     },
     {
         "name": "锡宽剑",
-        "url": "/zh/wiki/%E9%94%A1%E5%AE%BD%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/6/6d/Tin_Broadsword.png?f8e165",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%94%A1%E5%AE%BD%E5%89%91"
     },
     {
         "name": "乌木剑",
-        "url": "/zh/wiki/%E4%B9%8C%E6%9C%A8%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/a/ad/Ebonwood_Sword.png?d0a9df",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E4%B9%8C%E6%9C%A8%E5%89%91"
     },
     {
         "name": "铁阔剑",
-        "url": "/zh/wiki/%E9%93%81%E9%98%94%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/c/cf/Iron_Broadsword.png?b2b3bd",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%81%E9%98%94%E5%89%91"
     },
     {
         "name": "暗影木剑",
-        "url": "/zh/wiki/%E6%9A%97%E5%BD%B1%E6%9C%A8%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/0/00/Shadewood_Sword.png?c46e60",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%9A%97%E5%BD%B1%E6%9C%A8%E5%89%91"
     },
     {
         "name": "钨短剑",
-        "url": "/zh/wiki/%E9%92%A8%E7%9F%AD%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/7/75/Tungsten_Shortsword.png?6a738a",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%A8%E7%9F%AD%E5%89%91"
     },
     {
         "name": "金短剑",
-        "url": "/zh/wiki/%E9%87%91%E7%9F%AD%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/0/07/Gold_Shortsword.png?7d6af4",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%87%91%E7%9F%AD%E5%89%91"
     },
     {
         "name": "铅宽剑",
-        "url": "/zh/wiki/%E9%93%85%E5%AE%BD%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/5/53/Lead_Broadsword.png?4925fa",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%85%E5%AE%BD%E5%89%91"
     },
     {
         "name": "银阔剑",
-        "url": "/zh/wiki/%E9%93%B6%E9%98%94%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/c/cb/Silver_Broadsword.png?d8a9c0",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%B6%E9%98%94%E5%89%91"
     },
     {
         "name": "利刃手套",
-        "url": "/zh/wiki/%E5%88%A9%E5%88%83%E6%89%8B%E5%A5%97"
+        "image": "https://terraria.wiki.gg/images/2/20/Bladed_Glove.png?de29dd",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%88%A9%E5%88%83%E6%89%8B%E5%A5%97"
     },
     {
         "name": "钨宽剑",
-        "url": "/zh/wiki/%E9%92%A8%E5%AE%BD%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/5/57/Tungsten_Broadsword.png?b7a0f8",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%A8%E5%AE%BD%E5%89%91"
     },
     {
         "name": "僵尸臂",
-        "url": "/zh/wiki/%E5%83%B5%E5%B0%B8%E8%87%82"
+        "image": "https://terraria.wiki.gg/images/a/a9/Zombie_Arm.png?3bb3c5",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%83%B5%E5%B0%B8%E8%87%82"
     },
     {
         "name": "灰烬木剑",
-        "url": "/zh/wiki/%E7%81%B0%E7%83%AC%E6%9C%A8%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/0/0c/Ash_Wood_Sword.png?76d370",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%81%B0%E7%83%AC%E6%9C%A8%E5%89%91"
     },
     {
         "name": "金阔剑",
-        "url": "/zh/wiki/%E9%87%91%E9%98%94%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/1/11/Gold_Broadsword.png?7ac5d0",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%87%91%E9%98%94%E5%89%91"
     },
     {
         "name": "臭虫剑",
-        "url": "/zh/wiki/%E8%87%AD%E8%99%AB%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/2/21/Flymeal.png?ac7662",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%87%AD%E8%99%AB%E5%89%91"
     },
     {
         "name": "铂金短剑",
-        "url": "/zh/wiki/%E9%93%82%E9%87%91%E7%9F%AD%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/5/54/Platinum_Shortsword.png?1c7559",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%82%E9%87%91%E7%9F%AD%E5%89%91"
     },
     {
         "name": "颌骨剑",
-        "url": "/zh/wiki/%E9%A2%8C%E9%AA%A8%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/f/f3/Mandible_Blade.png?858391",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%A2%8C%E9%AA%A8%E5%89%91"
     },
     {
         "name": "时尚剪刀",
-        "url": "/zh/wiki/%E6%97%B6%E5%B0%9A%E5%89%AA%E5%88%80"
+        "image": "https://terraria.wiki.gg/images/9/90/Stylish_Scissors.png?4406de",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%97%B6%E5%B0%9A%E5%89%AA%E5%88%80"
     },
     {
         "name": "标尺",
-        "url": "/zh/wiki/%E6%A0%87%E5%B0%BA"
+        "image": "https://terraria.wiki.gg/images/a/aa/Ruler.png?528bdc",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%A0%87%E5%B0%BA"
     },
     {
         "name": "铂金宽剑",
-        "url": "/zh/wiki/%E9%93%82%E9%87%91%E5%AE%BD%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/f/f9/Platinum_Broadsword.png?fae4d7",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%82%E9%87%91%E5%AE%BD%E5%89%91"
     },
     {
         "name": "伞",
-        "url": "/zh/wiki/%E4%BC%9E"
+        "image": "https://terraria.wiki.gg/images/0/06/Umbrella.png?8dcb98",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E4%BC%9E"
     },
     {
         "name": "芦苇呼吸管",
-        "url": "/zh/wiki/%E8%8A%A6%E8%8B%87%E5%91%BC%E5%90%B8%E7%AE%A1"
+        "image": "https://terraria.wiki.gg/images/9/91/Breathing_Reed.png?6e447c",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%8A%A6%E8%8B%87%E5%91%BC%E5%90%B8%E7%AE%A1"
     },
     {
         "name": "罗马短剑",
-        "url": "/zh/wiki/%E7%BD%97%E9%A9%AC%E7%9F%AD%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/c/c5/Gladius.png?2a1c7e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%BD%97%E9%A9%AC%E7%9F%AD%E5%89%91"
     },
     {
         "name": "骨剑",
-        "url": "/zh/wiki/%E9%AA%A8%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/2/29/Bone_Sword.png?d84a7d",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%AA%A8%E5%89%91"
     },
     {
         "name": "蝙蝠棍",
-        "url": "/zh/wiki/%E8%9D%99%E8%9D%A0%E6%A3%8D"
+        "image": "https://terraria.wiki.gg/images/7/78/Bat_Bat.png?64e671",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%9D%99%E8%9D%A0%E6%A3%8D"
     },
     {
         "name": "触手钉锤",
-        "url": "/zh/wiki/%E8%A7%A6%E6%89%8B%E9%92%89%E9%94%A4"
+        "image": "https://terraria.wiki.gg/images/a/ab/Tentacle_Spike.png?a25148",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%A7%A6%E6%89%8B%E9%92%89%E9%94%A4"
     },
     {
         "name": "糖棒剑",
-        "url": "/zh/wiki/%E7%B3%96%E6%A3%92%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/1/14/Candy_Cane_Sword.png?e06bd4",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%B3%96%E6%A3%92%E5%89%91"
     },
     {
         "name": "武士刀",
-        "url": "/zh/wiki/%E6%AD%A6%E5%A3%AB%E5%88%80"
+        "image": "https://terraria.wiki.gg/images/e/e9/Katana.png?dbce87",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%AD%A6%E5%A3%AB%E5%88%80"
     },
     {
         "name": "冰雪刃",
-        "url": "/zh/wiki/%E5%86%B0%E9%9B%AA%E5%88%83"
+        "image": "https://terraria.wiki.gg/images/c/c3/Ice_Blade.png?ae3e0a",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%86%B0%E9%9B%AA%E5%88%83"
     },
     {
         "name": "魔光剑",
-        "url": "/zh/wiki/%E9%AD%94%E5%85%89%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/1/13/Light%27s_Bane.png?7932b6",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%AD%94%E5%85%89%E5%89%91"
     },
     {
         "name": "悲剧雨伞",
-        "url": "/zh/wiki/%E6%82%B2%E5%89%A7%E9%9B%A8%E4%BC%9E"
+        "image": "https://terraria.wiki.gg/images/c/cc/Tragic_Umbrella.png?906a02",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%82%B2%E5%89%A7%E9%9B%A8%E4%BC%9E"
     },
     {
         "name": "村正",
-        "url": "/zh/wiki/%E6%9D%91%E6%AD%A3"
+        "image": "https://terraria.wiki.gg/images/c/c2/Muramasa.png?3f0467",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%9D%91%E6%AD%A3"
     },
     {
         "name": "异域弯刀",
-        "url": "/zh/wiki/%E5%BC%82%E5%9F%9F%E5%BC%AF%E5%88%80"
+        "image": "https://terraria.wiki.gg/images/3/36/Exotic_Scimitar.png?1fa575",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%BC%82%E5%9F%9F%E5%BC%AF%E5%88%80"
     },
     {
         "name": "陨石光剑",
-        "url": "/zh/wiki/%E9%99%A8%E7%9F%B3%E5%85%89%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/e/e2/Phaseblade.gif?e4ca24",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%99%A8%E7%9F%B3%E5%85%89%E5%89%91"
     },
     {
         "name": "血腥屠刀",
-        "url": "/zh/wiki/%E8%A1%80%E8%85%A5%E5%B1%A0%E5%88%80"
+        "image": "https://terraria.wiki.gg/images/6/62/Blood_Butcherer.png?460456",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%A1%80%E8%85%A5%E5%B1%A0%E5%88%80"
     },
     {
         "name": "星怒",
-        "url": "/zh/wiki/%E6%98%9F%E6%80%92"
+        "image": "https://terraria.wiki.gg/images/2/2d/Starfury.png?e01256",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%98%9F%E6%80%92"
     },
     {
         "name": "附魔剑",
-        "url": "/zh/wiki/%E9%99%84%E9%AD%94%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/b/b3/Enchanted_Sword_%28item%29.png?25013c",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%99%84%E9%AD%94%E5%89%91"
     },
     {
         "name": "紫挥棒鱼",
-        "url": "/zh/wiki/%E7%B4%AB%E6%8C%A5%E6%A3%92%E9%B1%BC"
+        "image": "https://terraria.wiki.gg/images/1/1d/Purple_Clubberfish.png?246863",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%B4%AB%E6%8C%A5%E6%A3%92%E9%B1%BC"
     },
     {
         "name": "养蜂人",
-        "url": "/zh/wiki/%E5%85%BB%E8%9C%82%E4%BA%BA"
+        "image": "https://terraria.wiki.gg/images/4/42/Bee_Keeper.png?5c3fb7",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%85%BB%E8%9C%82%E4%BA%BA"
     },
     {
         "name": "猎鹰刃",
-        "url": "/zh/wiki/%E7%8C%8E%E9%B9%B0%E5%88%83"
+        "image": "https://terraria.wiki.gg/images/a/ab/Falcon_Blade.png?430372",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%8C%8E%E9%B9%B0%E5%88%83"
     },
     {
         "name": "草剑",
-        "url": "/zh/wiki/%E8%8D%89%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/8/85/Blade_of_Grass.png?b18050",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%8D%89%E5%89%91"
     },
     {
         "name": "火山",
-        "url": "/zh/wiki/%E7%81%AB%E5%B1%B1"
+        "image": "https://terraria.wiki.gg/images/c/cf/Volcano.png?e0c908",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%81%AB%E5%B1%B1"
     },
     {
         "name": "永夜刃",
-        "url": "/zh/wiki/%E6%B0%B8%E5%A4%9C%E5%88%83"
+        "image": "https://terraria.wiki.gg/images/9/98/Night%27s_Edge.png?464d44",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%B0%B8%E5%A4%9C%E5%88%83"
     },
     {
         "name": "木悠悠球",
-        "url": "/zh/wiki/%E6%9C%A8%E6%82%A0%E6%82%A0%E7%90%83"
+        "image": "https://terraria.wiki.gg/images/e/ea/Wooden_Yoyo.png?237e47",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%9C%A8%E6%82%A0%E6%82%A0%E7%90%83"
     },
     {
         "name": "对打球",
-        "url": "/zh/wiki/%E5%AF%B9%E6%89%93%E7%90%83"
+        "image": "https://terraria.wiki.gg/images/0/07/Rally.png?3568ab",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%AF%B9%E6%89%93%E7%90%83"
     },
     {
         "name": "抑郁球",
-        "url": "/zh/wiki/%E6%8A%91%E9%83%81%E7%90%83"
+        "image": "https://terraria.wiki.gg/images/d/d1/Malaise.png?14fb6d",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%8A%91%E9%83%81%E7%90%83"
     },
     {
         "name": "血脉球",
-        "url": "/zh/wiki/%E8%A1%80%E8%84%89%E7%90%83"
+        "image": "https://terraria.wiki.gg/images/d/d6/Artery.png?b72d68",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%A1%80%E8%84%89%E7%90%83"
     },
     {
         "name": "亚马逊球",
-        "url": "/zh/wiki/%E4%BA%9A%E9%A9%AC%E9%80%8A%E7%90%83"
+        "image": "https://terraria.wiki.gg/images/d/db/Amazon.png?6e31c2",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E4%BA%9A%E9%A9%AC%E9%80%8A%E7%90%83"
     },
     {
         "name": "代码1球",
-        "url": "/zh/wiki/%E4%BB%A3%E7%A0%811%E7%90%83"
+        "image": "https://terraria.wiki.gg/images/2/25/Code_1.png?86b8ab",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E4%BB%A3%E7%A0%811%E7%90%83"
     },
     {
         "name": "英勇球",
-        "url": "/zh/wiki/%E8%8B%B1%E5%8B%87%E7%90%83"
+        "image": "https://terraria.wiki.gg/images/e/e9/Valor.png?9119b7",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%8B%B1%E5%8B%87%E7%90%83"
     },
     {
         "name": "喷流球",
-        "url": "/zh/wiki/%E5%96%B7%E6%B5%81%E7%90%83"
+        "image": "https://terraria.wiki.gg/images/f/f8/Cascade.png?b7f287",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%96%B7%E6%B5%81%E7%90%83"
     },
     {
         "name": "蜂巢球",
-        "url": "/zh/wiki/%E8%9C%82%E5%B7%A2%E7%90%83"
+        "image": "https://terraria.wiki.gg/images/0/0e/Hive-Five.png?bc7c4e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%9C%82%E5%B7%A2%E7%90%83"
     },
     {
         "name": "长矛",
-        "url": "/zh/wiki/%E9%95%BF%E7%9F%9B"
+        "image": "https://terraria.wiki.gg/images/4/4f/Spear.png?4e2e3d",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%95%BF%E7%9F%9B"
     },
     {
         "name": "三叉戟",
-        "url": "/zh/wiki/%E4%B8%89%E5%8F%89%E6%88%9F"
+        "image": "https://terraria.wiki.gg/images/9/9a/Trident.png?c9be64",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E4%B8%89%E5%8F%89%E6%88%9F"
     },
     {
         "name": "风暴长矛",
-        "url": "/zh/wiki/%E9%A3%8E%E6%9A%B4%E9%95%BF%E7%9F%9B"
+        "image": "https://terraria.wiki.gg/images/2/2a/Storm_Spear.png?c94f72",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%A3%8E%E6%9A%B4%E9%95%BF%E7%9F%9B"
     },
     {
         "name": "腐叉",
-        "url": "/zh/wiki/%E8%85%90%E5%8F%89"
+        "image": "https://terraria.wiki.gg/images/d/d7/The_Rotted_Fork.png?1033fd",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%85%90%E5%8F%89"
     },
     {
         "name": "剑鱼",
-        "url": "/zh/wiki/%E5%89%91%E9%B1%BC"
+        "image": "https://terraria.wiki.gg/images/f/f7/Swordfish.png?e2cc58",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%89%91%E9%B1%BC"
     },
     {
         "name": "暗黑长枪",
-        "url": "/zh/wiki/%E6%9A%97%E9%BB%91%E9%95%BF%E6%9E%AA"
+        "image": "https://terraria.wiki.gg/images/e/ef/Dark_Lance.png?e430f2",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%9A%97%E9%BB%91%E9%95%BF%E6%9E%AA"
     },
     {
         "name": "木制回旋镖",
-        "url": "/zh/wiki/%E6%9C%A8%E5%88%B6%E5%9B%9E%E6%97%8B%E9%95%96"
+        "image": "https://terraria.wiki.gg/images/d/dc/Wooden_Boomerang.png?fc4a4a",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%9C%A8%E5%88%B6%E5%9B%9E%E6%97%8B%E9%95%96"
     },
     {
         "name": "附魔回旋镖",
-        "url": "/zh/wiki/%E9%99%84%E9%AD%94%E5%9B%9E%E6%97%8B%E9%95%96"
+        "image": "https://terraria.wiki.gg/images/0/05/Enchanted_Boomerang.png?56c041",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%99%84%E9%AD%94%E5%9B%9E%E6%97%8B%E9%95%96"
     },
     {
         "name": "水果蛋糕旋刃",
-        "url": "/zh/wiki/%E6%B0%B4%E6%9E%9C%E8%9B%8B%E7%B3%95%E6%97%8B%E5%88%83"
+        "image": "https://terraria.wiki.gg/images/e/e8/Fruitcake_Chakram.png?24377d",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%B0%B4%E6%9E%9C%E8%9B%8B%E7%B3%95%E6%97%8B%E5%88%83"
     },
     {
         "name": "血腥砍刀",
-        "url": "/zh/wiki/%E8%A1%80%E8%85%A5%E7%A0%8D%E5%88%80"
+        "image": "https://terraria.wiki.gg/images/4/4c/Bloody_Machete.png?99ba73",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%A1%80%E8%85%A5%E7%A0%8D%E5%88%80"
     },
     {
         "name": "蘑菇回旋镖",
-        "url": "/zh/wiki/%E8%98%91%E8%8F%87%E5%9B%9E%E6%97%8B%E9%95%96"
+        "image": "https://terraria.wiki.gg/images/2/27/Shroomerang.png?55af96",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%98%91%E8%8F%87%E5%9B%9E%E6%97%8B%E9%95%96"
     },
     {
         "name": "冰雪回旋镖",
-        "url": "/zh/wiki/%E5%86%B0%E9%9B%AA%E5%9B%9E%E6%97%8B%E9%95%96"
+        "image": "https://terraria.wiki.gg/images/1/14/Ice_Boomerang.png?74995f",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%86%B0%E9%9B%AA%E5%9B%9E%E6%97%8B%E9%95%96"
     },
     {
         "name": "荆棘旋刃",
-        "url": "/zh/wiki/%E8%8D%86%E6%A3%98%E6%97%8B%E5%88%83"
+        "image": "https://terraria.wiki.gg/images/e/e8/Thorn_Chakram.png?68c31c",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%8D%86%E6%A3%98%E6%97%8B%E5%88%83"
     },
     {
         "name": "战斗扳手",
-        "url": "/zh/wiki/%E6%88%98%E6%96%97%E6%89%B3%E6%89%8B"
+        "image": "https://terraria.wiki.gg/images/4/4c/Combat_Wrench.png?16c760",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%88%98%E6%96%97%E6%89%B3%E6%89%8B"
     },
     {
         "name": "烈焰回旋镖",
-        "url": "/zh/wiki/%E7%83%88%E7%84%B0%E5%9B%9E%E6%97%8B%E9%95%96"
+        "image": "https://terraria.wiki.gg/images/b/b8/Flamarang.png?615f9d",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%83%88%E7%84%B0%E5%9B%9E%E6%97%8B%E9%95%96"
     },
     {
         "name": "三尖回旋镖",
-        "url": "/zh/wiki/%E4%B8%89%E5%B0%96%E5%9B%9E%E6%97%8B%E9%95%96"
+        "image": "https://terraria.wiki.gg/images/e/e0/Trimarang.png?97d32b",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E4%B8%89%E5%B0%96%E5%9B%9E%E6%97%8B%E9%95%96"
     },
     {
         "name": "链锤",
-        "url": "/zh/wiki/%E9%93%BE%E9%94%A4"
+        "image": "https://terraria.wiki.gg/images/6/63/Mace.png?9f6a2e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%BE%E9%94%A4"
     },
     {
         "name": "烈焰链锤",
-        "url": "/zh/wiki/%E7%83%88%E7%84%B0%E9%93%BE%E9%94%A4"
+        "image": "https://terraria.wiki.gg/images/e/ea/Flaming_Mace.png?9138d1",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%83%88%E7%84%B0%E9%93%BE%E9%94%A4"
     },
     {
         "name": "链球",
-        "url": "/zh/wiki/%E9%93%BE%E7%90%83"
+        "image": "https://terraria.wiki.gg/images/7/72/Ball_O%27_Hurt.png?f7ad2a",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%BE%E7%90%83"
     },
     {
         "name": "血肉之球",
-        "url": "/zh/wiki/%E8%A1%80%E8%82%89%E4%B9%8B%E7%90%83"
+        "image": "https://terraria.wiki.gg/images/8/86/The_Meatball.png?a97e42",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%A1%80%E8%82%89%E4%B9%8B%E7%90%83"
     },
     {
         "name": "蓝月",
-        "url": "/zh/wiki/%E8%93%9D%E6%9C%88"
+        "image": "https://terraria.wiki.gg/images/8/8a/Blue_Moon.png?5231d4",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%93%9D%E6%9C%88"
     },
     {
         "name": "阳炎之怒",
-        "url": "/zh/wiki/%E9%98%B3%E7%82%8E%E4%B9%8B%E6%80%92"
+        "image": "https://terraria.wiki.gg/images/a/a9/Sunfury.png?f032d3",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%98%B3%E7%82%8E%E4%B9%8B%E6%80%92"
     },
     {
         "name": "泰拉魔刃",
-        "url": "/zh/wiki/%E6%B3%B0%E6%8B%89%E9%AD%94%E5%88%83"
+        "image": "https://terraria.wiki.gg/images/0/0a/Terragrim.png?c2c9cc",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%B3%B0%E6%8B%89%E9%AD%94%E5%88%83"
     },
     {
         "name": "木弓",
-        "url": "/zh/wiki/%E6%9C%A8%E5%BC%93"
+        "image": "https://terraria.wiki.gg/images/2/2e/Wooden_Bow.png?f0c400",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%9C%A8%E5%BC%93"
     },
     {
         "name": "针叶木弓",
-        "url": "/zh/wiki/%E9%92%88%E5%8F%B6%E6%9C%A8%E5%BC%93"
+        "image": "https://terraria.wiki.gg/images/f/f9/Boreal_Wood_Bow.png?a3435b",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%88%E5%8F%B6%E6%9C%A8%E5%BC%93"
     },
     {
         "name": "铜弓",
-        "url": "/zh/wiki/%E9%93%9C%E5%BC%93"
+        "image": "https://terraria.wiki.gg/images/4/4c/Copper_Bow.png?908d94",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%9C%E5%BC%93"
     },
     {
         "name": "棕榈木弓",
-        "url": "/zh/wiki/%E6%A3%95%E6%A6%88%E6%9C%A8%E5%BC%93"
+        "image": "https://terraria.wiki.gg/images/4/44/Palm_Wood_Bow.png?56b500",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%A3%95%E6%A6%88%E6%9C%A8%E5%BC%93"
     },
     {
         "name": "红木弓",
-        "url": "/zh/wiki/%E7%BA%A2%E6%9C%A8%E5%BC%93"
+        "image": "https://terraria.wiki.gg/images/3/3b/Rich_Mahogany_Bow.png?536ca8",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%BA%A2%E6%9C%A8%E5%BC%93"
     },
     {
         "name": "锡弓",
-        "url": "/zh/wiki/%E9%94%A1%E5%BC%93"
+        "image": "https://terraria.wiki.gg/images/5/5d/Tin_Bow.png?f8d2c8",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%94%A1%E5%BC%93"
     },
     {
         "name": "乌木弓",
-        "url": "/zh/wiki/%E4%B9%8C%E6%9C%A8%E5%BC%93"
+        "image": "https://terraria.wiki.gg/images/a/a2/Ebonwood_Bow.png?471a27",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E4%B9%8C%E6%9C%A8%E5%BC%93"
     },
     {
         "name": "铁弓",
-        "url": "/zh/wiki/%E9%93%81%E5%BC%93"
+        "image": "https://terraria.wiki.gg/images/6/62/Iron_Bow.png?70a75f",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%81%E5%BC%93"
     },
     {
         "name": "暗影木弓",
-        "url": "/zh/wiki/%E6%9A%97%E5%BD%B1%E6%9C%A8%E5%BC%93"
+        "image": "https://terraria.wiki.gg/images/f/ff/Shadewood_Bow.png?1b4cee",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%9A%97%E5%BD%B1%E6%9C%A8%E5%BC%93"
     },
     {
         "name": "铅弓",
-        "url": "/zh/wiki/%E9%93%85%E5%BC%93"
+        "image": "https://terraria.wiki.gg/images/d/d1/Lead_Bow.png?f19f07",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%85%E5%BC%93"
     },
     {
         "name": "银弓",
-        "url": "/zh/wiki/%E9%93%B6%E5%BC%93"
+        "image": "https://terraria.wiki.gg/images/e/e8/Silver_Bow.png?cea43d",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%B6%E5%BC%93"
     },
     {
         "name": "钨弓",
-        "url": "/zh/wiki/%E9%92%A8%E5%BC%93"
+        "image": "https://terraria.wiki.gg/images/1/1c/Tungsten_Bow.png?793181",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%A8%E5%BC%93"
     },
     {
         "name": "灰烬木弓",
-        "url": "/zh/wiki/%E7%81%B0%E7%83%AC%E6%9C%A8%E5%BC%93"
+        "image": "https://terraria.wiki.gg/images/0/0a/Ash_Wood_Bow.png?ce962c",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%81%B0%E7%83%AC%E6%9C%A8%E5%BC%93"
     },
     {
         "name": "金弓",
-        "url": "/zh/wiki/%E9%87%91%E5%BC%93"
+        "image": "https://terraria.wiki.gg/images/f/ff/Gold_Bow.png?5e9774",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%87%91%E5%BC%93"
     },
     {
         "name": "铂金弓",
-        "url": "/zh/wiki/%E9%93%82%E9%87%91%E5%BC%93"
+        "image": "https://terraria.wiki.gg/images/d/db/Platinum_Bow.png?7095b5",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%82%E9%87%91%E5%BC%93"
     },
     {
         "name": "恶魔弓",
-        "url": "/zh/wiki/%E6%81%B6%E9%AD%94%E5%BC%93"
+        "image": "https://terraria.wiki.gg/images/7/73/Demon_Bow.png?914ed9",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%81%B6%E9%AD%94%E5%BC%93"
     },
     {
         "name": "肌腱弓",
-        "url": "/zh/wiki/%E8%82%8C%E8%85%B1%E5%BC%93"
+        "image": "https://terraria.wiki.gg/images/8/84/Tendon_Bow.png?20c619",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%82%8C%E8%85%B1%E5%BC%93"
     },
     {
         "name": "血雨弓",
-        "url": "/zh/wiki/%E8%A1%80%E9%9B%A8%E5%BC%93"
+        "image": "https://terraria.wiki.gg/images/1/1e/Blood_Rain_Bow.png?b27c0a",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%A1%80%E9%9B%A8%E5%BC%93"
     },
     {
         "name": "蜂膝弓",
-        "url": "/zh/wiki/%E8%9C%82%E8%86%9D%E5%BC%93"
+        "image": "https://terraria.wiki.gg/images/2/21/The_Bee%27s_Knees.png?805784",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%9C%82%E8%86%9D%E5%BC%93"
     },
     {
         "name": "地狱之翼弓",
-        "url": "/zh/wiki/%E5%9C%B0%E7%8B%B1%E4%B9%8B%E7%BF%BC%E5%BC%93"
+        "image": "https://terraria.wiki.gg/images/d/df/Hellwing_Bow.png?c20680",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%9C%B0%E7%8B%B1%E4%B9%8B%E7%BF%BC%E5%BC%93"
     },
     {
         "name": "熔火之怒",
-        "url": "/zh/wiki/%E7%86%94%E7%81%AB%E4%B9%8B%E6%80%92"
+        "image": "https://terraria.wiki.gg/images/e/e4/Molten_Fury.png?682784",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%86%94%E7%81%AB%E4%B9%8B%E6%80%92"
     },
     {
         "name": "Sharanga弓",
-        "url": "/zh/wiki/Sharanga%E5%BC%93"
+        "image": "https://terraria.wiki.gg/images/9/91/Sharanga.png?535adf",
+        "url": "https://terraria.wiki.gg/zh/wiki/Sharanga%E5%BC%93"
     },
     {
         "name": "红莱德枪",
-        "url": "/zh/wiki/%E7%BA%A2%E8%8E%B1%E5%BE%B7%E6%9E%AA"
+        "image": "https://terraria.wiki.gg/images/0/09/Red_Ryder.png?f2c900",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%BA%A2%E8%8E%B1%E5%BE%B7%E6%9E%AA"
     },
     {
         "name": "燧发枪",
-        "url": "/zh/wiki/%E7%87%A7%E5%8F%91%E6%9E%AA"
+        "image": "https://terraria.wiki.gg/images/d/da/Flintlock_Pistol.png?510e16",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%87%A7%E5%8F%91%E6%9E%AA"
     },
     {
         "name": "火枪",
-        "url": "/zh/wiki/%E7%81%AB%E6%9E%AA"
+        "image": "https://terraria.wiki.gg/images/2/2b/Musket.png?11d540",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%81%AB%E6%9E%AA"
     },
     {
         "name": "夺命枪",
-        "url": "/zh/wiki/%E5%A4%BA%E5%91%BD%E6%9E%AA"
+        "image": "https://terraria.wiki.gg/images/8/83/The_Undertaker.png?edd4e9",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%A4%BA%E5%91%BD%E6%9E%AA"
     },
     {
         "name": "左轮手枪",
-        "url": "/zh/wiki/%E5%B7%A6%E8%BD%AE%E6%89%8B%E6%9E%AA"
+        "image": "https://terraria.wiki.gg/images/6/6d/Revolver.png?1561f2",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%B7%A6%E8%BD%AE%E6%89%8B%E6%9E%AA"
     },
     {
         "name": "迷你鲨",
-        "url": "/zh/wiki/%E8%BF%B7%E4%BD%A0%E9%B2%A8"
+        "image": "https://terraria.wiki.gg/images/9/96/Minishark.png?1a8a90",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%BF%B7%E4%BD%A0%E9%B2%A8"
     },
     {
         "name": "三发猎枪",
-        "url": "/zh/wiki/%E4%B8%89%E5%8F%91%E7%8C%8E%E6%9E%AA"
+        "image": "https://terraria.wiki.gg/images/e/e1/Boomstick.png?8b821c",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E4%B8%89%E5%8F%91%E7%8C%8E%E6%9E%AA"
     },
     {
         "name": "四管霰弹枪",
-        "url": "/zh/wiki/%E5%9B%9B%E7%AE%A1%E9%9C%B0%E5%BC%B9%E6%9E%AA"
+        "image": "https://terraria.wiki.gg/images/0/04/Quad-Barrel_Shotgun.png?1ed76e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%9B%9B%E7%AE%A1%E9%9C%B0%E5%BC%B9%E6%9E%AA"
     },
     {
         "name": "手枪",
-        "url": "/zh/wiki/%E6%89%8B%E6%9E%AA"
+        "image": "https://terraria.wiki.gg/images/3/3e/Handgun.png?9ef39c",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%89%8B%E6%9E%AA"
     },
     {
         "name": "凤凰爆破枪",
-        "url": "/zh/wiki/%E5%87%A4%E5%87%B0%E7%88%86%E7%A0%B4%E6%9E%AA"
+        "image": "https://terraria.wiki.gg/images/a/af/Phoenix_Blaster.png?508d6f",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%87%A4%E5%87%B0%E7%88%86%E7%A0%B4%E6%9E%AA"
     },
     {
         "name": "气喇叭",
-        "url": "/zh/wiki/%E6%B0%94%E5%96%87%E5%8F%AD"
+        "image": "https://terraria.wiki.gg/images/4/48/Pew-matic_Horn.png?50ff59",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%B0%94%E5%96%87%E5%8F%AD"
     },
     {
         "name": "榴弹发射器",
-        "url": "/zh/wiki/%E6%A6%B4%E5%BC%B9%E5%8F%91%E5%B0%84%E5%99%A8"
+        "image": "https://terraria.wiki.gg/images/6/67/Grenade_Launcher.png?328129",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%A6%B4%E5%BC%B9%E5%8F%91%E5%B0%84%E5%99%A8"
     },
     {
         "name": "感应雷发射器",
-        "url": "/zh/wiki/%E6%84%9F%E5%BA%94%E9%9B%B7%E5%8F%91%E5%B0%84%E5%99%A8"
+        "image": "https://terraria.wiki.gg/images/f/ff/Proximity_Mine_Launcher.png?a5a588",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%84%9F%E5%BA%94%E9%9B%B7%E5%8F%91%E5%B0%84%E5%99%A8"
     },
     {
         "name": "火箭发射器",
-        "url": "/zh/wiki/%E7%81%AB%E7%AE%AD%E5%8F%91%E5%B0%84%E5%99%A8"
+        "image": "https://terraria.wiki.gg/images/0/05/Rocket_Launcher.png?51f09c",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%81%AB%E7%AE%AD%E5%8F%91%E5%B0%84%E5%99%A8"
     },
     {
         "name": "钉枪",
-        "url": "/zh/wiki/%E9%92%89%E6%9E%AA"
+        "image": "https://terraria.wiki.gg/images/7/79/Nail_Gun.png?c8eb33",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%89%E6%9E%AA"
     },
     {
         "name": "毒刺发射器",
-        "url": "/zh/wiki/%E6%AF%92%E5%88%BA%E5%8F%91%E5%B0%84%E5%99%A8"
+        "image": "https://terraria.wiki.gg/images/8/8f/Stynger.png?954caa",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%AF%92%E5%88%BA%E5%8F%91%E5%B0%84%E5%99%A8"
     },
     {
         "name": "杰克南瓜灯发射器",
-        "url": "/zh/wiki/%E6%9D%B0%E5%85%8B%E5%8D%97%E7%93%9C%E7%81%AF%E5%8F%91%E5%B0%84%E5%99%A8"
+        "image": "https://terraria.wiki.gg/images/9/9a/Jack_%27O_Lantern_Launcher.png?34d0ab",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%9D%B0%E5%85%8B%E5%8D%97%E7%93%9C%E7%81%AF%E5%8F%91%E5%B0%84%E5%99%A8"
     },
     {
         "name": "雪人炮",
-        "url": "/zh/wiki/%E9%9B%AA%E4%BA%BA%E7%82%AE"
+        "image": "https://terraria.wiki.gg/images/3/35/Snowman_Cannon.png?9825a3",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%9B%AA%E4%BA%BA%E7%82%AE"
     },
     {
         "name": "喜庆弹射器",
-        "url": "/zh/wiki/%E5%96%9C%E5%BA%86%E5%BC%B9%E5%B0%84%E5%99%A8"
+        "image": "https://terraria.wiki.gg/images/4/4e/Celebration.png?1a5c06",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%96%9C%E5%BA%86%E5%BC%B9%E5%B0%84%E5%99%A8"
     },
     {
         "name": "电圈发射器",
-        "url": "/zh/wiki/%E7%94%B5%E5%9C%88%E5%8F%91%E5%B0%84%E5%99%A8"
+        "image": "https://terraria.wiki.gg/images/d/da/Electrosphere_Launcher.png?a38455",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%94%B5%E5%9C%88%E5%8F%91%E5%B0%84%E5%99%A8"
     },
     {
         "name": "喜庆弹射器Mk2",
-        "url": "/zh/wiki/%E5%96%9C%E5%BA%86%E5%BC%B9%E5%B0%84%E5%99%A8Mk2"
+        "image": "https://terraria.wiki.gg/images/8/83/Celebration_Mk2.png?6d1d06",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%96%9C%E5%BA%86%E5%BC%B9%E5%B0%84%E5%99%A8Mk2"
     },
     {
         "name": "纸飞机",
-        "url": "/zh/wiki/%E7%BA%B8%E9%A3%9E%E6%9C%BA"
+        "image": "https://terraria.wiki.gg/images/c/c4/Paper_Airplane.png?6b6538",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%BA%B8%E9%A3%9E%E6%9C%BA"
     },
     {
         "name": "白纸飞机",
-        "url": "/zh/wiki/%E7%99%BD%E7%BA%B8%E9%A3%9E%E6%9C%BA"
+        "image": "https://terraria.wiki.gg/images/a/ae/White_Paper_Airplane.png?eee186",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%99%BD%E7%BA%B8%E9%A3%9E%E6%9C%BA"
     },
     {
         "name": "手里剑",
-        "url": "/zh/wiki/%E6%89%8B%E9%87%8C%E5%89%91"
+        "image": "https://terraria.wiki.gg/images/a/ac/Shuriken.png?b67e3d",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%89%8B%E9%87%8C%E5%89%91"
     },
     {
         "name": "投刀",
-        "url": "/zh/wiki/%E6%8A%95%E5%88%80"
+        "image": "https://terraria.wiki.gg/images/d/d1/Throwing_Knife.png?d5ae98",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%8A%95%E5%88%80"
     },
     {
         "name": "毒刀",
-        "url": "/zh/wiki/%E6%AF%92%E5%88%80"
+        "image": "https://terraria.wiki.gg/images/0/02/Poisoned_Knife.png?5a6429",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%AF%92%E5%88%80"
     },
     {
         "name": "雪球",
-        "url": "/zh/wiki/%E9%9B%AA%E7%90%83"
+        "image": "https://terraria.wiki.gg/images/0/04/Snowball.png?f202de",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%9B%AA%E7%90%83"
     },
     {
         "name": "尖球",
-        "url": "/zh/wiki/%E5%B0%96%E7%90%83"
+        "image": "https://terraria.wiki.gg/images/d/d9/Spiky_Ball.png?875d21",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%B0%96%E7%90%83"
     },
     {
         "name": "骨头",
-        "url": "/zh/wiki/%E9%AA%A8%E5%A4%B4"
+        "image": "https://terraria.wiki.gg/images/2/2c/Bone.png?6eb4f7",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%AA%A8%E5%A4%B4"
     },
     {
         "name": "臭蛋",
-        "url": "/zh/wiki/%E8%87%AD%E8%9B%8B"
+        "image": "https://terraria.wiki.gg/images/0/03/Rotten_Egg.png?10b8bd",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%87%AD%E8%9B%8B"
     },
     {
         "name": "星形茴香",
-        "url": "/zh/wiki/%E6%98%9F%E5%BD%A2%E8%8C%B4%E9%A6%99"
+        "image": "https://terraria.wiki.gg/images/9/90/Star_Anise.png?eb59ea",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%98%9F%E5%BD%A2%E8%8C%B4%E9%A6%99"
     },
     {
         "name": "莫洛托夫鸡尾酒",
-        "url": "/zh/wiki/%E8%8E%AB%E6%B4%9B%E6%89%98%E5%A4%AB%E9%B8%A1%E5%B0%BE%E9%85%92"
+        "image": "https://terraria.wiki.gg/images/f/fa/Molotov_Cocktail.png?40e3a7",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%8E%AB%E6%B4%9B%E6%89%98%E5%A4%AB%E9%B8%A1%E5%B0%BE%E9%85%92"
     },
     {
         "name": "寒霜飞鱼",
-        "url": "/zh/wiki/%E5%AF%92%E9%9C%9C%E9%A3%9E%E9%B1%BC"
+        "image": "https://terraria.wiki.gg/images/7/77/Frost_Daggerfish.png?fed06c",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%AF%92%E9%9C%9C%E9%A3%9E%E9%B1%BC"
     },
     {
         "name": "标枪",
-        "url": "/zh/wiki/%E6%A0%87%E6%9E%AA"
+        "image": "https://terraria.wiki.gg/images/1/1d/Javelin.png?8f2069",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%A0%87%E6%9E%AA"
     },
     {
         "name": "骨头标枪",
-        "url": "/zh/wiki/%E9%AA%A8%E5%A4%B4%E6%A0%87%E6%9E%AA"
+        "image": "https://terraria.wiki.gg/images/6/6a/Bone_Javelin.png?cee4ea",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%AA%A8%E5%A4%B4%E6%A0%87%E6%9E%AA"
     },
     {
         "name": "骨投刀",
-        "url": "/zh/wiki/%E9%AA%A8%E6%8A%95%E5%88%80"
+        "image": "https://terraria.wiki.gg/images/d/dc/Bone_Throwing_Knife.png?cdbe6b",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%AA%A8%E6%8A%95%E5%88%80"
     },
     {
         "name": "手榴弹",
-        "url": "/zh/wiki/%E6%89%8B%E6%A6%B4%E5%BC%B9"
+        "image": "https://terraria.wiki.gg/images/f/fb/Grenade.png?150ea5",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%89%8B%E6%A6%B4%E5%BC%B9"
     },
     {
         "name": "粘性手榴弹",
-        "url": "/zh/wiki/%E7%B2%98%E6%80%A7%E6%89%8B%E6%A6%B4%E5%BC%B9"
+        "image": "https://terraria.wiki.gg/images/9/9d/Sticky_Grenade.png?221f27",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%B2%98%E6%80%A7%E6%89%8B%E6%A6%B4%E5%BC%B9"
     },
     {
         "name": "弹力手榴弹",
-        "url": "/zh/wiki/%E5%BC%B9%E5%8A%9B%E6%89%8B%E6%A6%B4%E5%BC%B9"
+        "image": "https://terraria.wiki.gg/images/a/a3/Bouncy_Grenade.png?7309f1",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%BC%B9%E5%8A%9B%E6%89%8B%E6%A6%B4%E5%BC%B9"
     },
     {
         "name": "蜜蜂手榴弹",
-        "url": "/zh/wiki/%E8%9C%9C%E8%9C%82%E6%89%8B%E6%A6%B4%E5%BC%B9"
+        "image": "https://terraria.wiki.gg/images/0/02/Beenade.png?85d560",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%9C%9C%E8%9C%82%E6%89%8B%E6%A6%B4%E5%BC%B9"
     },
     {
         "name": "快乐手榴弹",
-        "url": "/zh/wiki/%E5%BF%AB%E4%B9%90%E6%89%8B%E6%A6%B4%E5%BC%B9"
+        "image": "https://terraria.wiki.gg/images/9/9e/Happy_Grenade.png?adea87",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%BF%AB%E4%B9%90%E6%89%8B%E6%A6%B4%E5%BC%B9"
     },
     {
         "name": "吹管",
-        "url": "/zh/wiki/%E5%90%B9%E7%AE%A1"
+        "image": "https://terraria.wiki.gg/images/6/68/Blowpipe.png?b6da50",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%90%B9%E7%AE%A1"
     },
     {
         "name": "沙枪",
-        "url": "/zh/wiki/%E6%B2%99%E6%9E%AA"
+        "image": "https://terraria.wiki.gg/images/a/a6/Sandgun.png?56f492",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%B2%99%E6%9E%AA"
     },
     {
         "name": "吹箭筒",
-        "url": "/zh/wiki/%E5%90%B9%E7%AE%AD%E7%AD%92"
+        "image": "https://terraria.wiki.gg/images/6/65/Blowgun.png?e86ce8",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%90%B9%E7%AE%AD%E7%AD%92"
     },
     {
         "name": "雪球炮",
-        "url": "/zh/wiki/%E9%9B%AA%E7%90%83%E7%82%AE"
+        "image": "https://terraria.wiki.gg/images/c/cd/Snowball_Cannon.png?7f0bdf",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%9B%AA%E7%90%83%E7%82%AE"
     },
     {
         "name": "彩弹枪",
-        "url": "/zh/wiki/%E5%BD%A9%E5%BC%B9%E6%9E%AA"
+        "image": "https://terraria.wiki.gg/images/b/b0/Paintball_Gun.png?9ee618",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%BD%A9%E5%BC%B9%E6%9E%AA"
     },
     {
         "name": "麦芽酒投掷器",
-        "url": "/zh/wiki/%E9%BA%A6%E8%8A%BD%E9%85%92%E6%8A%95%E6%8E%B7%E5%99%A8"
+        "image": "https://terraria.wiki.gg/images/d/d1/Ale_Tosser.png?97eace",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%BA%A6%E8%8A%BD%E9%85%92%E6%8A%95%E6%8E%B7%E5%99%A8"
     },
     {
         "name": "鱼叉枪",
-        "url": "/zh/wiki/%E9%B1%BC%E5%8F%89%E6%9E%AA"
+        "image": "https://terraria.wiki.gg/images/d/dc/Harpoon.png?3c8086",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%B1%BC%E5%8F%89%E6%9E%AA"
     },
     {
         "name": "蛋炮",
-        "url": "/zh/wiki/%E8%9B%8B%E7%82%AE"
+        "image": "https://terraria.wiki.gg/images/5/5a/Egg_Cannon.png?54803c",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%9B%8B%E7%82%AE"
     },
     {
         "name": "星星炮",
-        "url": "/zh/wiki/%E6%98%9F%E6%98%9F%E7%82%AE"
+        "image": "https://terraria.wiki.gg/images/7/70/Star_Cannon.png?eb100d",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%98%9F%E6%98%9F%E7%82%AE"
     },
     {
         "name": "火花魔棒",
-        "url": "/zh/wiki/%E7%81%AB%E8%8A%B1%E9%AD%94%E6%A3%92"
+        "image": "https://terraria.wiki.gg/images/9/91/Wand_of_Sparking.png?8e0b0e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%81%AB%E8%8A%B1%E9%AD%94%E6%A3%92"
     },
     {
         "name": "结霜魔棒",
-        "url": "/zh/wiki/%E7%BB%93%E9%9C%9C%E9%AD%94%E6%A3%92"
+        "image": "https://terraria.wiki.gg/images/f/f0/Wand_of_Frosting.png?488b70",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%BB%93%E9%9C%9C%E9%AD%94%E6%A3%92"
     },
     {
         "name": "霹雳法杖",
-        "url": "/zh/wiki/%E9%9C%B9%E9%9B%B3%E6%B3%95%E6%9D%96"
+        "image": "https://terraria.wiki.gg/images/1/14/Thunder_Zapper.png?7751e2",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%9C%B9%E9%9B%B3%E6%B3%95%E6%9D%96"
     },
     {
         "name": "紫晶法杖",
-        "url": "/zh/wiki/%E7%B4%AB%E6%99%B6%E6%B3%95%E6%9D%96"
+        "image": "https://terraria.wiki.gg/images/a/a1/Amethyst_Staff.png?e65894",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%B4%AB%E6%99%B6%E6%B3%95%E6%9D%96"
     },
     {
         "name": "黄玉法杖",
-        "url": "/zh/wiki/%E9%BB%84%E7%8E%89%E6%B3%95%E6%9D%96"
+        "image": "https://terraria.wiki.gg/images/9/9c/Topaz_Staff.png?5f039a",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%BB%84%E7%8E%89%E6%B3%95%E6%9D%96"
     },
     {
         "name": "蓝玉法杖",
-        "url": "/zh/wiki/%E8%93%9D%E7%8E%89%E6%B3%95%E6%9D%96"
+        "image": "https://terraria.wiki.gg/images/5/55/Sapphire_Staff.png?7fa186",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%93%9D%E7%8E%89%E6%B3%95%E6%9D%96"
     },
     {
         "name": "翡翠法杖",
-        "url": "/zh/wiki/%E7%BF%A1%E7%BF%A0%E6%B3%95%E6%9D%96"
+        "image": "https://terraria.wiki.gg/images/3/3b/Emerald_Staff.png?f0bb3d",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%BF%A1%E7%BF%A0%E6%B3%95%E6%9D%96"
     },
     {
         "name": "红玉法杖",
-        "url": "/zh/wiki/%E7%BA%A2%E7%8E%89%E6%B3%95%E6%9D%96"
+        "image": "https://terraria.wiki.gg/images/c/c3/Ruby_Staff.png?d8b134",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%BA%A2%E7%8E%89%E6%B3%95%E6%9D%96"
     },
     {
         "name": "钻石法杖",
-        "url": "/zh/wiki/%E9%92%BB%E7%9F%B3%E6%B3%95%E6%9D%96"
+        "image": "https://terraria.wiki.gg/images/b/b0/Diamond_Staff.png?27d173",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%BB%E7%9F%B3%E6%B3%95%E6%9D%96"
     },
     {
         "name": "琥珀法杖",
-        "url": "/zh/wiki/%E7%90%A5%E7%8F%80%E6%B3%95%E6%9D%96"
+        "image": "https://terraria.wiki.gg/images/6/6f/Amber_Staff.png?fb646b",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%90%A5%E7%8F%80%E6%B3%95%E6%9D%96"
     },
     {
         "name": "魔刺",
-        "url": "/zh/wiki/%E9%AD%94%E5%88%BA"
+        "image": "https://terraria.wiki.gg/images/5/5c/Vilethorn.png?187463",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%AD%94%E5%88%BA"
     },
     {
         "name": "天候棒",
-        "url": "/zh/wiki/%E5%A4%A9%E5%80%99%E6%A3%92"
+        "image": "https://terraria.wiki.gg/images/5/5d/Weather_Pain.png?4c490e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%A4%A9%E5%80%99%E6%A3%92"
     },
     {
         "name": "魔法飞弹",
-        "url": "/zh/wiki/%E9%AD%94%E6%B3%95%E9%A3%9E%E5%BC%B9"
+        "image": "https://terraria.wiki.gg/images/0/05/Magic_Missile.png?249740",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%AD%94%E6%B3%95%E9%A3%9E%E5%BC%B9"
     },
     {
         "name": "海蓝权杖",
-        "url": "/zh/wiki/%E6%B5%B7%E8%93%9D%E6%9D%83%E6%9D%96"
+        "image": "https://terraria.wiki.gg/images/f/ff/Aqua_Scepter.png?8a3c62",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%B5%B7%E8%93%9D%E6%9D%83%E6%9D%96"
     },
     {
         "name": "火之花",
-        "url": "/zh/wiki/%E7%81%AB%E4%B9%8B%E8%8A%B1"
+        "image": "https://terraria.wiki.gg/images/2/2b/Flower_of_Fire.png?515566",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%81%AB%E4%B9%8B%E8%8A%B1"
     },
     {
         "name": "烈焰火鞭",
-        "url": "/zh/wiki/%E7%83%88%E7%84%B0%E7%81%AB%E9%9E%AD"
+        "image": "https://terraria.wiki.gg/images/0/0f/Flamelash.png?fc6def",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%83%88%E7%84%B0%E7%81%AB%E9%9E%AD"
     },
     {
         "name": "灰冲击枪",
-        "url": "/zh/wiki/%E7%81%B0%E5%86%B2%E5%87%BB%E6%9E%AA"
+        "image": "https://terraria.wiki.gg/images/0/0a/Gray_Zapinator.png?726b11",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%81%B0%E5%86%B2%E5%87%BB%E6%9E%AA"
     },
     {
         "name": "太空枪",
-        "url": "/zh/wiki/%E5%A4%AA%E7%A9%BA%E6%9E%AA"
+        "image": "https://terraria.wiki.gg/images/a/a8/Space_Gun.png?298a4d",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%A4%AA%E7%A9%BA%E6%9E%AA"
     },
     {
         "name": "蜜蜂枪",
-        "url": "/zh/wiki/%E8%9C%9C%E8%9C%82%E6%9E%AA"
+        "image": "https://terraria.wiki.gg/images/0/03/Bee_Gun.png?cb3c58",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%9C%9C%E8%9C%82%E6%9E%AA"
     },
     {
         "name": "罗马焰火筒",
-        "url": "/zh/wiki/%E7%BD%97%E9%A9%AC%E7%84%B0%E7%81%AB%E7%AD%92"
+        "image": "https://terraria.wiki.gg/images/4/46/Roman_candle.png?1eba33",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%BD%97%E9%A9%AC%E7%84%B0%E7%81%AB%E7%AD%92"
     },
     {
         "name": "水矢",
-        "url": "/zh/wiki/%E6%B0%B4%E7%9F%A2"
+        "image": "https://terraria.wiki.gg/images/5/53/Water_Bolt.png?8f25bf",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%B0%B4%E7%9F%A2"
     },
     {
         "name": "骷髅头法书",
-        "url": "/zh/wiki/%E9%AA%B7%E9%AB%85%E5%A4%B4%E6%B3%95%E4%B9%A6"
+        "image": "https://terraria.wiki.gg/images/f/f4/Book_of_Skulls.png?ab7052",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%AA%B7%E9%AB%85%E5%A4%B4%E6%B3%95%E4%B9%A6"
     },
     {
         "name": "恶魔之镰",
-        "url": "/zh/wiki/%E6%81%B6%E9%AD%94%E4%B9%8B%E9%95%B0"
+        "image": "https://terraria.wiki.gg/images/e/e2/Demon_Scythe.png?1d979b",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%81%B6%E9%AD%94%E4%B9%8B%E9%95%B0"
     },
     {
         "name": "猩红魔杖",
-        "url": "/zh/wiki/%E7%8C%A9%E7%BA%A2%E9%AD%94%E6%9D%96"
+        "image": "https://terraria.wiki.gg/images/2/21/Crimson_Rod.png?919820",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%8C%A9%E7%BA%A2%E9%AD%94%E6%9D%96"
     },
     {
         "name": "雀杖",
-        "url": "/zh/wiki/%E9%9B%80%E6%9D%96"
+        "image": "https://terraria.wiki.gg/images/4/4e/Finch_Staff.png?4edca7",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%9B%80%E6%9D%96"
     },
     {
         "name": "史莱姆法杖",
-        "url": "/zh/wiki/%E5%8F%B2%E8%8E%B1%E5%A7%86%E6%B3%95%E6%9D%96"
+        "image": "https://terraria.wiki.gg/images/f/f1/Slime_Staff.png?ee2889",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%8F%B2%E8%8E%B1%E5%A7%86%E6%B3%95%E6%9D%96"
     },
     {
         "name": "小雪怪法杖",
-        "url": "/zh/wiki/%E5%B0%8F%E9%9B%AA%E6%80%AA%E6%B3%95%E6%9D%96"
+        "image": "https://terraria.wiki.gg/images/d/de/Flinx_Staff.png?b1154b",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%B0%8F%E9%9B%AA%E6%80%AA%E6%B3%95%E6%9D%96"
     },
     {
         "name": "阿比盖尔的花",
-        "url": "/zh/wiki/%E9%98%BF%E6%AF%94%E7%9B%96%E5%B0%94%E7%9A%84%E8%8A%B1"
+        "image": "https://terraria.wiki.gg/images/4/4e/Abigail%27s_Flower.png?3b3a15",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%98%BF%E6%AF%94%E7%9B%96%E5%B0%94%E7%9A%84%E8%8A%B1"
     },
     {
         "name": "黄蜂法杖",
-        "url": "/zh/wiki/%E9%BB%84%E8%9C%82%E6%B3%95%E6%9D%96"
+        "image": "https://terraria.wiki.gg/images/4/4f/Hornet_Staff.png?f4cb03",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%BB%84%E8%9C%82%E6%B3%95%E6%9D%96"
     },
     {
         "name": "吸血鬼青蛙法杖",
-        "url": "/zh/wiki/%E5%90%B8%E8%A1%80%E9%AC%BC%E9%9D%92%E8%9B%99%E6%B3%95%E6%9D%96"
+        "image": "https://terraria.wiki.gg/images/3/37/Vampire_Frog_Staff.png?b749bc",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%90%B8%E8%A1%80%E9%AC%BC%E9%9D%92%E8%9B%99%E6%B3%95%E6%9D%96"
     },
     {
         "name": "小鬼法杖",
-        "url": "/zh/wiki/%E5%B0%8F%E9%AC%BC%E6%B3%95%E6%9D%96"
+        "image": "https://terraria.wiki.gg/images/7/72/Imp_Staff.png?317f8d",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%B0%8F%E9%AC%BC%E6%B3%95%E6%9D%96"
     },
     {
         "name": "眼球激光塔",
-        "url": "/zh/wiki/%E7%9C%BC%E7%90%83%E6%BF%80%E5%85%89%E5%A1%94"
+        "image": "https://terraria.wiki.gg/images/c/c8/Houndius_Shootius.png?ddbd1b",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%9C%BC%E7%90%83%E6%BF%80%E5%85%89%E5%A1%94"
     },
     {
         "name": "皮鞭",
-        "url": "/zh/wiki/%E7%9A%AE%E9%9E%AD"
+        "image": "https://terraria.wiki.gg/images/8/85/Leather_Whip.png?40663e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%9A%AE%E9%9E%AD"
     },
     {
         "name": "荆鞭",
-        "url": "/zh/wiki/%E8%8D%86%E9%9E%AD"
+        "image": "https://terraria.wiki.gg/images/a/a0/Snapthorn.png?701cd0",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%8D%86%E9%9E%AD"
     },
     {
         "name": "脊柱骨鞭",
-        "url": "/zh/wiki/%E8%84%8A%E6%9F%B1%E9%AA%A8%E9%9E%AD"
+        "image": "https://terraria.wiki.gg/images/4/4d/Spinal_Tap.png?b45b00",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%84%8A%E6%9F%B1%E9%AA%A8%E9%9E%AD"
     },
     {
         "name": "雪球发射器",
-        "url": "/zh/wiki/%E9%9B%AA%E7%90%83%E5%8F%91%E5%B0%84%E5%99%A8"
+        "image": "https://terraria.wiki.gg/images/d/dd/Snowball_Launcher.png?f113aa",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%9B%AA%E7%90%83%E5%8F%91%E5%B0%84%E5%99%A8"
     },
     {
         "name": "炸弹",
-        "url": "/zh/wiki/%E7%82%B8%E5%BC%B9"
+        "image": "https://terraria.wiki.gg/images/3/3b/Bomb.png?323aad",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%82%B8%E5%BC%B9"
     },
     {
         "name": "粘性炸弹",
-        "url": "/zh/wiki/%E7%B2%98%E6%80%A7%E7%82%B8%E5%BC%B9"
+        "image": "https://terraria.wiki.gg/images/7/74/Sticky_Bomb.png?2f5e18",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%B2%98%E6%80%A7%E7%82%B8%E5%BC%B9"
     },
     {
         "name": "弹力炸弹",
-        "url": "/zh/wiki/%E5%BC%B9%E5%8A%9B%E7%82%B8%E5%BC%B9"
+        "image": "https://terraria.wiki.gg/images/c/cd/Bouncy_Bomb.png?b4c75e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%BC%B9%E5%8A%9B%E7%82%B8%E5%BC%B9"
     },
     {
         "name": "甲虫炸弹",
-        "url": "/zh/wiki/%E7%94%B2%E8%99%AB%E7%82%B8%E5%BC%B9"
+        "image": "https://terraria.wiki.gg/images/8/82/Scarab_Bomb.png?a3b776",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%94%B2%E8%99%AB%E7%82%B8%E5%BC%B9"
     },
     {
         "name": "土炸弹",
-        "url": "/zh/wiki/%E5%9C%9F%E7%82%B8%E5%BC%B9"
+        "image": "https://terraria.wiki.gg/images/5/50/Dirt_Bomb.png?a75926",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%9C%9F%E7%82%B8%E5%BC%B9"
     },
     {
         "name": "粘性土炸弹",
-        "url": "/zh/wiki/%E7%B2%98%E6%80%A7%E5%9C%9F%E7%82%B8%E5%BC%B9"
+        "image": "https://terraria.wiki.gg/images/7/7c/Sticky_Dirt_Bomb.png?ca4dfe",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%B2%98%E6%80%A7%E5%9C%9F%E7%82%B8%E5%BC%B9"
     },
     {
         "name": "雷管",
-        "url": "/zh/wiki/%E9%9B%B7%E7%AE%A1"
+        "image": "https://terraria.wiki.gg/images/f/fc/Dynamite.png?5f1243",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%9B%B7%E7%AE%A1"
     },
     {
         "name": "粘性雷管",
-        "url": "/zh/wiki/%E7%B2%98%E6%80%A7%E9%9B%B7%E7%AE%A1"
+        "image": "https://terraria.wiki.gg/images/7/7d/Sticky_Dynamite.png?864164",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%B2%98%E6%80%A7%E9%9B%B7%E7%AE%A1"
     },
     {
         "name": "弹力雷管",
-        "url": "/zh/wiki/%E5%BC%B9%E5%8A%9B%E9%9B%B7%E7%AE%A1"
+        "image": "https://terraria.wiki.gg/images/d/d7/Bouncy_Dynamite.png?ebe5ba",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%BC%B9%E5%8A%9B%E9%9B%B7%E7%AE%A1"
     },
     {
         "name": "炸弹鱼",
-        "url": "/zh/wiki/%E7%82%B8%E5%BC%B9%E9%B1%BC"
+        "image": "https://terraria.wiki.gg/images/f/f1/Bomb_Fish.png?452d4d",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%82%B8%E5%BC%B9%E9%B1%BC"
     },
     {
         "name": "干炸弹",
-        "url": "/zh/wiki/%E5%B9%B2%E7%82%B8%E5%BC%B9"
+        "image": "https://terraria.wiki.gg/images/9/9a/Dry_Bomb.png?f75d63",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%B9%B2%E7%82%B8%E5%BC%B9"
     },
     {
         "name": "蜂蜜炸弹",
-        "url": "/zh/wiki/%E8%9C%82%E8%9C%9C%E7%82%B8%E5%BC%B9"
+        "image": "https://terraria.wiki.gg/images/f/f0/Honey_Bomb.png?6a741b",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%9C%82%E8%9C%9C%E7%82%B8%E5%BC%B9"
     },
     {
         "name": "熔岩炸弹",
-        "url": "/zh/wiki/%E7%86%94%E5%B2%A9%E7%82%B8%E5%BC%B9"
+        "image": "https://terraria.wiki.gg/images/d/d1/Lava_Bomb.png?aa12bd",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%86%94%E5%B2%A9%E7%82%B8%E5%BC%B9"
     },
     {
         "name": "湿炸弹",
-        "url": "/zh/wiki/%E6%B9%BF%E7%82%B8%E5%BC%B9"
+        "image": "https://terraria.wiki.gg/images/c/cd/Wet_Bomb.png?4a89c6",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%B9%BF%E7%82%B8%E5%BC%B9"
     },
     {
         "name": "神圣手榴弹",
-        "url": "/zh/wiki/%E7%A5%9E%E5%9C%A3%E6%89%8B%E6%A6%B4%E5%BC%B9"
+        "image": "https://terraria.wiki.gg/images/a/ad/Holy_Hand_Grenade.png?6066ce",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%A5%9E%E5%9C%A3%E6%89%8B%E6%A6%B4%E5%BC%B9"
     },
     {
         "name": "圣水",
-        "url": "/zh/wiki/%E5%9C%A3%E6%B0%B4"
+        "image": "https://terraria.wiki.gg/images/2/25/Holy_Water.png?1ab5ba",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%9C%A3%E6%B0%B4"
     },
     {
         "name": "邪水",
-        "url": "/zh/wiki/%E9%82%AA%E6%B0%B4"
+        "image": "https://terraria.wiki.gg/images/c/c9/Unholy_Water.png?b1dd20",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%82%AA%E6%B0%B4"
     },
     {
         "name": "血水",
-        "url": "/zh/wiki/%E8%A1%80%E6%B0%B4"
+        "image": "https://terraria.wiki.gg/images/e/ec/Blood_Water.png?b4f72a",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%A1%80%E6%B0%B4"
     },
     {
         "name": "信号枪",
-        "url": "/zh/wiki/%E4%BF%A1%E5%8F%B7%E6%9E%AA"
+        "image": "https://terraria.wiki.gg/images/5/57/Flare_Gun.png?d8dd0d",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E4%BF%A1%E5%8F%B7%E6%9E%AA"
     },
     {
         "name": "无趣弓",
-        "url": "/zh/wiki/%E6%97%A0%E8%B6%A3%E5%BC%93"
+        "image": "https://terraria.wiki.gg/images/0/02/Boring_Bow.png?3300f1",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%97%A0%E8%B6%A3%E5%BC%93"
     },
     {
         "name": "埃特尼亚标枪",
-        "url": "/zh/wiki/%E5%9F%83%E7%89%B9%E5%B0%BC%E4%BA%9A%E6%A0%87%E6%9E%AA"
+        "image": "https://terraria.wiki.gg/images/6/6c/Etherian_Javelin.png?42d4c0",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%9F%83%E7%89%B9%E5%B0%BC%E4%BA%9A%E6%A0%87%E6%9E%AA"
     },
     {
         "name": "第一分形",
-        "url": "/zh/wiki/%E7%AC%AC%E4%B8%80%E5%88%86%E5%BD%A2"
+        "image": "https://terraria.wiki.gg/images/c/c2/First_Fractal.png?8cade7",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%AC%AC%E4%B8%80%E5%88%86%E5%BD%A2"
     },
     {
         "name": "骷髅头弓",
-        "url": "/zh/wiki/%E9%AA%B7%E9%AB%85%E5%A4%B4%E5%BC%93"
+        "image": "https://terraria.wiki.gg/images/1/1c/Skull_Bow.png?b2ac11",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%AA%B7%E9%AB%85%E5%A4%B4%E5%BC%93"
     },
     {
         "name": "大镰刀",
-        "url": "/zh/wiki/%E5%A4%A7%E9%95%B0%E5%88%80"
+        "image": "https://terraria.wiki.gg/images/c/cd/Scythe.png?1d1f86",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%A4%A7%E9%95%B0%E5%88%80"
     },
     {
         "name": "冰之哀伤",
-        "url": "/zh/wiki/%E5%86%B0%E4%B9%8B%E5%93%80%E4%BC%A4"
+        "image": "https://terraria.wiki.gg/images/e/ea/Icemourne.png?221bbb",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%86%B0%E4%B9%8B%E5%93%80%E4%BC%A4"
     },
     {
         "name": "灵魂镰刀",
-        "url": "/zh/wiki/%E7%81%B5%E9%AD%82%E9%95%B0%E5%88%80"
+        "image": "https://terraria.wiki.gg/images/4/44/Soul_Scythe.png?9b4dac",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%81%B5%E9%AD%82%E9%95%B0%E5%88%80"
     }
 ]
