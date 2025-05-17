@@ -1,7 +1,5 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException, Cookie
 from fastapi.responses import FileResponse
-from typing import Literal
-from fastapi import Query
 
 from prompt.metrics import prompt_metric_list
 from prompt.plot import get_prompt_plot
@@ -10,8 +8,6 @@ from access_token import get_user_id
 from task.request_model import *
 from task.utils import *
 from rag_eval.rag_eval import rag_metric_list
-from models.Task import CustomMetric
-from models.database import SessionLocal
 
 router = APIRouter(prefix='/task', tags=['Tasks'])
 
@@ -32,8 +28,9 @@ async def get_metrics(category: Literal["rag", "prompt"] = Query(...), access_to
             system_metrics = prompt_metric_list()
         system_metrics = [{"name": m['name'], "type": "system", "description": m['description'], "created": None}
                           for m in system_metrics]
-        custom_metrics = [{"name": m.name, "type": "custom", "description": m.description, "created": m.created}
-                          for m in custom_metrics]
+        custom_metrics = [
+            {"id": m.id, "name": m.name, "type": "custom", "description": m.description, "created": m.created}
+            for m in custom_metrics]
         return system_metrics + custom_metrics
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -212,7 +209,7 @@ async def update_metric(r: UpdateMetricRequest, access_token: str = Cookie(None)
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@router.delete("/metric/{metric_id}")
+@router.delete("/metric")
 async def delete_metric(metric_id: int, access_token: str = Cookie(None)):
     """删除自定义指标"""
     try:
