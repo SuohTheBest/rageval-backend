@@ -1,930 +1,1162 @@
 [
     {
-        "name": "仙人掌鎬",
-        "url": "/zh/wiki/%E4%BB%99%E4%BA%BA%E6%8E%8C%E9%95%90"
+        "name": "仙人掌镐",
+        "image": "https://terraria.wiki.gg/images/d/d4/Cactus_Pickaxe.png?4c9d5f",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E4%BB%99%E4%BA%BA%E6%8E%8C%E9%95%90"
     },
     {
-        "name": "銅鎬",
-        "url": "/zh/wiki/%E9%93%9C%E9%95%90"
+        "name": "铜镐",
+        "image": "https://terraria.wiki.gg/images/d/d7/Copper_Pickaxe.png?ad0b13",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%9C%E9%95%90"
     },
     {
-        "name": "錫鎬",
-        "url": "/zh/wiki/%E9%94%A1%E9%95%90"
+        "name": "锡镐",
+        "image": "https://terraria.wiki.gg/images/3/39/Tin_Pickaxe.png?1e1e60",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%94%A1%E9%95%90"
     },
     {
-        "name": "鐵鎬",
-        "url": "/zh/wiki/%E9%93%81%E9%95%90"
+        "name": "铁镐",
+        "image": "https://terraria.wiki.gg/images/a/a2/Iron_Pickaxe.png?c4d254",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%81%E9%95%90"
     },
     {
-        "name": "鉛鎬",
-        "url": "/zh/wiki/%E9%93%85%E9%95%90"
+        "name": "铅镐",
+        "image": "https://terraria.wiki.gg/images/8/83/Lead_Pickaxe.png?e687ce",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%85%E9%95%90"
     },
     {
-        "name": "銀鎬",
-        "url": "/zh/wiki/%E9%93%B6%E9%95%90"
+        "name": "银镐",
+        "image": "https://terraria.wiki.gg/images/9/94/Silver_Pickaxe.png?7f5ad1",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%B6%E9%95%90"
     },
     {
-        "name": "鎢鎬",
-        "url": "/zh/wiki/%E9%92%A8%E9%95%90"
+        "name": "钨镐",
+        "image": "https://terraria.wiki.gg/images/7/7e/Tungsten_Pickaxe.png?d99870",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%A8%E9%95%90"
     },
     {
-        "name": "金鎬",
-        "url": "/zh/wiki/%E9%87%91%E9%95%90"
+        "name": "金镐",
+        "image": "https://terraria.wiki.gg/images/d/d3/Gold_Pickaxe.png?4081fc",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%87%91%E9%95%90"
     },
     {
-        "name": "糖棒鎬",
-        "url": "/zh/wiki/%E7%B3%96%E6%A3%92%E9%95%90"
+        "name": "糖棒镐",
+        "image": "https://terraria.wiki.gg/images/c/cd/Candy_Cane_Pickaxe.png?59f9eb",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%B3%96%E6%A3%92%E9%95%90"
     },
     {
-        "name": "化石鎬",
-        "url": "/zh/wiki/%E5%8C%96%E7%9F%B3%E9%95%90"
+        "name": "化石镐",
+        "image": "https://terraria.wiki.gg/images/b/b7/Fossil_Pickaxe.png?1b1696",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%8C%96%E7%9F%B3%E9%95%90"
     },
     {
-        "name": "骨鎬",
-        "url": "/zh/wiki/%E9%AA%A8%E9%95%90"
+        "name": "骨镐",
+        "image": "https://terraria.wiki.gg/images/0/05/Bone_Pickaxe.png?452135",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%AA%A8%E9%95%90"
     },
     {
-        "name": "鉑金鎬",
-        "url": "/zh/wiki/%E9%93%82%E9%87%91%E9%95%90"
+        "name": "铂金镐",
+        "image": "https://terraria.wiki.gg/images/1/1c/Platinum_Pickaxe.png?c72652",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%82%E9%87%91%E9%95%90"
     },
     {
-        "name": "掠奪鯊",
-        "url": "/zh/wiki/%E6%8E%A0%E5%A4%BA%E9%B2%A8"
+        "name": "掠夺鲨",
+        "image": "https://terraria.wiki.gg/images/3/3c/Reaver_Shark.png?7c7468",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%8E%A0%E5%A4%BA%E9%B2%A8"
     },
     {
-        "name": "夢魘鎬",
-        "url": "/zh/wiki/%E6%A2%A6%E9%AD%87%E9%95%90"
+        "name": "梦魇镐",
+        "image": "https://terraria.wiki.gg/images/a/a7/Nightmare_Pickaxe.png?cdb46f",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%A2%A6%E9%AD%87%E9%95%90"
     },
     {
-        "name": "死亡使者鎬",
-        "url": "/zh/wiki/%E6%AD%BB%E4%BA%A1%E4%BD%BF%E8%80%85%E9%95%90"
+        "name": "死亡使者镐",
+        "image": "https://terraria.wiki.gg/images/1/11/Deathbringer_Pickaxe.png?697c0d",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%AD%BB%E4%BA%A1%E4%BD%BF%E8%80%85%E9%95%90"
     },
     {
-        "name": "熔岩鎬",
-        "url": "/zh/wiki/%E7%86%94%E5%B2%A9%E9%95%90"
+        "name": "熔岩镐",
+        "image": "https://terraria.wiki.gg/images/d/d0/Molten_Pickaxe.png?5f7aea",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%86%94%E5%B2%A9%E9%95%90"
     },
     {
-        "name": "鈷鎬",
-        "url": "/zh/wiki/%E9%92%B4%E9%95%90"
+        "name": "钴镐",
+        "image": "https://terraria.wiki.gg/images/3/33/Cobalt_Pickaxe.png?cdd8ac",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%B4%E9%95%90"
     },
     {
-        "name": "鈷鑽頭",
-        "url": "/zh/wiki/%E9%92%B4%E9%92%BB%E5%A4%B4"
+        "name": "钴钻头",
+        "image": "https://terraria.wiki.gg/images/6/6b/Cobalt_Drill.png?da6e5e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%B4%E9%92%BB%E5%A4%B4"
     },
     {
-        "name": "鈀金鎬",
-        "url": "/zh/wiki/%E9%92%AF%E9%87%91%E9%95%90"
+        "name": "钯金镐",
+        "image": "https://terraria.wiki.gg/images/7/74/Palladium_Pickaxe.png?c57c5b",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%AF%E9%87%91%E9%95%90"
     },
     {
-        "name": "鈀金鑽頭",
-        "url": "/zh/wiki/%E9%92%AF%E9%87%91%E9%92%BB%E5%A4%B4"
+        "name": "钯金钻头",
+        "image": "https://terraria.wiki.gg/images/e/ec/Palladium_Drill.png?ac5557",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%AF%E9%87%91%E9%92%BB%E5%A4%B4"
     },
     {
-        "name": "秘銀鎬",
-        "url": "/zh/wiki/%E7%A7%98%E9%93%B6%E9%95%90"
+        "name": "秘银镐",
+        "image": "https://terraria.wiki.gg/images/e/ec/Mythril_Pickaxe.png?c58c04",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%A7%98%E9%93%B6%E9%95%90"
     },
     {
-        "name": "秘銀鑽頭",
-        "url": "/zh/wiki/%E7%A7%98%E9%93%B6%E9%92%BB%E5%A4%B4"
+        "name": "秘银钻头",
+        "image": "https://terraria.wiki.gg/images/6/68/Mythril_Drill.png?73616e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%A7%98%E9%93%B6%E9%92%BB%E5%A4%B4"
     },
     {
-        "name": "山銅鎬",
-        "url": "/zh/wiki/%E5%B1%B1%E9%93%9C%E9%95%90"
+        "name": "山铜镐",
+        "image": "https://terraria.wiki.gg/images/e/e9/Orichalcum_Pickaxe.png?c11ddf",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%B1%B1%E9%93%9C%E9%95%90"
     },
     {
-        "name": "山銅鑽頭",
-        "url": "/zh/wiki/%E5%B1%B1%E9%93%9C%E9%92%BB%E5%A4%B4"
+        "name": "山铜钻头",
+        "image": "https://terraria.wiki.gg/images/6/6e/Orichalcum_Drill.png?d0fcf5",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%B1%B1%E9%93%9C%E9%92%BB%E5%A4%B4"
     },
     {
-        "name": "精金鎬",
-        "url": "/zh/wiki/%E7%B2%BE%E9%87%91%E9%95%90"
+        "name": "精金镐",
+        "image": "https://terraria.wiki.gg/images/9/9f/Adamantite_Pickaxe.png?2b4370",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%B2%BE%E9%87%91%E9%95%90"
     },
     {
-        "name": "精金鑽頭",
-        "url": "/zh/wiki/%E7%B2%BE%E9%87%91%E9%92%BB%E5%A4%B4"
+        "name": "精金钻头",
+        "image": "https://terraria.wiki.gg/images/2/26/Adamantite_Drill.png?3a937e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%B2%BE%E9%87%91%E9%92%BB%E5%A4%B4"
     },
     {
-        "name": "鈦金鎬",
-        "url": "/zh/wiki/%E9%92%9B%E9%87%91%E9%95%90"
+        "name": "钛金镐",
+        "image": "https://terraria.wiki.gg/images/5/59/Titanium_Pickaxe.png?8e6d27",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%9B%E9%87%91%E9%95%90"
     },
     {
-        "name": "鈦金鑽頭",
-        "url": "/zh/wiki/%E9%92%9B%E9%87%91%E9%92%BB%E5%A4%B4"
+        "name": "钛金钻头",
+        "image": "https://terraria.wiki.gg/images/3/35/Titanium_Drill.png?4206e0",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%9B%E9%87%91%E9%92%BB%E5%A4%B4"
     },
     {
-        "name": "幽靈鎬",
-        "url": "/zh/wiki/%E5%B9%BD%E7%81%B5%E9%95%90"
+        "name": "幽灵镐",
+        "image": "https://terraria.wiki.gg/images/b/b1/Spectre_Pickaxe.png?3085a4",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%B9%BD%E7%81%B5%E9%95%90"
     },
     {
-        "name": "葉綠鎬",
-        "url": "/zh/wiki/%E5%8F%B6%E7%BB%BF%E9%95%90"
+        "name": "叶绿镐",
+        "image": "https://terraria.wiki.gg/images/0/03/Chlorophyte_Pickaxe.png?365a69",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%8F%B6%E7%BB%BF%E9%95%90"
     },
     {
-        "name": "葉綠鑽頭",
-        "url": "/zh/wiki/%E5%8F%B6%E7%BB%BF%E9%92%BB%E5%A4%B4"
+        "name": "叶绿钻头",
+        "image": "https://terraria.wiki.gg/images/7/70/Chlorophyte_Drill.png?b9c55f",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%8F%B6%E7%BB%BF%E9%92%BB%E5%A4%B4"
     },
     {
-        "name": "鎬斧",
-        "url": "/zh/wiki/%E9%95%90%E6%96%A7"
+        "name": "镐斧",
+        "image": "https://terraria.wiki.gg/images/d/d7/Pickaxe_Axe.png?41d91f",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%95%90%E6%96%A7"
     },
     {
-        "name": "斧鑽",
-        "url": "/zh/wiki/%E6%96%A7%E9%92%BB"
+        "name": "斧钻",
+        "image": "https://terraria.wiki.gg/images/c/ca/Drax.png?8a52db",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%96%A7%E9%92%BB"
     },
     {
-        "name": "蘑菇礦挖爪",
-        "url": "/zh/wiki/%E8%98%91%E8%8F%87%E7%9F%BF%E6%8C%96%E7%88%AA"
+        "name": "蘑菇矿挖爪",
+        "image": "https://terraria.wiki.gg/images/f/fc/Shroomite_Digging_Claw.png?4c369c",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%98%91%E8%8F%87%E7%9F%BF%E6%8C%96%E7%88%AA"
     },
     {
-        "name": "鋸刃鎬",
-        "url": "/zh/wiki/%E9%94%AF%E5%88%83%E9%95%90"
+        "name": "锯刃镐",
+        "image": "https://terraria.wiki.gg/images/c/c5/Picksaw.png?410afc",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%94%AF%E5%88%83%E9%95%90"
     },
     {
-        "name": "星旋鎬",
-        "url": "/zh/wiki/%E6%98%9F%E6%97%8B%E9%95%90"
+        "name": "星旋镐",
+        "image": "https://terraria.wiki.gg/images/f/fc/Vortex_Pickaxe.png?d6c48c",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%98%9F%E6%97%8B%E9%95%90"
     },
     {
-        "name": "星雲鎬",
-        "url": "/zh/wiki/%E6%98%9F%E4%BA%91%E9%95%90"
+        "name": "星云镐",
+        "image": "https://terraria.wiki.gg/images/6/6d/Nebula_Pickaxe.png?966493",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%98%9F%E4%BA%91%E9%95%90"
     },
     {
-        "name": "耀斑鎬",
-        "url": "/zh/wiki/%E8%80%80%E6%96%91%E9%95%90"
+        "name": "耀斑镐",
+        "image": "https://terraria.wiki.gg/images/5/59/Solar_Flare_Pickaxe.png?f35054",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%80%80%E6%96%91%E9%95%90"
     },
     {
-        "name": "星塵鎬",
-        "url": "/zh/wiki/%E6%98%9F%E5%B0%98%E9%95%90"
+        "name": "星尘镐",
+        "image": "https://terraria.wiki.gg/images/c/ca/Stardust_Pickaxe.png?85ea33",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%98%9F%E5%B0%98%E9%95%90"
     },
     {
-        "name": "星旋鑽頭",
-        "url": "/zh/wiki/%E6%98%9F%E6%97%8B%E9%92%BB%E5%A4%B4"
+        "name": "星旋钻头",
+        "image": "https://terraria.wiki.gg/images/2/20/Vortex_Drill.png?3ab8bb",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%98%9F%E6%97%8B%E9%92%BB%E5%A4%B4"
     },
     {
-        "name": "星雲鑽頭",
-        "url": "/zh/wiki/%E6%98%9F%E4%BA%91%E9%92%BB%E5%A4%B4"
+        "name": "星云钻头",
+        "image": "https://terraria.wiki.gg/images/d/da/Nebula_Drill.png?489f07",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%98%9F%E4%BA%91%E9%92%BB%E5%A4%B4"
     },
     {
-        "name": "耀斑鑽頭",
-        "url": "/zh/wiki/%E8%80%80%E6%96%91%E9%92%BB%E5%A4%B4"
+        "name": "耀斑钻头",
+        "image": "https://terraria.wiki.gg/images/a/ad/Solar_Flare_Drill.png?917f1f",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%80%80%E6%96%91%E9%92%BB%E5%A4%B4"
     },
     {
-        "name": "星塵鑽頭",
-        "url": "/zh/wiki/%E6%98%9F%E5%B0%98%E9%92%BB%E5%A4%B4"
+        "name": "星尘钻头",
+        "image": "https://terraria.wiki.gg/images/5/55/Stardust_Drill.png?47deb4",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%98%9F%E5%B0%98%E9%92%BB%E5%A4%B4"
     },
     {
-        "name": "雷射鑽頭",
-        "url": "/zh/wiki/%E6%BF%80%E5%85%89%E9%92%BB%E5%A4%B4"
+        "name": "激光钻头",
+        "image": "https://terraria.wiki.gg/images/0/07/Laser_Drill.png?279b25",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%BF%80%E5%85%89%E9%92%BB%E5%A4%B4"
     },
     {
-        "name": "銅斧",
-        "url": "/zh/wiki/%E9%93%9C%E6%96%A7"
+        "name": "铜斧",
+        "image": "https://terraria.wiki.gg/images/2/21/Copper_Axe.png?e448cd",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%9C%E6%96%A7"
     },
     {
-        "name": "錫斧",
-        "url": "/zh/wiki/%E9%94%A1%E6%96%A7"
+        "name": "锡斧",
+        "image": "https://terraria.wiki.gg/images/7/7a/Tin_Axe.png?2dd0e1",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%94%A1%E6%96%A7"
     },
     {
-        "name": "鐵斧",
-        "url": "/zh/wiki/%E9%93%81%E6%96%A7"
+        "name": "铁斧",
+        "image": "https://terraria.wiki.gg/images/8/81/Iron_Axe.png?3d680d",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%81%E6%96%A7"
     },
     {
-        "name": "鉛斧",
-        "url": "/zh/wiki/%E9%93%85%E6%96%A7"
+        "name": "铅斧",
+        "image": "https://terraria.wiki.gg/images/c/c3/Lead_Axe.png?e10327",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%85%E6%96%A7"
     },
     {
-        "name": "銀斧",
-        "url": "/zh/wiki/%E9%93%B6%E6%96%A7"
+        "name": "银斧",
+        "image": "https://terraria.wiki.gg/images/8/83/Silver_Axe.png?83a951",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%B6%E6%96%A7"
     },
     {
-        "name": "鎢斧",
-        "url": "/zh/wiki/%E9%92%A8%E6%96%A7"
+        "name": "钨斧",
+        "image": "https://terraria.wiki.gg/images/3/37/Tungsten_Axe.png?5a376b",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%A8%E6%96%A7"
     },
     {
         "name": "金斧",
-        "url": "/zh/wiki/%E9%87%91%E6%96%A7"
+        "image": "https://terraria.wiki.gg/images/2/29/Gold_Axe.png?c7689d",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%87%91%E6%96%A7"
     },
     {
-        "name": "鉑金斧",
-        "url": "/zh/wiki/%E9%93%82%E9%87%91%E6%96%A7"
+        "name": "铂金斧",
+        "image": "https://terraria.wiki.gg/images/7/75/Platinum_Axe.png?e50f6f",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%82%E9%87%91%E6%96%A7"
     },
     {
-        "name": "鈷戰斧",
-        "url": "/zh/wiki/%E9%92%B4%E6%88%98%E6%96%A7"
+        "name": "钴战斧",
+        "image": "https://terraria.wiki.gg/images/5/56/Cobalt_Waraxe.png?f07739",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%B4%E6%88%98%E6%96%A7"
     },
     {
-        "name": "鈷鏈鋸",
-        "url": "/zh/wiki/%E9%92%B4%E9%93%BE%E9%94%AF"
+        "name": "钴链锯",
+        "image": "https://terraria.wiki.gg/images/b/b9/Cobalt_Chainsaw.png?57c567",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%B4%E9%93%BE%E9%94%AF"
     },
     {
-        "name": "鋸齒鯊",
-        "url": "/zh/wiki/%E9%94%AF%E9%BD%BF%E9%B2%A8"
+        "name": "锯齿鲨",
+        "image": "https://terraria.wiki.gg/images/b/b5/Sawtooth_Shark.png?9ecd2a",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%94%AF%E9%BD%BF%E9%B2%A8"
     },
     {
-        "name": "暗夜戰斧",
-        "url": "/zh/wiki/%E6%9A%97%E5%A4%9C%E6%88%98%E6%96%A7"
+        "name": "暗夜战斧",
+        "image": "https://terraria.wiki.gg/images/5/54/War_Axe_of_the_Night.png?c102d2",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%9A%97%E5%A4%9C%E6%88%98%E6%96%A7"
     },
     {
         "name": "嗜血狂斧",
-        "url": "/zh/wiki/%E5%97%9C%E8%A1%80%E7%8B%82%E6%96%A7"
+        "image": "https://terraria.wiki.gg/images/f/fe/Blood_Lust_Cluster.png?22c746",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%97%9C%E8%A1%80%E7%8B%82%E6%96%A7"
     },
     {
-        "name": "鈀金戰斧",
-        "url": "/zh/wiki/%E9%92%AF%E9%87%91%E6%88%98%E6%96%A7"
+        "name": "钯金战斧",
+        "image": "https://terraria.wiki.gg/images/1/1a/Palladium_Waraxe.png?ca6e0e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%AF%E9%87%91%E6%88%98%E6%96%A7"
     },
     {
-        "name": "鈀金鍊鋸",
-        "url": "/zh/wiki/%E9%92%AF%E9%87%91%E9%93%BE%E9%94%AF"
+        "name": "钯金链锯",
+        "image": "https://terraria.wiki.gg/images/0/05/Palladium_Chainsaw.png?a14cf8",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%AF%E9%87%91%E9%93%BE%E9%94%AF"
     },
     {
-        "name": "秘銀戰斧",
-        "url": "/zh/wiki/%E7%A7%98%E9%93%B6%E6%88%98%E6%96%A7"
+        "name": "秘银战斧",
+        "image": "https://terraria.wiki.gg/images/8/87/Mythril_Waraxe.png?71e042",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%A7%98%E9%93%B6%E6%88%98%E6%96%A7"
     },
     {
-        "name": "秘銀鏈鋸",
-        "url": "/zh/wiki/%E7%A7%98%E9%93%B6%E9%93%BE%E9%94%AF"
+        "name": "秘银链锯",
+        "image": "https://terraria.wiki.gg/images/8/83/Mythril_Chainsaw.png?a84928",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%A7%98%E9%93%B6%E9%93%BE%E9%94%AF"
     },
     {
-        "name": "山銅戰斧",
-        "url": "/zh/wiki/%E5%B1%B1%E9%93%9C%E6%88%98%E6%96%A7"
+        "name": "山铜战斧",
+        "image": "https://terraria.wiki.gg/images/a/ae/Orichalcum_Waraxe.png?ec1f68",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%B1%B1%E9%93%9C%E6%88%98%E6%96%A7"
     },
     {
-        "name": "山銅鏈鋸",
-        "url": "/zh/wiki/%E5%B1%B1%E9%93%9C%E9%93%BE%E9%94%AF"
+        "name": "山铜链锯",
+        "image": "https://terraria.wiki.gg/images/d/d9/Orichalcum_Chainsaw.png?387aae",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%B1%B1%E9%93%9C%E9%93%BE%E9%94%AF"
     },
     {
-        "name": "精金戰斧",
-        "url": "/zh/wiki/%E7%B2%BE%E9%87%91%E6%88%98%E6%96%A7"
+        "name": "精金战斧",
+        "image": "https://terraria.wiki.gg/images/e/e2/Adamantite_Waraxe.png?f3977e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%B2%BE%E9%87%91%E6%88%98%E6%96%A7"
     },
     {
-        "name": "精金鍊鋸",
-        "url": "/zh/wiki/%E7%B2%BE%E9%87%91%E9%93%BE%E9%94%AF"
+        "name": "精金链锯",
+        "image": "https://terraria.wiki.gg/images/1/17/Adamantite_Chainsaw.png?c9a848",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%B2%BE%E9%87%91%E9%93%BE%E9%94%AF"
     },
     {
-        "name": "流星錘斧",
-        "url": "/zh/wiki/%E6%B5%81%E6%98%9F%E9%94%A4%E6%96%A7"
+        "name": "流星锤斧",
+        "image": "https://terraria.wiki.gg/images/3/38/Meteor_Hamaxe.png?c2fa2e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%B5%81%E6%98%9F%E9%94%A4%E6%96%A7"
     },
     {
-        "name": "鈦金戰斧",
-        "url": "/zh/wiki/%E9%92%9B%E9%87%91%E6%88%98%E6%96%A7"
+        "name": "钛金战斧",
+        "image": "https://terraria.wiki.gg/images/c/c6/Titanium_Waraxe.png?2ecf0e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%9B%E9%87%91%E6%88%98%E6%96%A7"
     },
     {
-        "name": "鈦金鍊鋸",
-        "url": "/zh/wiki/%E9%92%9B%E9%87%91%E9%93%BE%E9%94%AF"
+        "name": "钛金链锯",
+        "image": "https://terraria.wiki.gg/images/c/cc/Titanium_Chainsaw.png?4742b7",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%9B%E9%87%91%E9%93%BE%E9%94%AF"
     },
     {
-        "name": "鎬斧",
-        "url": "/zh/wiki/%E9%95%90%E6%96%A7"
+        "name": "镐斧",
+        "image": "https://terraria.wiki.gg/images/d/d7/Pickaxe_Axe.png?41d91f",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%95%90%E6%96%A7"
     },
     {
-        "name": "斧鑽",
-        "url": "/zh/wiki/%E6%96%A7%E9%92%BB"
+        "name": "斧钻",
+        "image": "https://terraria.wiki.gg/images/c/ca/Drax.png?8a52db",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%96%A7%E9%92%BB"
     },
     {
-        "name": "葉綠巨斧",
-        "url": "/zh/wiki/%E5%8F%B6%E7%BB%BF%E5%B7%A8%E6%96%A7"
+        "name": "叶绿巨斧",
+        "image": "https://terraria.wiki.gg/images/1/1c/Chlorophyte_Greataxe.png?737c5f",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%8F%B6%E7%BB%BF%E5%B7%A8%E6%96%A7"
     },
     {
-        "name": "葉綠鏈鋸",
-        "url": "/zh/wiki/%E5%8F%B6%E7%BB%BF%E9%93%BE%E9%94%AF"
+        "name": "叶绿链锯",
+        "image": "https://terraria.wiki.gg/images/8/87/Chlorophyte_Chainsaw.png?80c98e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%8F%B6%E7%BB%BF%E9%93%BE%E9%94%AF"
     },
     {
-        "name": "鋸刃鎬",
-        "url": "/zh/wiki/%E9%94%AF%E5%88%83%E9%95%90"
+        "name": "锯刃镐",
+        "image": "https://terraria.wiki.gg/images/c/c5/Picksaw.png?410afc",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%94%AF%E5%88%83%E9%95%90"
     },
     {
-        "name": "蘑菇礦挖爪",
-        "url": "/zh/wiki/%E8%98%91%E8%8F%87%E7%9F%BF%E6%8C%96%E7%88%AA"
+        "name": "蘑菇矿挖爪",
+        "image": "https://terraria.wiki.gg/images/f/fc/Shroomite_Digging_Claw.png?4c369c",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%98%91%E8%8F%87%E7%9F%BF%E6%8C%96%E7%88%AA"
     },
     {
         "name": "露西斧",
-        "url": "/zh/wiki/%E9%9C%B2%E8%A5%BF%E6%96%A7"
+        "image": "https://terraria.wiki.gg/images/c/c2/Lucy_the_Axe.png?b2ce24",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%9C%B2%E8%A5%BF%E6%96%A7"
     },
     {
         "name": "再生之斧",
-        "url": "/zh/wiki/%E5%86%8D%E7%94%9F%E4%B9%8B%E6%96%A7"
+        "image": "https://terraria.wiki.gg/images/6/60/Axe_of_Regrowth.png?a128ec",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%86%8D%E7%94%9F%E4%B9%8B%E6%96%A7"
     },
     {
-        "name": "屠夫鏈鋸",
-        "url": "/zh/wiki/%E5%B1%A0%E5%A4%AB%E9%93%BE%E9%94%AF"
+        "name": "屠夫链锯",
+        "image": "https://terraria.wiki.gg/images/2/2d/Butcher%27s_Chainsaw.png?2e1832",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%B1%A0%E5%A4%AB%E9%93%BE%E9%94%AF"
     },
     {
-        "name": "熔岩錘斧",
-        "url": "/zh/wiki/%E7%86%94%E5%B2%A9%E9%94%A4%E6%96%A7"
+        "name": "熔岩锤斧",
+        "image": "https://terraria.wiki.gg/images/d/d8/Molten_Hamaxe.png?c2dffd",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%86%94%E5%B2%A9%E9%94%A4%E6%96%A7"
     },
     {
-        "name": "血錘斧",
-        "url": "/zh/wiki/%E8%A1%80%E9%94%A4%E6%96%A7"
+        "name": "血锤斧",
+        "image": "https://terraria.wiki.gg/images/1/18/Haemorrhaxe.png?fc5353",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%A1%80%E9%94%A4%E6%96%A7"
     },
     {
-        "name": "幽靈錘斧",
-        "url": "/zh/wiki/%E5%B9%BD%E7%81%B5%E9%94%A4%E6%96%A7"
+        "name": "幽灵锤斧",
+        "image": "https://terraria.wiki.gg/images/7/7e/Spectre_Hamaxe.png?33edd2",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%B9%BD%E7%81%B5%E9%94%A4%E6%96%A7"
     },
     {
-        "name": "耀斑錘斧",
-        "url": "/zh/wiki/%E8%80%80%E6%96%91%E9%94%A4%E6%96%A7"
+        "name": "耀斑锤斧",
+        "image": "https://terraria.wiki.gg/images/e/e5/Solar_Flare_Hamaxe.png?58962f",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%80%80%E6%96%91%E9%94%A4%E6%96%A7"
     },
     {
-        "name": "星旋錘斧",
-        "url": "/zh/wiki/%E6%98%9F%E6%97%8B%E9%94%A4%E6%96%A7"
+        "name": "星旋锤斧",
+        "image": "https://terraria.wiki.gg/images/3/3b/Vortex_Hamaxe.png?405c75",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%98%9F%E6%97%8B%E9%94%A4%E6%96%A7"
     },
     {
-        "name": "星雲錘斧",
-        "url": "/zh/wiki/%E6%98%9F%E4%BA%91%E9%94%A4%E6%96%A7"
+        "name": "星云锤斧",
+        "image": "https://terraria.wiki.gg/images/d/d6/Nebula_Hamaxe.png?e121eb",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%98%9F%E4%BA%91%E9%94%A4%E6%96%A7"
     },
     {
-        "name": "星塵錘斧",
-        "url": "/zh/wiki/%E6%98%9F%E5%B0%98%E9%94%A4%E6%96%A7"
-    },
-    {
-        "name": "吉他斧",
-        "url": "/zh/wiki/%E5%90%89%E4%BB%96%E6%96%A7"
-    },
-    {
-        "name": "木錘",
-        "url": "/zh/wiki/%E6%9C%A8%E9%94%A4"
-    },
-    {
-        "name": "紅木錘",
-        "url": "/zh/wiki/%E7%BA%A2%E6%9C%A8%E9%94%A4"
-    },
-    {
-        "name": "棕櫚木錘",
-        "url": "/zh/wiki/%E6%A3%95%E6%A6%88%E6%9C%A8%E9%94%A4"
-    },
-    {
-        "name": "針葉木錘",
-        "url": "/zh/wiki/%E9%92%88%E5%8F%B6%E6%9C%A8%E9%94%A4"
-    },
-    {
-        "name": "銅錘",
-        "url": "/zh/wiki/%E9%93%9C%E9%94%A4"
-    },
-    {
-        "name": "錫錘",
-        "url": "/zh/wiki/%E9%94%A1%E9%94%A4"
-    },
-    {
-        "name": "鐵錘",
-        "url": "/zh/wiki/%E9%93%81%E9%94%A4"
-    },
-    {
-        "name": "烏木錘",
-        "url": "/zh/wiki/%E4%B9%8C%E6%9C%A8%E9%94%A4"
-    },
-    {
-        "name": "暗影木錘",
-        "url": "/zh/wiki/%E6%9A%97%E5%BD%B1%E6%9C%A8%E9%94%A4"
-    },
-    {
-        "name": "鉛錘",
-        "url": "/zh/wiki/%E9%93%85%E9%94%A4"
-    },
-    {
-        "name": "灰燼木錘",
-        "url": "/zh/wiki/%E7%81%B0%E7%83%AC%E6%9C%A8%E9%94%A4"
-    },
-    {
-        "name": "銀錘",
-        "url": "/zh/wiki/%E9%93%B6%E9%94%A4"
-    },
-    {
-        "name": "鎢錘",
-        "url": "/zh/wiki/%E9%92%A8%E9%94%A4"
-    },
-    {
-        "name": "金錘",
-        "url": "/zh/wiki/%E9%87%91%E9%94%A4"
-    },
-    {
-        "name": "魔錘",
-        "url": "/zh/wiki/%E9%AD%94%E9%94%A4"
-    },
-    {
-        "name": "珍珠木錘",
-        "url": "/zh/wiki/%E7%8F%8D%E7%8F%A0%E6%9C%A8%E9%94%A4"
-    },
-    {
-        "name": "血肉錘",
-        "url": "/zh/wiki/%E8%A1%80%E8%82%89%E9%94%A4"
-    },
-    {
-        "name": "鉑金錘",
-        "url": "/zh/wiki/%E9%93%82%E9%87%91%E9%94%A4"
-    },
-    {
-        "name": "流星錘斧",
-        "url": "/zh/wiki/%E6%B5%81%E6%98%9F%E9%94%A4%E6%96%A7"
-    },
-    {
-        "name": "岩魚錘",
-        "url": "/zh/wiki/%E5%B2%A9%E9%B1%BC%E9%94%A4"
-    },
-    {
-        "name": "熔岩錘斧",
-        "url": "/zh/wiki/%E7%86%94%E5%B2%A9%E9%94%A4%E6%96%A7"
-    },
-    {
-        "name": "神錘",
-        "url": "/zh/wiki/%E7%A5%9E%E9%94%A4"
-    },
-    {
-        "name": "血錘斧",
-        "url": "/zh/wiki/%E8%A1%80%E9%94%A4%E6%96%A7"
-    },
-    {
-        "name": "蘑菇錘",
-        "url": "/zh/wiki/%E8%98%91%E8%8F%87%E9%94%A4"
-    },
-    {
-        "name": "葉綠戰錘",
-        "url": "/zh/wiki/%E5%8F%B6%E7%BB%BF%E6%88%98%E9%94%A4"
-    },
-    {
-        "name": "葉綠手提鑽",
-        "url": "/zh/wiki/%E5%8F%B6%E7%BB%BF%E6%89%8B%E6%8F%90%E9%92%BB"
-    },
-    {
-        "name": "幽靈錘斧",
-        "url": "/zh/wiki/%E5%B9%BD%E7%81%B5%E9%94%A4%E6%96%A7"
-    },
-    {
-        "name": "耀斑錘斧",
-        "url": "/zh/wiki/%E8%80%80%E6%96%91%E9%94%A4%E6%96%A7"
-    },
-    {
-        "name": "星旋錘斧",
-        "url": "/zh/wiki/%E6%98%9F%E6%97%8B%E9%94%A4%E6%96%A7"
-    },
-    {
-        "name": "星雲錘斧",
-        "url": "/zh/wiki/%E6%98%9F%E4%BA%91%E9%94%A4%E6%96%A7"
-    },
-    {
-        "name": "星塵錘斧",
-        "url": "/zh/wiki/%E6%98%9F%E5%B0%98%E9%94%A4%E6%96%A7"
+        "name": "星尘锤斧",
+        "image": "https://terraria.wiki.gg/images/f/f9/Stardust_Hamaxe.png?6775d3",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%98%9F%E5%B0%98%E9%94%A4%E6%96%A7"
     },
     {
         "name": "吉他斧",
-        "url": "/zh/wiki/%E5%90%89%E4%BB%96%E6%96%A7"
+        "image": "https://terraria.wiki.gg/images/8/8e/The_Axe.png?2eae75",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%90%89%E4%BB%96%E6%96%A7"
     },
     {
-        "name": "紅扳手",
-        "url": "/zh/wiki/%E7%BA%A2%E6%89%B3%E6%89%8B"
+        "name": "木锤",
+        "image": "https://terraria.wiki.gg/images/2/29/Wooden_Hammer.png?2e5bc6",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%9C%A8%E9%94%A4"
     },
     {
-        "name": "鋼絲鉗",
-        "url": "/zh/wiki/%E9%92%A2%E4%B8%9D%E9%92%B3"
+        "name": "红木锤",
+        "image": "https://terraria.wiki.gg/images/a/a0/Rich_Mahogany_Hammer.png?2fe8c9",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%BA%A2%E6%9C%A8%E9%94%A4"
     },
     {
-        "name": "藍扳手",
-        "url": "/zh/wiki/%E8%93%9D%E6%89%B3%E6%89%8B"
+        "name": "棕榈木锤",
+        "image": "https://terraria.wiki.gg/images/c/ca/Palm_Wood_Hammer.png?2dec8e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%A3%95%E6%A6%88%E6%9C%A8%E9%94%A4"
     },
     {
-        "name": "綠扳手",
-        "url": "/zh/wiki/%E7%BB%BF%E6%89%B3%E6%89%8B"
+        "name": "针叶木锤",
+        "image": "https://terraria.wiki.gg/images/a/a4/Boreal_Wood_Hammer.png?dbdc30",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%88%E5%8F%B6%E6%9C%A8%E9%94%A4"
     },
     {
-        "name": "宏偉藍圖",
-        "url": "/zh/wiki/%E5%AE%8F%E4%BC%9F%E8%93%9D%E5%9B%BE"
+        "name": "铜锤",
+        "image": "https://terraria.wiki.gg/images/4/4a/Copper_Hammer.png?595282",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%9C%E9%94%A4"
     },
     {
-        "name": "黃扳手",
-        "url": "/zh/wiki/%E9%BB%84%E6%89%B3%E6%89%8B"
+        "name": "锡锤",
+        "image": "https://terraria.wiki.gg/images/f/fc/Tin_Hammer.png?1df446",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%94%A1%E9%94%A4"
     },
     {
-        "name": "致動魔杖",
-        "url": "/zh/wiki/%E8%87%B4%E5%8A%A8%E9%AD%94%E6%9D%96"
+        "name": "铁锤",
+        "image": "https://terraria.wiki.gg/images/0/0a/Iron_Hammer.png?47621e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%81%E9%94%A4"
+    },
+    {
+        "name": "乌木锤",
+        "image": "https://terraria.wiki.gg/images/5/56/Ebonwood_Hammer.png?d441c2",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E4%B9%8C%E6%9C%A8%E9%94%A4"
+    },
+    {
+        "name": "暗影木锤",
+        "image": "https://terraria.wiki.gg/images/e/eb/Shadewood_Hammer.png?480954",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%9A%97%E5%BD%B1%E6%9C%A8%E9%94%A4"
+    },
+    {
+        "name": "铅锤",
+        "image": "https://terraria.wiki.gg/images/0/0b/Lead_Hammer.png?14cd23",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%85%E9%94%A4"
+    },
+    {
+        "name": "灰烬木锤",
+        "image": "https://terraria.wiki.gg/images/e/e0/Ash_Wood_Hammer.png?c7119b",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%81%B0%E7%83%AC%E6%9C%A8%E9%94%A4"
+    },
+    {
+        "name": "银锤",
+        "image": "https://terraria.wiki.gg/images/b/b9/Silver_Hammer.png?e79cdc",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%B6%E9%94%A4"
+    },
+    {
+        "name": "钨锤",
+        "image": "https://terraria.wiki.gg/images/7/77/Tungsten_Hammer.png?b8c997",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%A8%E9%94%A4"
+    },
+    {
+        "name": "金锤",
+        "image": "https://terraria.wiki.gg/images/8/8d/Gold_Hammer.png?cb9ae2",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%87%91%E9%94%A4"
+    },
+    {
+        "name": "魔锤",
+        "image": "https://terraria.wiki.gg/images/4/4b/The_Breaker.png?7b9505",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%AD%94%E9%94%A4"
+    },
+    {
+        "name": "珍珠木锤",
+        "image": "https://terraria.wiki.gg/images/a/a5/Pearlwood_Hammer.png?45ce0e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%8F%8D%E7%8F%A0%E6%9C%A8%E9%94%A4"
+    },
+    {
+        "name": "血肉锤",
+        "image": "https://terraria.wiki.gg/images/5/57/Flesh_Grinder.png?31844c",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%A1%80%E8%82%89%E9%94%A4"
+    },
+    {
+        "name": "铂金锤",
+        "image": "https://terraria.wiki.gg/images/d/dd/Platinum_Hammer.png?deed01",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%93%82%E9%87%91%E9%94%A4"
+    },
+    {
+        "name": "流星锤斧",
+        "image": "https://terraria.wiki.gg/images/3/38/Meteor_Hamaxe.png?c2fa2e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%B5%81%E6%98%9F%E9%94%A4%E6%96%A7"
+    },
+    {
+        "name": "岩鱼锤",
+        "image": "https://terraria.wiki.gg/images/9/90/Rockfish.png?467922",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%B2%A9%E9%B1%BC%E9%94%A4"
+    },
+    {
+        "name": "熔岩锤斧",
+        "image": "https://terraria.wiki.gg/images/d/d8/Molten_Hamaxe.png?c2dffd",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%86%94%E5%B2%A9%E9%94%A4%E6%96%A7"
+    },
+    {
+        "name": "神锤",
+        "image": "https://terraria.wiki.gg/images/d/de/Pwnhammer.png?ff5e8b",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%A5%9E%E9%94%A4"
+    },
+    {
+        "name": "血锤斧",
+        "image": "https://terraria.wiki.gg/images/1/18/Haemorrhaxe.png?fc5353",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%A1%80%E9%94%A4%E6%96%A7"
+    },
+    {
+        "name": "蘑菇锤",
+        "image": "https://terraria.wiki.gg/images/f/fc/Hammush.png?5c08de",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%98%91%E8%8F%87%E9%94%A4"
+    },
+    {
+        "name": "叶绿战锤",
+        "image": "https://terraria.wiki.gg/images/2/25/Chlorophyte_Warhammer.png?65f984",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%8F%B6%E7%BB%BF%E6%88%98%E9%94%A4"
+    },
+    {
+        "name": "叶绿手提钻",
+        "image": "https://terraria.wiki.gg/images/6/6d/Chlorophyte_Jackhammer.png?ad158f",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%8F%B6%E7%BB%BF%E6%89%8B%E6%8F%90%E9%92%BB"
+    },
+    {
+        "name": "幽灵锤斧",
+        "image": "https://terraria.wiki.gg/images/7/7e/Spectre_Hamaxe.png?33edd2",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%B9%BD%E7%81%B5%E9%94%A4%E6%96%A7"
+    },
+    {
+        "name": "耀斑锤斧",
+        "image": "https://terraria.wiki.gg/images/e/e5/Solar_Flare_Hamaxe.png?58962f",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%80%80%E6%96%91%E9%94%A4%E6%96%A7"
+    },
+    {
+        "name": "星旋锤斧",
+        "image": "https://terraria.wiki.gg/images/3/3b/Vortex_Hamaxe.png?405c75",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%98%9F%E6%97%8B%E9%94%A4%E6%96%A7"
+    },
+    {
+        "name": "星云锤斧",
+        "image": "https://terraria.wiki.gg/images/d/d6/Nebula_Hamaxe.png?e121eb",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%98%9F%E4%BA%91%E9%94%A4%E6%96%A7"
+    },
+    {
+        "name": "星尘锤斧",
+        "image": "https://terraria.wiki.gg/images/f/f9/Stardust_Hamaxe.png?6775d3",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%98%9F%E5%B0%98%E9%94%A4%E6%96%A7"
+    },
+    {
+        "name": "吉他斧",
+        "image": "https://terraria.wiki.gg/images/8/8e/The_Axe.png?2eae75",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%90%89%E4%BB%96%E6%96%A7"
+    },
+    {
+        "name": "红扳手",
+        "image": "https://terraria.wiki.gg/images/4/45/Red_Wrench.png?4c8ec7",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%BA%A2%E6%89%B3%E6%89%8B"
+    },
+    {
+        "name": "钢丝钳",
+        "image": "https://terraria.wiki.gg/images/2/25/Wire_Cutter.png?84a57e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%A2%E4%B8%9D%E9%92%B3"
+    },
+    {
+        "name": "蓝扳手",
+        "image": "https://terraria.wiki.gg/images/0/0e/Blue_Wrench.png?a6407f",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%93%9D%E6%89%B3%E6%89%8B"
+    },
+    {
+        "name": "绿扳手",
+        "image": "https://terraria.wiki.gg/images/b/b2/Green_Wrench.png?892633",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%BB%BF%E6%89%B3%E6%89%8B"
+    },
+    {
+        "name": "宏伟蓝图",
+        "image": "https://terraria.wiki.gg/images/0/0e/The_Grand_Design.png?5469e2",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%AE%8F%E4%BC%9F%E8%93%9D%E5%9B%BE"
+    },
+    {
+        "name": "黄扳手",
+        "image": "https://terraria.wiki.gg/images/7/77/Yellow_Wrench.png?f59cfb",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%BB%84%E6%89%B3%E6%89%8B"
+    },
+    {
+        "name": "致动魔杖",
+        "image": "https://terraria.wiki.gg/images/a/a9/Actuation_Rod.png?fe0f3d",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%87%B4%E5%8A%A8%E9%AD%94%E6%9D%96"
     },
     {
         "name": "五彩扳手",
-        "url": "/zh/wiki/%E4%BA%94%E5%BD%A9%E6%89%B3%E6%89%8B"
+        "image": "https://terraria.wiki.gg/images/9/99/Multicolor_Wrench.png?dfe211",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E4%BA%94%E5%BD%A9%E6%89%B3%E6%89%8B"
     },
     {
         "name": "漆刷",
-        "url": "/zh/wiki/%E6%BC%86%E5%88%B7"
+        "image": "https://terraria.wiki.gg/images/c/c4/Paintbrush.png?c0c8eb",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%BC%86%E5%88%B7"
     },
     {
-        "name": "塗漆滾刷",
-        "url": "/zh/wiki/%E6%B6%82%E6%BC%86%E6%BB%9A%E5%88%B7"
+        "name": "涂漆滚刷",
+        "image": "https://terraria.wiki.gg/images/7/75/Paint_Roller.png?681adb",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%B6%82%E6%BC%86%E6%BB%9A%E5%88%B7"
     },
     {
-        "name": "漆鏟",
-        "url": "/zh/wiki/%E6%BC%86%E9%93%B2"
+        "name": "漆铲",
+        "image": "https://terraria.wiki.gg/images/3/3d/Paint_Scraper.png?3304d0",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%BC%86%E9%93%B2"
     },
     {
-        "name": "幽靈漆刷",
-        "url": "/zh/wiki/%E5%B9%BD%E7%81%B5%E6%BC%86%E5%88%B7"
+        "name": "幽灵漆刷",
+        "image": "https://terraria.wiki.gg/images/c/c0/Spectre_Paintbrush.png?a88148",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%B9%BD%E7%81%B5%E6%BC%86%E5%88%B7"
     },
     {
-        "name": "幽靈塗漆滾刷",
-        "url": "/zh/wiki/%E5%B9%BD%E7%81%B5%E6%B6%82%E6%BC%86%E6%BB%9A%E5%88%B7"
+        "name": "幽灵涂漆滚刷",
+        "image": "https://terraria.wiki.gg/images/3/37/Spectre_Paint_Roller.png?a31eec",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%B9%BD%E7%81%B5%E6%B6%82%E6%BC%86%E6%BB%9A%E5%88%B7"
     },
     {
-        "name": "幽靈漆鏟",
-        "url": "/zh/wiki/%E5%B9%BD%E7%81%B5%E6%BC%86%E9%93%B2"
+        "name": "幽灵漆铲",
+        "image": "https://terraria.wiki.gg/images/7/79/Spectre_Paint_Scraper.png?fceb4a",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%B9%BD%E7%81%B5%E6%BC%86%E9%93%B2"
     },
     {
-        "name": "抓鉤",
-        "url": "/zh/wiki/%E6%8A%93%E9%92%A9"
+        "name": "抓钩",
+        "image": "https://terraria.wiki.gg/images/3/3d/Grappling_Hook.png?f6560b",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%8A%93%E9%92%A9"
     },
     {
         "name": "常春藤鞭",
-        "url": "/zh/wiki/%E5%B8%B8%E6%98%A5%E8%97%A4%E9%9E%AD"
+        "image": "https://terraria.wiki.gg/images/9/99/Ivy_Whip.png?cd06bd",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%B8%B8%E6%98%A5%E8%97%A4%E9%9E%AD"
     },
     {
-        "name": "雙鉤",
-        "url": "/zh/wiki/%E5%8F%8C%E9%92%A9"
+        "name": "双钩",
+        "image": "https://terraria.wiki.gg/images/b/be/Dual_Hook.png?c339c3",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%8F%8C%E9%92%A9"
     },
     {
-        "name": "蛛絲吊索",
-        "url": "/zh/wiki/%E8%9B%9B%E4%B8%9D%E5%90%8A%E7%B4%A2"
+        "name": "蛛丝吊索",
+        "image": "https://terraria.wiki.gg/images/4/47/Web_Slinger.png?c47a08",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%9B%9B%E4%B8%9D%E5%90%8A%E7%B4%A2"
     },
     {
-        "name": "紫晶鉤",
-        "url": "/zh/wiki/%E7%B4%AB%E6%99%B6%E9%92%A9"
+        "name": "紫晶钩",
+        "image": "https://terraria.wiki.gg/images/c/cc/Amethyst_Hook.png?42e401",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%B4%AB%E6%99%B6%E9%92%A9"
     },
     {
-        "name": "黃玉鉤",
-        "url": "/zh/wiki/%E9%BB%84%E7%8E%89%E9%92%A9"
+        "name": "黄玉钩",
+        "image": "https://terraria.wiki.gg/images/7/70/Topaz_Hook.png?922612",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%BB%84%E7%8E%89%E9%92%A9"
     },
     {
-        "name": "藍玉鉤",
-        "url": "/zh/wiki/%E8%93%9D%E7%8E%89%E9%92%A9"
+        "name": "蓝玉钩",
+        "image": "https://terraria.wiki.gg/images/6/6d/Sapphire_Hook.png?2f4bc0",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%93%9D%E7%8E%89%E9%92%A9"
     },
     {
-        "name": "翡翠鉤",
-        "url": "/zh/wiki/%E7%BF%A1%E7%BF%A0%E9%92%A9"
+        "name": "翡翠钩",
+        "image": "https://terraria.wiki.gg/images/8/8a/Emerald_Hook.png?5280a5",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%BF%A1%E7%BF%A0%E9%92%A9"
     },
     {
-        "name": "紅玉鉤",
-        "url": "/zh/wiki/%E7%BA%A2%E7%8E%89%E9%92%A9"
+        "name": "红玉钩",
+        "image": "https://terraria.wiki.gg/images/c/cc/Ruby_Hook.png?939abd",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%BA%A2%E7%8E%89%E9%92%A9"
     },
     {
-        "name": "鑽石鉤",
-        "url": "/zh/wiki/%E9%92%BB%E7%9F%B3%E9%92%A9"
+        "name": "钻石钩",
+        "image": "https://terraria.wiki.gg/images/e/e3/Diamond_Hook.png?aa33ea",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%BB%E7%9F%B3%E9%92%A9"
     },
     {
-        "name": "骷髏王之手",
-        "url": "/zh/wiki/%E9%AA%B7%E9%AB%85%E7%8E%8B%E4%B9%8B%E6%89%8B"
+        "name": "骷髅王之手",
+        "image": "https://terraria.wiki.gg/images/0/0d/Skeletron_Hand.png?cf60e6",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%AA%B7%E9%AB%85%E7%8E%8B%E4%B9%8B%E6%89%8B"
     },
     {
-        "name": "蝙蝠鉤",
-        "url": "/zh/wiki/%E8%9D%99%E8%9D%A0%E9%92%A9"
+        "name": "蝙蝠钩",
+        "image": "https://terraria.wiki.gg/images/7/7a/Bat_Hook.png?26d3be",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%9D%99%E8%9D%A0%E9%92%A9"
     },
     {
-        "name": "陰森鉤",
-        "url": "/zh/wiki/%E9%98%B4%E6%A3%AE%E9%92%A9"
+        "name": "阴森钩",
+        "image": "https://terraria.wiki.gg/images/f/f0/Spooky_Hook.png?54e28a",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%98%B4%E6%A3%AE%E9%92%A9"
     },
     {
-        "name": "糖棒鉤",
-        "url": "/zh/wiki/%E7%B3%96%E6%A3%92%E9%92%A9"
+        "name": "糖棒钩",
+        "image": "https://terraria.wiki.gg/images/d/d5/Candy_Cane_Hook.png?f8a129",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%B3%96%E6%A3%92%E9%92%A9"
     },
     {
-        "name": "聖誕鉤",
-        "url": "/zh/wiki/%E5%9C%A3%E8%AF%9E%E9%92%A9"
+        "name": "圣诞钩",
+        "image": "https://terraria.wiki.gg/images/8/89/Christmas_Hook.png?75c16a",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%9C%A3%E8%AF%9E%E9%92%A9"
     },
     {
-        "name": "魚鉤",
-        "url": "/zh/wiki/%E9%B1%BC%E9%92%A9"
+        "name": "鱼钩",
+        "image": "https://terraria.wiki.gg/images/a/a6/Fish_Hook.png?bd23ee",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%B1%BC%E9%92%A9"
     },
     {
-        "name": "史萊姆鉤",
-        "url": "/zh/wiki/%E5%8F%B2%E8%8E%B1%E5%A7%86%E9%92%A9"
+        "name": "史莱姆钩",
+        "image": "https://terraria.wiki.gg/images/3/3a/Slime_Hook.png?dd46d1",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%8F%B2%E8%8E%B1%E5%A7%86%E9%92%A9"
     },
     {
-        "name": "反重力鉤",
-        "url": "/zh/wiki/%E5%8F%8D%E9%87%8D%E5%8A%9B%E9%92%A9"
+        "name": "反重力钩",
+        "image": "https://terraria.wiki.gg/images/8/8f/Anti-Gravity_Hook.png?9348b2",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%8F%8D%E9%87%8D%E5%8A%9B%E9%92%A9"
     },
     {
-        "name": "肌腱鉤",
-        "url": "/zh/wiki/%E8%82%8C%E8%85%B1%E9%92%A9"
+        "name": "肌腱钩",
+        "image": "https://terraria.wiki.gg/images/e/ef/Tendon_Hook.png?c8e607",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%82%8C%E8%85%B1%E9%92%A9"
     },
     {
-        "name": "刺鉤",
-        "url": "/zh/wiki/%E5%88%BA%E9%92%A9"
+        "name": "刺钩",
+        "image": "https://terraria.wiki.gg/images/e/e1/Thorn_Hook.png?79e47a",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%88%BA%E9%92%A9"
     },
     {
-        "name": "螢光鉤",
-        "url": "/zh/wiki/%E8%8D%A7%E5%85%89%E9%92%A9"
+        "name": "荧光钩",
+        "image": "https://terraria.wiki.gg/images/b/b4/Illuminant_Hook.png?9226ba",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%8D%A7%E5%85%89%E9%92%A9"
     },
     {
-        "name": "蠕蟲鉤",
-        "url": "/zh/wiki/%E8%A0%95%E8%99%AB%E9%92%A9"
+        "name": "蠕虫钩",
+        "image": "https://terraria.wiki.gg/images/d/dd/Worm_Hook.png?fe48e8",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%A0%95%E8%99%AB%E9%92%A9"
     },
     {
-        "name": "月鉤",
-        "url": "/zh/wiki/%E6%9C%88%E9%92%A9"
+        "name": "月钩",
+        "image": "https://terraria.wiki.gg/images/0/0e/Lunar_Hook.png?c1f84a",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%9C%88%E9%92%A9"
     },
     {
-        "name": "靜止鉤",
-        "url": "/zh/wiki/%E9%9D%99%E6%AD%A2%E9%92%A9"
+        "name": "静止钩",
+        "image": "https://terraria.wiki.gg/images/b/b4/Static_Hook.png?683566",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%9D%99%E6%AD%A2%E9%92%A9"
     },
     {
-        "name": "琥珀鉤",
-        "url": "/zh/wiki/%E7%90%A5%E7%8F%80%E9%92%A9"
+        "name": "琥珀钩",
+        "image": "https://terraria.wiki.gg/images/0/05/Amber_Hook.png?439d36",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%90%A5%E7%8F%80%E9%92%A9"
     },
     {
-        "name": "失諧鉤爪",
-        "url": "/zh/wiki/%E5%A4%B1%E8%B0%90%E9%92%A9%E7%88%AA"
+        "name": "失谐钩爪",
+        "image": "https://terraria.wiki.gg/images/a/ad/Hook_of_Dissonance.png?922ad4",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%A4%B1%E8%B0%90%E9%92%A9%E7%88%AA"
     },
     {
-        "name": "木釣竿",
-        "url": "/zh/wiki/%E6%9C%A8%E9%92%93%E7%AB%BF"
+        "name": "木钓竿",
+        "image": "https://terraria.wiki.gg/images/7/7b/Wood_Fishing_Pole.png?5e94d4",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%9C%A8%E9%92%93%E7%AB%BF"
     },
     {
-        "name": "強化釣竿",
-        "url": "/zh/wiki/%E5%BC%BA%E5%8C%96%E9%92%93%E7%AB%BF"
+        "name": "强化钓竿",
+        "image": "https://terraria.wiki.gg/images/1/1f/Reinforced_Fishing_Pole.png?a4cfff",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%BC%BA%E5%8C%96%E9%92%93%E7%AB%BF"
     },
     {
-        "name": "玻璃鋼釣竿",
-        "url": "/zh/wiki/%E7%8E%BB%E7%92%83%E9%92%A2%E9%92%93%E7%AB%BF"
+        "name": "玻璃钢钓竿",
+        "image": "https://terraria.wiki.gg/images/f/fc/Fiberglass_Fishing_Pole.png?36446b",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%8E%BB%E7%92%83%E9%92%A2%E9%92%93%E7%AB%BF"
     },
     {
-        "name": "靈魂釣手",
-        "url": "/zh/wiki/%E7%81%B5%E9%AD%82%E9%92%93%E6%89%8B"
+        "name": "灵魂钓手",
+        "image": "https://terraria.wiki.gg/images/5/5b/Fisher_of_Souls.png?eb70b7",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%81%B5%E9%AD%82%E9%92%93%E6%89%8B"
     },
     {
-        "name": "金釣竿",
-        "url": "/zh/wiki/%E9%87%91%E9%92%93%E7%AB%BF"
+        "name": "金钓竿",
+        "image": "https://terraria.wiki.gg/images/7/72/Golden_Fishing_Rod.png?c8cc24",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%87%91%E9%92%93%E7%AB%BF"
     },
     {
-        "name": "機械師釣竿",
-        "url": "/zh/wiki/%E6%9C%BA%E6%A2%B0%E5%B8%88%E9%92%93%E7%AB%BF"
+        "name": "机械师钓竿",
+        "image": "https://terraria.wiki.gg/images/4/4f/Mechanic%27s_Rod.png?a728b4",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%9C%BA%E6%A2%B0%E5%B8%88%E9%92%93%E7%AB%BF"
     },
     {
-        "name": "冤大頭釣竿",
-        "url": "/zh/wiki/%E5%86%A4%E5%A4%A7%E5%A4%B4%E9%92%93%E7%AB%BF"
+        "name": "冤大头钓竿",
+        "image": "https://terraria.wiki.gg/images/b/bd/Sitting_Duck%27s_Fishing_Pole.png?3fd0a1",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%86%A4%E5%A4%A7%E5%A4%B4%E9%92%93%E7%AB%BF"
     },
     {
         "name": "捕肉手",
-        "url": "/zh/wiki/%E6%8D%95%E8%82%89%E6%89%8B"
+        "image": "https://terraria.wiki.gg/images/b/bf/Fleshcatcher.png?d5206e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%8D%95%E8%82%89%E6%89%8B"
     },
     {
-        "name": "熔線釣鉤",
-        "url": "/zh/wiki/%E7%86%94%E7%BA%BF%E9%92%93%E9%92%A9"
+        "name": "熔线钓钩",
+        "image": "https://terraria.wiki.gg/images/a/a6/Hotline_Fishing_Hook.png?c7b35a",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%86%94%E7%BA%BF%E9%92%93%E9%92%A9"
     },
     {
-        "name": "魚餌投擲者",
-        "url": "/zh/wiki/%E9%B1%BC%E9%A5%B5%E6%8A%95%E6%8E%B7%E8%80%85"
+        "name": "鱼饵投掷者",
+        "image": "https://terraria.wiki.gg/images/b/b8/Chum_Caster.png?1d9e76",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%B1%BC%E9%A5%B5%E6%8A%95%E6%8E%B7%E8%80%85"
     },
     {
-        "name": "甲蟲釣竿",
-        "url": "/zh/wiki/%E7%94%B2%E8%99%AB%E9%92%93%E7%AB%BF"
+        "name": "甲虫钓竿",
+        "image": "https://terraria.wiki.gg/images/a/a1/Scarab_Fishing_Rod.png?bbcd70",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%94%B2%E8%99%AB%E9%92%93%E7%AB%BF"
     },
     {
-        "name": "冰雪鏡",
-        "url": "/zh/wiki/%E5%86%B0%E9%9B%AA%E9%95%9C"
+        "name": "冰雪镜",
+        "image": "https://terraria.wiki.gg/images/d/de/Ice_Mirror.png?405d63",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%86%B0%E9%9B%AA%E9%95%9C"
     },
     {
-        "name": "魔鏡",
-        "url": "/zh/wiki/%E9%AD%94%E9%95%9C"
+        "name": "魔镜",
+        "image": "https://terraria.wiki.gg/images/1/1d/Magic_Mirror.png?535741",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%AD%94%E9%95%9C"
     },
     {
-        "name": "手機",
-        "url": "/zh/wiki/%E6%89%8B%E6%9C%BA"
+        "name": "手机",
+        "image": "https://terraria.wiki.gg/images/0/03/Cell_Phone.png?58f0cd",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%89%8B%E6%9C%BA"
     },
     {
-        "name": "貝殼電話",
-        "url": "/zh/wiki/%E8%B4%9D%E5%A3%B3%E7%94%B5%E8%AF%9D"
+        "name": "贝壳电话",
+        "image": "https://terraria.wiki.gg/images/2/2b/Shellphone.png?c0f989",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%B4%9D%E5%A3%B3%E7%94%B5%E8%AF%9D"
     },
     {
         "name": "三叉戟",
-        "url": "/zh/wiki/%E4%B8%89%E5%8F%89%E6%88%9F"
+        "image": "https://terraria.wiki.gg/images/thumb/9/9a/Trident.png/30px-Trident.png?c9be64",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E4%B8%89%E5%8F%89%E6%88%9F"
     },
     {
-        "name": "混沌傳送杖",
-        "url": "/zh/wiki/%E6%B7%B7%E6%B2%8C%E4%BC%A0%E9%80%81%E6%9D%96"
+        "name": "混沌传送杖",
+        "image": "https://terraria.wiki.gg/images/0/04/Rod_of_Discord.png?e6a75c",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%B7%B7%E6%B2%8C%E4%BC%A0%E9%80%81%E6%9D%96"
     },
     {
-        "name": "和諧傳送杖",
-        "url": "/zh/wiki/%E5%92%8C%E8%B0%90%E4%BC%A0%E9%80%81%E6%9D%96"
+        "name": "和谐传送杖",
+        "image": "https://terraria.wiki.gg/images/c/c1/Rod_of_Harmony.png?f0507c",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%92%8C%E8%B0%90%E4%BC%A0%E9%80%81%E6%9D%96"
     },
     {
-        "name": "傳送槍",
-        "url": "/zh/wiki/%E4%BC%A0%E9%80%81%E6%9E%AA"
+        "name": "传送枪",
+        "image": "https://terraria.wiki.gg/images/thumb/4/49/Portal_Gun.png/30px-Portal_Gun.png?848031",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E4%BC%A0%E9%80%81%E6%9E%AA"
     },
     {
-        "name": "傘",
-        "url": "/zh/wiki/%E4%BC%9E"
+        "name": "伞",
+        "image": "https://terraria.wiki.gg/images/thumb/0/06/Umbrella.png/30px-Umbrella.png?8dcb98",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E4%BC%9E"
     },
     {
-        "name": "悲劇雨傘",
-        "url": "/zh/wiki/%E6%82%B2%E5%89%A7%E9%9B%A8%E4%BC%9E"
+        "name": "悲剧雨伞",
+        "image": "https://terraria.wiki.gg/images/thumb/c/cc/Tragic_Umbrella.png/30px-Tragic_Umbrella.png?906a02",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%82%B2%E5%89%A7%E9%9B%A8%E4%BC%9E"
     },
     {
         "name": "魔法海螺",
-        "url": "/zh/wiki/%E9%AD%94%E6%B3%95%E6%B5%B7%E8%9E%BA"
+        "image": "https://terraria.wiki.gg/images/b/b0/Magic_Conch.png?6149ae",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%AD%94%E6%B3%95%E6%B5%B7%E8%9E%BA"
     },
     {
-        "name": "惡魔海螺",
-        "url": "/zh/wiki/%E6%81%B6%E9%AD%94%E6%B5%B7%E8%9E%BA"
+        "name": "恶魔海螺",
+        "image": "https://terraria.wiki.gg/images/thumb/1/17/Demon_Conch.png/30px-Demon_Conch.png?873546",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%81%B6%E9%AD%94%E6%B5%B7%E8%9E%BA"
     },
     {
-        "name": "耍蛇者長笛",
-        "url": "/zh/wiki/%E8%80%8D%E8%9B%87%E8%80%85%E9%95%BF%E7%AC%9B"
+        "name": "耍蛇者长笛",
+        "image": "https://terraria.wiki.gg/images/thumb/c/cd/Snake_Charmer%27s_Flute.png/30px-Snake_Charmer%27s_Flute.png?6f022f",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%80%8D%E8%9B%87%E8%80%85%E9%95%BF%E7%AC%9B"
     },
     {
-        "name": "樹葉魔棒",
-        "url": "/zh/wiki/%E6%A0%91%E5%8F%B6%E9%AD%94%E6%A3%92"
+        "name": "树叶魔棒",
+        "image": "https://terraria.wiki.gg/images/c/c4/Leaf_Wand.png?52f3b3",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%A0%91%E5%8F%B6%E9%AD%94%E6%A3%92"
     },
     {
         "name": "生命木魔棒",
-        "url": "/zh/wiki/%E7%94%9F%E5%91%BD%E6%9C%A8%E9%AD%94%E6%A3%92"
+        "image": "https://terraria.wiki.gg/images/f/f6/Living_Wood_Wand.png?b22e7e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%94%9F%E5%91%BD%E6%9C%A8%E9%AD%94%E6%A3%92"
     },
     {
-        "name": "紅木樹葉魔棒",
-        "url": "/zh/wiki/%E7%BA%A2%E6%9C%A8%E6%A0%91%E5%8F%B6%E9%AD%94%E6%A3%92"
+        "name": "红木树叶魔棒",
+        "image": "https://terraria.wiki.gg/images/2/29/Rich_Mahogany_Leaf_Wand.png?3be44e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%BA%A2%E6%9C%A8%E6%A0%91%E5%8F%B6%E9%AD%94%E6%A3%92"
     },
     {
-        "name": "生命紅木魔棒",
-        "url": "/zh/wiki/%E7%94%9F%E5%91%BD%E7%BA%A2%E6%9C%A8%E9%AD%94%E6%A3%92"
+        "name": "生命红木魔棒",
+        "image": "https://terraria.wiki.gg/images/3/39/Living_Mahogany_Wand.png?b53dac",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%94%9F%E5%91%BD%E7%BA%A2%E6%9C%A8%E9%AD%94%E6%A3%92"
     },
     {
         "name": "蜂巢魔棒",
-        "url": "/zh/wiki/%E8%9C%82%E5%B7%A2%E9%AD%94%E6%A3%92"
+        "image": "https://terraria.wiki.gg/images/0/07/Hive_Wand.png?6c8804",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%9C%82%E5%B7%A2%E9%AD%94%E6%A3%92"
     },
     {
         "name": "白骨魔棒",
-        "url": "/zh/wiki/%E7%99%BD%E9%AA%A8%E9%AD%94%E6%A3%92"
+        "image": "https://terraria.wiki.gg/images/thumb/8/82/Bone_Wand.png/30px-Bone_Wand.png?923746",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%99%BD%E9%AA%A8%E9%AD%94%E6%A3%92"
     },
     {
         "name": "提桶",
-        "url": "/zh/wiki/%E6%8F%90%E6%A1%B6"
+        "image": "https://terraria.wiki.gg/images/6/64/Empty_Bucket.png?702971",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%8F%90%E6%A1%B6"
     },
     {
-        "name": "無底水桶",
-        "url": "/zh/wiki/%E6%97%A0%E5%BA%95%E6%B0%B4%E6%A1%B6"
+        "name": "无底水桶",
+        "image": "https://terraria.wiki.gg/images/e/e6/Bottomless_Water_Bucket.png?8c59e6",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%97%A0%E5%BA%95%E6%B0%B4%E6%A1%B6"
     },
     {
-        "name": "無底熔岩桶",
-        "url": "/zh/wiki/%E6%97%A0%E5%BA%95%E7%86%94%E5%B2%A9%E6%A1%B6"
+        "name": "无底熔岩桶",
+        "image": "https://terraria.wiki.gg/images/3/3e/Bottomless_Lava_Bucket.png?383062",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%97%A0%E5%BA%95%E7%86%94%E5%B2%A9%E6%A1%B6"
     },
     {
-        "name": "無底蜂蜜桶",
-        "url": "/zh/wiki/%E6%97%A0%E5%BA%95%E8%9C%82%E8%9C%9C%E6%A1%B6"
+        "name": "无底蜂蜜桶",
+        "image": "https://terraria.wiki.gg/images/f/f5/Bottomless_Honey_Bucket.png?79ccdf",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%97%A0%E5%BA%95%E8%9C%82%E8%9C%9C%E6%A1%B6"
     },
     {
-        "name": "無底微光桶",
-        "url": "/zh/wiki/%E6%97%A0%E5%BA%95%E5%BE%AE%E5%85%89%E6%A1%B6"
+        "name": "无底微光桶",
+        "image": "https://terraria.wiki.gg/images/8/8a/Bottomless_Shimmer_Bucket.png?894a05",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%97%A0%E5%BA%95%E5%BE%AE%E5%85%89%E6%A1%B6"
     },
     {
-        "name": "超級吸收綿",
-        "url": "/zh/wiki/%E8%B6%85%E7%BA%A7%E5%90%B8%E6%94%B6%E7%BB%B5"
+        "name": "超级吸收绵",
+        "image": "https://terraria.wiki.gg/images/9/94/Super_Absorbant_Sponge.png?6c2a78",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%B6%85%E7%BA%A7%E5%90%B8%E6%94%B6%E7%BB%B5"
     },
     {
-        "name": "熔岩吸收綿",
-        "url": "/zh/wiki/%E7%86%94%E5%B2%A9%E5%90%B8%E6%94%B6%E7%BB%B5"
+        "name": "熔岩吸收绵",
+        "image": "https://terraria.wiki.gg/images/3/3b/Lava_Absorbant_Sponge.png?b313b3",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%86%94%E5%B2%A9%E5%90%B8%E6%94%B6%E7%BB%B5"
     },
     {
-        "name": "蜂蜜吸收綿",
-        "url": "/zh/wiki/%E8%9C%82%E8%9C%9C%E5%90%B8%E6%94%B6%E7%BB%B5"
+        "name": "蜂蜜吸收绵",
+        "image": "https://terraria.wiki.gg/images/3/39/Honey_Absorbant_Sponge.png?4f12af",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%9C%82%E8%9C%9C%E5%90%B8%E6%94%B6%E7%BB%B5"
     },
     {
-        "name": "超強吸收綿",
-        "url": "/zh/wiki/%E8%B6%85%E5%BC%BA%E5%90%B8%E6%94%B6%E7%BB%B5"
+        "name": "超强吸收绵",
+        "image": "https://terraria.wiki.gg/images/0/09/Ultra_Absorbant_Sponge.png?33817b",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%B6%85%E5%BC%BA%E5%90%B8%E6%94%B6%E7%BB%B5"
     },
     {
-        "name": "蟲網",
-        "url": "/zh/wiki/%E8%99%AB%E7%BD%91"
+        "name": "虫网",
+        "image": "https://terraria.wiki.gg/images/thumb/d/d5/Bug_Net.png/30px-Bug_Net.png?9ea5e0",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%99%AB%E7%BD%91"
     },
     {
-        "name": "金蟲網",
-        "url": "/zh/wiki/%E9%87%91%E8%99%AB%E7%BD%91"
+        "name": "金虫网",
+        "image": "https://terraria.wiki.gg/images/thumb/c/c6/Golden_Bug_Net.png/28px-Golden_Bug_Net.png?8f7831",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%87%91%E8%99%AB%E7%BD%91"
     },
     {
-        "name": "防熔岩蟲網",
-        "url": "/zh/wiki/%E9%98%B2%E7%86%94%E5%B2%A9%E8%99%AB%E7%BD%91"
+        "name": "防熔岩虫网",
+        "image": "https://terraria.wiki.gg/images/thumb/4/49/Lavaproof_Bug_Net.png/30px-Lavaproof_Bug_Net.png?a6f9b9",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%98%B2%E7%86%94%E5%B2%A9%E8%99%AB%E7%BD%91"
     },
     {
-        "name": "鐮刀",
-        "url": "/zh/wiki/%E9%95%B0%E5%88%80"
+        "name": "镰刀",
+        "image": "https://terraria.wiki.gg/images/thumb/0/02/Sickle.png/30px-Sickle.png?1becaf",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%95%B0%E5%88%80"
     },
     {
         "name": "再生法杖",
-        "url": "/zh/wiki/%E5%86%8D%E7%94%9F%E6%B3%95%E6%9D%96"
+        "image": "https://terraria.wiki.gg/images/thumb/1/18/Staff_of_Regrowth.png/30px-Staff_of_Regrowth.png?a57c79",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%86%8D%E7%94%9F%E6%B3%95%E6%9D%96"
     },
     {
-        "name": "環境改造槍",
-        "url": "/zh/wiki/%E7%8E%AF%E5%A2%83%E6%94%B9%E9%80%A0%E6%9E%AA"
+        "name": "环境改造枪",
+        "image": "https://terraria.wiki.gg/images/thumb/2/2f/Clentaminator.png/30px-Clentaminator.png?7b45b7",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%8E%AF%E5%A2%83%E6%94%B9%E9%80%A0%E6%9E%AA"
     },
     {
-        "name": "泰拉改造槍",
-        "url": "/zh/wiki/%E6%B3%B0%E6%8B%89%E6%94%B9%E9%80%A0%E6%9E%AA"
+        "name": "泰拉改造枪",
+        "image": "https://terraria.wiki.gg/images/thumb/4/41/Terraformer.png/30px-Terraformer.png?a0fcdf",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%B3%B0%E6%8B%89%E6%94%B9%E9%80%A0%E6%9E%AA"
     },
     {
-        "name": "蘆葦呼吸管",
-        "url": "/zh/wiki/%E8%8A%A6%E8%8B%87%E5%91%BC%E5%90%B8%E7%AE%A1"
+        "name": "芦苇呼吸管",
+        "image": "https://terraria.wiki.gg/images/thumb/9/91/Breathing_Reed.png/30px-Breathing_Reed.png?6e447c",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%8A%A6%E8%8B%87%E5%91%BC%E5%90%B8%E7%AE%A1"
     },
     {
-        "name": "雙筒望遠鏡",
-        "url": "/zh/wiki/%E5%8F%8C%E7%AD%92%E6%9C%9B%E8%BF%9C%E9%95%9C"
+        "name": "双筒望远镜",
+        "image": "https://terraria.wiki.gg/images/7/74/Binoculars.png?51e1dc",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%8F%8C%E7%AD%92%E6%9C%9B%E8%BF%9C%E9%95%9C"
     },
     {
-        "name": "高爾夫球桿",
-        "url": "/zh/wiki/%E9%AB%98%E5%B0%94%E5%A4%AB%E7%90%83%E6%9D%86"
+        "name": "高尔夫球杆",
+        "image": "https://terraria.wiki.gg/images/6/64/Golf_Club_%28Iron%29.png?f31e51",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%AB%98%E5%B0%94%E5%A4%AB%E7%90%83%E6%9D%86"
     },
     {
-        "name": "高爾夫口哨",
-        "url": "/zh/wiki/%E9%AB%98%E5%B0%94%E5%A4%AB%E5%8F%A3%E5%93%A8"
+        "name": "高尔夫口哨",
+        "image": "https://terraria.wiki.gg/images/c/c4/Golf_Whistle.png?58d5ef",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%AB%98%E5%B0%94%E5%A4%AB%E5%8F%A3%E5%93%A8"
     },
     {
-        "name": "鑰匙",
-        "url": "/zh/wiki/%E9%92%A5%E5%8C%99"
+        "name": "钥匙",
+        "image": "https://terraria.wiki.gg/images/e/ec/Golden_Key.png?214c58",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%92%A5%E5%8C%99"
     },
     {
-        "name": "小動物友誼指南",
-        "url": "/zh/wiki/%E5%B0%8F%E5%8A%A8%E7%89%A9%E5%8F%8B%E8%B0%8A%E6%8C%87%E5%8D%97"
+        "name": "小动物友谊指南",
+        "image": "https://terraria.wiki.gg/images/2/2c/Guide_to_Critter_Companionship.png?8fc300",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%B0%8F%E5%8A%A8%E7%89%A9%E5%8F%8B%E8%B0%8A%E6%8C%87%E5%8D%97"
     },
     {
-        "name": "環境保護指南",
-        "url": "/zh/wiki/%E7%8E%AF%E5%A2%83%E4%BF%9D%E6%8A%A4%E6%8C%87%E5%8D%97"
+        "name": "环境保护指南",
+        "image": "https://terraria.wiki.gg/images/7/7e/Guide_to_Environmental_Preservation.png?db9afa",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E7%8E%AF%E5%A2%83%E4%BF%9D%E6%8A%A4%E6%8C%87%E5%8D%97"
     },
     {
-        "name": "和平共處指南",
-        "url": "/zh/wiki/%E5%92%8C%E5%B9%B3%E5%85%B1%E5%A4%84%E6%8C%87%E5%8D%97"
+        "name": "和平共处指南",
+        "image": "https://terraria.wiki.gg/images/6/64/Guide_to_Peaceful_Coexistence.png?e0796f",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%92%8C%E5%B9%B3%E5%85%B1%E5%A4%84%E6%8C%87%E5%8D%97"
     },
     {
-        "name": "魚餌桶",
-        "url": "/zh/wiki/%E9%B1%BC%E9%A5%B5%E6%A1%B6"
+        "name": "鱼饵桶",
+        "image": "https://terraria.wiki.gg/images/e/e4/Chum_Bucket.png?8c6f13",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E9%B1%BC%E9%A5%B5%E6%A1%B6"
     },
     {
-        "name": "掘墓者鏟子",
-        "url": "/zh/wiki/%E6%8E%98%E5%A2%93%E8%80%85%E9%93%B2%E5%AD%90"
+        "name": "掘墓者铲子",
+        "image": "https://terraria.wiki.gg/images/7/73/Gravedigger%27s_Shovel.png?36cda8",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%8E%98%E5%A2%93%E8%80%85%E9%93%B2%E5%AD%90"
     },
     {
-        "name": "負重石",
-        "url": "/zh/wiki/%E8%B4%9F%E9%87%8D%E7%9F%B3"
+        "name": "负重石",
+        "image": "https://terraria.wiki.gg/images/f/f7/Encumbering_Stone.png?f7910b",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%B4%9F%E9%87%8D%E7%9F%B3"
     },
     {
-        "name": "割草機",
-        "url": "/zh/wiki/%E5%89%B2%E8%8D%89%E6%9C%BA"
+        "name": "割草机",
+        "image": "https://terraria.wiki.gg/images/1/1f/Lawn_Mower.png?9193cf",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%89%B2%E8%8D%89%E6%9C%BA"
     },
     {
         "name": "堆石器",
-        "url": "/zh/wiki/%E5%A0%86%E7%9F%B3%E5%99%A8"
+        "image": "https://terraria.wiki.gg/images/b/bb/Rubblemaker.gif?37d303",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%A0%86%E7%9F%B3%E5%99%A8"
     },
     {
         "name": "沙堡桶",
-        "url": "/zh/wiki/%E6%B2%99%E5%A0%A1%E6%A1%B6"
+        "image": "https://terraria.wiki.gg/images/b/b6/Sandcastle_Bucket.png?71116a",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%B2%99%E5%A0%A1%E6%A1%B6"
     },
     {
         "name": "冰雪魔杖",
-        "url": "/zh/wiki/%E5%86%B0%E9%9B%AA%E9%AD%94%E6%9D%96"
+        "image": "https://terraria.wiki.gg/images/6/69/Ice_Rod.png?c8c96e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%86%B0%E9%9B%AA%E9%AD%94%E6%9D%96"
     },
     {
         "name": "土魔杖",
-        "url": "/zh/wiki/%E5%9C%9F%E9%AD%94%E6%9D%96"
+        "image": "https://terraria.wiki.gg/images/4/4a/Dirt_Rod.png?f5a981",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E5%9C%9F%E9%AD%94%E6%9D%96"
     },
     {
-        "name": "信號槍",
-        "url": "/zh/wiki/%E4%BF%A1%E5%8F%B7%E6%9E%AA"
+        "name": "信号枪",
+        "image": "https://terraria.wiki.gg/images/5/57/Flare_Gun.png?d8dd0d",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E4%BF%A1%E5%8F%B7%E6%9E%AA"
     },
     {
         "name": "星旋斧",
-        "url": "/zh/wiki/%E6%98%9F%E6%97%8B%E6%96%A7"
+        "image": "https://terraria.wiki.gg/images/d/df/Vortex_Axe.png?2f2f3a",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%98%9F%E6%97%8B%E6%96%A7"
     },
     {
-        "name": "星旋鏈鋸",
-        "url": "/zh/wiki/%E6%98%9F%E6%97%8B%E9%93%BE%E9%94%AF"
+        "name": "星旋链锯",
+        "image": "https://terraria.wiki.gg/images/3/32/Vortex_Chainsaw.png?251822",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%98%9F%E6%97%8B%E9%93%BE%E9%94%AF"
     },
     {
-        "name": "星旋錘",
-        "url": "/zh/wiki/%E6%98%9F%E6%97%8B%E9%94%A4"
+        "name": "星旋锤",
+        "image": "https://terraria.wiki.gg/images/7/75/Vortex_Hammer.png?bc673d",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%98%9F%E6%97%8B%E9%94%A4"
     },
     {
-        "name": "星雲斧",
-        "url": "/zh/wiki/%E6%98%9F%E4%BA%91%E6%96%A7"
+        "name": "星云斧",
+        "image": "https://terraria.wiki.gg/images/6/6b/Nebula_Axe.png?740df6",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%98%9F%E4%BA%91%E6%96%A7"
     },
     {
-        "name": "星雲鏈鋸",
-        "url": "/zh/wiki/%E6%98%9F%E4%BA%91%E9%93%BE%E9%94%AF"
+        "name": "星云链锯",
+        "image": "https://terraria.wiki.gg/images/2/27/Nebula_Chainsaw.png?bd55c2",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%98%9F%E4%BA%91%E9%93%BE%E9%94%AF"
     },
     {
-        "name": "星雲錘",
-        "url": "/zh/wiki/%E6%98%9F%E4%BA%91%E9%94%A4"
+        "name": "星云锤",
+        "image": "https://terraria.wiki.gg/images/4/4b/Nebula_Hammer.png?201077",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%98%9F%E4%BA%91%E9%94%A4"
     },
     {
         "name": "耀斑斧",
-        "url": "/zh/wiki/%E8%80%80%E6%96%91%E6%96%A7"
+        "image": "https://terraria.wiki.gg/images/5/59/Solar_Flare_Axe.png?5338ca",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%80%80%E6%96%91%E6%96%A7"
     },
     {
-        "name": "耀斑鏈鋸",
-        "url": "/zh/wiki/%E8%80%80%E6%96%91%E9%93%BE%E9%94%AF"
+        "name": "耀斑链锯",
+        "image": "https://terraria.wiki.gg/images/2/2c/Solar_Flare_Chainsaw.png?6653a6",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%80%80%E6%96%91%E9%93%BE%E9%94%AF"
     },
     {
-        "name": "耀斑錘",
-        "url": "/zh/wiki/%E8%80%80%E6%96%91%E9%94%A4"
+        "name": "耀斑锤",
+        "image": "https://terraria.wiki.gg/images/3/34/Solar_Flare_Hammer.png?54938e",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E8%80%80%E6%96%91%E9%94%A4"
     },
     {
-        "name": "星塵斧",
-        "url": "/zh/wiki/%E6%98%9F%E5%B0%98%E6%96%A7"
+        "name": "星尘斧",
+        "image": "https://terraria.wiki.gg/images/f/fd/Stardust_Axe.png?a5b561",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%98%9F%E5%B0%98%E6%96%A7"
     },
     {
-        "name": "星塵鏈鋸",
-        "url": "/zh/wiki/%E6%98%9F%E5%B0%98%E9%93%BE%E9%94%AF"
+        "name": "星尘链锯",
+        "image": "https://terraria.wiki.gg/images/4/45/Stardust_Chainsaw.png?4e03d4",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%98%9F%E5%B0%98%E9%93%BE%E9%94%AF"
     },
     {
-        "name": "星塵錘",
-        "url": "/zh/wiki/%E6%98%9F%E5%B0%98%E9%94%A4"
+        "name": "星尘锤",
+        "image": "https://terraria.wiki.gg/images/1/11/Stardust_Hammer.png?be6db5",
+        "url": "https://terraria.wiki.gg/zh/wiki/%E6%98%9F%E5%B0%98%E9%94%A4"
     }
 ]
