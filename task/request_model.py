@@ -13,7 +13,7 @@ class AddTaskRequest(BaseModel):
     input_texts: Optional[List[str]] = None
     autofill: Optional[str] = 'none'
     user_fill: Optional[str] = None  # 用户自己的填充
-    custom_methods: Optional[List[str]] = None  # 自定义指标的内容
+    custom_method_ids: Optional[List[int]] = None  # 自定义指标的ID列表
 
 
 class AlterTaskRequest(BaseModel):
