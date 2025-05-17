@@ -106,3 +106,14 @@ class Optimization(Base):
     task_id = Column(Integer)
     prompt = Column(String)
     reason = Column(String)
+
+
+class CustomMetric(Base):
+    __tablename__ = "custom_metric"
+    __table_args__ = (Index("ix_custom_metric_user_id", "user_id"),)
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer)
+    name = Column(String(32))
+    category = Column(String(16))  # rag, prompt
+    description = Column(String(256))
+    created = Column(Integer)

@@ -35,3 +35,15 @@ class CreatePlotRequest(BaseModel):
 class DeleteTaskRequest(BaseModel):
     task_id: int
     eval_ids: List[int] = Query(None)
+
+
+class AddMetricRequest(BaseModel):
+    name: str
+    category: Literal["rag", "prompt"]
+    description: str
+
+
+class UpdateMetricRequest(BaseModel):
+    id: int
+    name: str
+    description: str

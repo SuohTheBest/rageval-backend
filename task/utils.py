@@ -286,3 +286,79 @@ async def get_fileinfo(user_id: int, category: str, ids: List[int]):
         return ans
     finally:
         db.close()
+
+
+async def get_custom_metrics(user_id: int, category: str) -> List[CustomMetric]:
+    """获取用户的自定义指标"""
+    db = SessionLocal()
+    try:
+        metrics = db.query(CustomMetric).filter(
+            CustomMetric.user_id == user_id,
+            CustomMetric.category == category
+        ).all()
+        return metrics
+    finally:
+        db.close()
+
+
+async def add_custom_metric(user_id: int, name: str, category: str, description: str) -> bool:
+    """添加自定义指标"""
+    db = SessionLocal()
+    try:
+        metric = CustomMetric(
+            user_id=user_id,
+            name=name,
+            category=category,
+            description=description,
+            created=int(time.time())
+        )
+        db.add(metric)
+        db.commit()
+        return True
+    except Exception:
+        db.rollback()
+        return False
+    finally:
+        db.close()
+
+
+async def update_custom_metric(user_id: int, metric_id: int, name: str, description: str) -> bool:
+    """更新自定义指标"""
+    db = SessionLocal()
+    try:
+        metric = db.query(CustomMetric).filter(
+            CustomMetric.id == metric_id,
+            CustomMetric.user_id == user_id
+        ).first()
+        if not metric:
+            return False
+        metric.name = name
+        metric.description = description
+        metric.created = int(time.time())
+        db.commit()
+        return True
+    except Exception:
+        db.rollback()
+        return False
+    finally:
+        db.close()
+
+
+async def delete_custom_metric(user_id: int, metric_id: int) -> bool:
+    """删除自定义指标"""
+    db = SessionLocal()
+    try:
+        metric = db.query(CustomMetric).filter(
+            CustomMetric.id == metric_id,
+            CustomMetric.user_id == user_id
+        ).first()
+        if not metric:
+            return False
+        db.delete(metric)
+        db.commit()
+        return True
+    except Exception:
+        db.rollback()
+        return False
+    finally:
+        db.close()

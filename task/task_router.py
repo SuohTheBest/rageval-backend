@@ -1,25 +1,42 @@
 from fastapi import APIRouter, UploadFile, File, HTTPException, Cookie
 from fastapi.responses import FileResponse
+from typing import Literal
+from fastapi import Query
 
-from prompt.metrics import metric_list
+from prompt.metrics import prompt_metric_list
 from prompt.plot import get_prompt_plot
 from rag_eval.plot import get_rag_plot
 from access_token import get_user_id
 from task.request_model import *
 from task.utils import *
-from rag_eval.rag_eval import rag_list
+from rag_eval.rag_eval import rag_metric_list
+from models.Task import CustomMetric
+from models.database import SessionLocal
 
 router = APIRouter(prefix='/task', tags=['Tasks'])
 
 
-@router.get("/methods")
-async def get_methods(category: Literal["rag", "prompt"] = Query(...)):
+@router.get("/metrics")
+async def get_metrics(category: Literal["rag", "prompt"] = Query(...), access_token: str = Cookie(None)):
     """获取所有可用指标"""
-    # TODO
-    if category == "rag":
-        return rag_list()
-    else:
-        return metric_list()
+    try:
+        user_id = await get_user_id(access_token)
+        if category == "prompt":
+            # 暂时只有prompt支持自定义
+            custom_metrics = await get_custom_metrics(user_id, category)
+        else:
+            custom_metrics = []
+        if category == "rag":
+            system_metrics = rag_metric_list()
+        else:
+            system_metrics = prompt_metric_list()
+        system_metrics = [{"name": m['name'], "type": "system", "description": m['description'], "created": None}
+                          for m in system_metrics]
+        custom_metrics = [{"name": m.name, "type": "custom", "description": m.description, "created": m.created}
+                          for m in custom_metrics]
+        return system_metrics + custom_metrics
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 @router.post("/")
@@ -101,7 +118,6 @@ async def getPlot(task_id: int = Query(...), method: str = Query(...), access_to
         task = await get_task_from_id(task_id, user_id)
         if task is None:
             return {"success": False, "message": "No such task."}
-            # TODO 应该在这里生成图表
         link = None
         if task.category == "prompt":
             link = get_prompt_plot(task_id, method)
@@ -166,5 +182,44 @@ async def getFileinfo(r: GetFileInfoRequest, access_token: str = Cookie(None)):
             return {"success": True, "info": file_info}
         else:
             return {"success": False, "message": "No such file."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.post("/metric")
+async def add_metric(r: AddMetricRequest, access_token: str = Cookie(None)):
+    """添加自定义指标"""
+    try:
+        user_id = await get_user_id(access_token)
+        success = await add_custom_metric(user_id, r.name, r.category, r.description)
+        if not success:
+            raise HTTPException(status_code=500, detail="Failed to add metric.")
+        return {"success": True}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.put("/metric")
+async def update_metric(r: UpdateMetricRequest, access_token: str = Cookie(None)):
+    """更新自定义指标"""
+    try:
+        user_id = await get_user_id(access_token)
+        success = await update_custom_metric(user_id, r.id, r.name, r.description)
+        if not success:
+            raise HTTPException(status_code=404, detail="Metric not found.")
+        return {"success": True}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.delete("/metric/{metric_id}")
+async def delete_metric(metric_id: int, access_token: str = Cookie(None)):
+    """删除自定义指标"""
+    try:
+        user_id = await get_user_id(access_token)
+        success = await delete_custom_metric(user_id, metric_id)
+        if not success:
+            raise HTTPException(status_code=404, detail="Metric not found")
+        return {"success": True}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

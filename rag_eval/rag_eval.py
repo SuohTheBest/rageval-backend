@@ -138,7 +138,7 @@ def set_environment():
 
 
 
-def rag_list() -> list[dict]:
+def rag_metric_list() -> list[dict]:
     return [{'name': '基于大模型的无参考上下文准确性', 'description': '使用大模型评估Rag上下文的准确性，没有参考答案'},
             {'name': '基于大模型的有参考上下文准确性', 'description': '使用大模型评估Rag上下文的准确性，拥有参考答案'},
             {'name': '有参考上下文准确性', 'description': '评估Rag上下文的准确性，拥有参考答案'},
