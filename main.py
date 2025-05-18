@@ -32,7 +32,7 @@ app.add_middleware(
 app.mount("/static", StaticFiles(directory="./eval_plots"))
 app.include_router(user_router.router, prefix=g_prefix)
 app.include_router(task_router.router, prefix=g_prefix)
-app.include_router(rag_router.router, prefix=g_prefix)
+# app.include_router(rag_router.router, prefix=g_prefix)
 
 
 @app.get("/")
