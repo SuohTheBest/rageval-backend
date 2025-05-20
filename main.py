@@ -29,10 +29,12 @@ app.add_middleware(
     allow_headers=["Content-Type", "Authorization"],
 )
 
-app.mount("/static", StaticFiles(directory="./eval_plots"))
+app.mount("/plotpics", StaticFiles(directory="./eval_plots"))
+app.mount("/static", StaticFiles(directory="./static"))
+
 app.include_router(user_router.router, prefix=g_prefix)
 app.include_router(task_router.router, prefix=g_prefix)
-# app.include_router(rag_router.router, prefix=g_prefix)
+app.include_router(rag_router.router, prefix=g_prefix)
 
 
 @app.get("/")
