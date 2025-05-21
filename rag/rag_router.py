@@ -1,7 +1,8 @@
-from fastapi import APIRouter, HTTPException, WebSocket
+from fastapi import APIRouter, WebSocket
 from typing import List
 from pydantic import BaseModel
 from .rag_socket import websocket_endpoint
+from .utils import get_user_sessions, get_session_messages
 
 router = APIRouter(prefix='/chat', tags=['RagChat'])
 
@@ -21,9 +22,23 @@ class RAGInstance(BaseModel):
     operations: List[FeatureOperation]
 
 
+class ChatSessionResponse(BaseModel):
+    id: int
+    category: str
+    summary: str
+    updated: int
+
+
+class ChatMessageResponse(BaseModel):
+    id: int
+    type: str
+    content: str
+    feature: str | None = None
+
+
 @router.get("/assistants")
 async def get_assistants():
-    # 获取所有可用的RAG助手列表
+    """获取所有可用的RAG助手列表"""
     assistants = [
         RAGInstance(
             id="terraria",
@@ -59,5 +74,29 @@ async def get_assistants():
 @router.websocket("/ws/{client_id}")
 async def websocket_route(websocket: WebSocket, client_id: str):
     await websocket_endpoint(websocket, client_id)
+
+
+@router.get("/sessions/{user_id}/{category}")
+async def get_sessions(user_id: int, category: str):
+    """获取用户在特定助手下的所有会话"""
+    sessions = get_user_sessions(user_id, category)
+    return [ChatSessionResponse(
+        id=session.id,
+        category=session.category,
+        summary=session.summary,
+        updated=session.updated
+    ) for session in sessions]
+
+
+@router.get("/messages/{session_id}")
+async def get_messages(session_id: int):
+    """获取特定会话的所有消息"""
+    messages = get_session_messages(session_id)
+    return [ChatMessageResponse(
+        id=message.id,
+        type=message.type,
+        content=message.content,
+        feature=message.feature
+    ) for message in messages]
 
 

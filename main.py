@@ -4,7 +4,7 @@ from fastapi.staticfiles import StaticFiles
 
 from rag import rag_router
 from models.database import Base, engine
-from models import Task, Text, User
+from models import Task, User, rag_chat
 from fastapi import FastAPI
 from auth import user_router
 from task import task_router

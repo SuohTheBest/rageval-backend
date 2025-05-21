@@ -2,6 +2,7 @@ from fastapi import WebSocket, WebSocketDisconnect
 import json
 from collections import OrderedDict
 import time
+from .utils import create_session, get_session, save_message
 
 
 class ConnectionManager:
@@ -71,13 +72,39 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                 # 解析接收到的JSON数据
                 data = json.loads(data)  # {type:"", content:""}
                 type = data["type"]  # message, file, picture,
-                content = data["content"]
                 if type == "message":
+                    content = data["content"]  # ChatMessage, 用户传输的包含type, content, session_id和额外的assistant_id
+                    assistant_id = content["assistant_id"]
+                    session_id = content["session_id"]  # 为None时需新建
+
+                    # 获取或创建会话
+                    if session_id is None:
+                        session = create_session(int(client_id), assistant_id)
+                        session_id = session.id
+                        # 发送session_id
+                        response = {
+                            "type": "setSessionId",
+                            "content": session_id
+                        }
+                        await manager.send(json.dumps(response), client_id)
+                    else:
+                        session = get_session(session_id)
+                        if not session:
+                            raise ValueError("Invalid session_id")
+
+                    # 保存用户消息
+                    save_message(
+                        session_id=session_id,
+                        type="user",
+                        content=content["content"]
+                    )
+
+                    # 这里可以添加RAG处理逻辑
                     response = {
                         "type": "message",
                         "content": {
                             "type": "assistant",
-                            "content": f"收到消息: {data}"
+                            "content": f"收到消息: {content['content']}"
                         }
                     }
                     await manager.send(
@@ -85,11 +112,26 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                         client_id
                     )
 
+                    # 保存助手回复
+                    save_message(
+                        session_id=session_id,
+                        type="assistant",
+                        content=response["content"]["content"]
+                    )
+
             except json.JSONDecodeError:
                 await manager.send(
                     json.dumps({
                         "type": "error",
                         "content": "无效的JSON格式"
+                    }),
+                    client_id
+                )
+            except ValueError as e:
+                await manager.send(
+                    json.dumps({
+                        "type": "error",
+                        "content": str(e)
                     }),
                     client_id
                 )
