@@ -84,7 +84,7 @@ manager = ConnectionManager()
 async def test_streaming_response(client_id: str, session_id: int, content: str):
     """模拟流式响应"""
     words = content.split()
-    full_response = "这是一个模拟的流式响应。"
+    full_response = "收到消息:" + content
 
     # 开始标记
     await manager.send_stream(client_id, "start", "")
@@ -122,12 +122,6 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                     if session_id is None:
                         session = create_session(int(client_id), assistant_id)
                         session_id = session.id
-                        # 发送session_id
-                        response = {
-                            "type": "setSessionId",
-                            "content": session_id
-                        }
-                        await manager.send(json.dumps(response), client_id)
                     else:
                         session = get_session(session_id)
                         if not session:
@@ -139,7 +133,12 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                         type="user",
                         content=content["content"]
                     )
-
+                    # 发送session_id
+                    response = {
+                        "type": "setSessionId",
+                        "content": session_id
+                    }
+                    await manager.send(json.dumps(response), client_id)
                     # 开始流式响应
                     await test_streaming_response(client_id, session_id, content["content"])
 

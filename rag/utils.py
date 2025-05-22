@@ -1,4 +1,4 @@
-from models.rag_chat import ChatSession, ChatMessage
+from models.rag_chat import ChatSession, ChatMessage, RetrievalSource, FileOrPictureSource
 from models.database import SessionLocal
 import time
 from typing import List, Optional
@@ -81,5 +81,35 @@ def get_session_messages(session_id: int) -> List[ChatMessage]:
         return db.query(ChatMessage).filter(
             ChatMessage.session_id == session_id
         ).order_by(ChatMessage.id.asc()).all()
+    finally:
+        db.close()
+
+
+def delete_session(session_id: int) -> bool:
+    """删除指定会话及其所有消息"""
+    db = SessionLocal()
+    try:
+        messages = db.query(ChatMessage).filter(ChatMessage.session_id == session_id).all()
+        
+        retrieval_message_ids = []
+        file_picture_message_ids = []
+        
+        for msg in messages:
+            if msg.meta_type == "retrieval":
+                retrieval_message_ids.append(msg.id)
+            elif msg.meta_type in ["file", "picture"]:
+                file_picture_message_ids.append(msg.id)
+        
+        if retrieval_message_ids:
+            db.query(RetrievalSource).filter(RetrievalSource.message_id.in_(retrieval_message_ids)).delete()
+        
+        if file_picture_message_ids:
+            db.query(FileOrPictureSource).filter(FileOrPictureSource.message_id.in_(file_picture_message_ids)).delete()
+            
+        db.query(ChatMessage).filter(ChatMessage.session_id == session_id).delete()
+        
+        result = db.query(ChatSession).filter(ChatSession.id == session_id).delete()
+        db.commit()
+        return result > 0
     finally:
         db.close()
