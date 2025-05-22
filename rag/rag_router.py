@@ -72,8 +72,8 @@ async def get_assistants():
 
 
 @router.websocket("/ws/{client_id}")
-async def websocket_route(websocket: WebSocket, client_id: str):
-    await websocket_endpoint(websocket, client_id)
+async def websocket_route(websocket: WebSocket, client_id: int):
+    await websocket_endpoint(websocket, str(client_id))
 
 
 @router.get("/sessions/{user_id}/{category}")

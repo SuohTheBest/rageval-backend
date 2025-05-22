@@ -3,6 +3,7 @@ import json
 from collections import OrderedDict
 import time
 from .utils import create_session, get_session, save_message
+import asyncio
 
 
 class ConnectionManager:
@@ -55,12 +56,52 @@ class ConnectionManager:
                 # 如果发送失败，断开连接
                 self.disconnect(client_id)
 
+    async def send_stream(self, client_id: str, stream_type: str, content: str):
+        """发送流式消息"""
+        if client_id in self.active_connections:
+            self.connection_times.move_to_end(client_id)
+            self.connection_times[client_id] = time.time()
+
+            try:
+                await self.active_connections[client_id].send_text(json.dumps({
+                    "type": "stream",
+                    "content": {
+                        "stream_type": stream_type,  # start, content, end
+                        "content": content
+                    }
+                }))
+            except:
+                self.disconnect(client_id)
+
     async def broadcast(self, message: str):
         for client_id in self.active_connections.keys():
             await self.send(message, client_id)
 
 
 manager = ConnectionManager()
+
+
+async def test_streaming_response(client_id: str, session_id: int, content: str):
+    """模拟流式响应"""
+    words = content.split()
+    full_response = "这是一个模拟的流式响应。"
+
+    # 开始标记
+    await manager.send_stream(client_id, "start", "")
+
+    # 逐字发送
+    for char in full_response:
+        await manager.send_stream(client_id, "content", char)
+        await asyncio.sleep(0.5)  # 模拟处理延迟
+
+    # 结束标记
+    await manager.send_stream(client_id, "end", full_response)
+
+    save_message(
+        session_id=session_id,
+        type="assistant",
+        content=full_response
+    )
 
 
 async def websocket_endpoint(websocket: WebSocket, client_id: str):
@@ -99,25 +140,8 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                         content=content["content"]
                     )
 
-                    # 这里可以添加RAG处理逻辑
-                    response = {
-                        "type": "message",
-                        "content": {
-                            "type": "assistant",
-                            "content": f"收到消息: {content['content']}"
-                        }
-                    }
-                    await manager.send(
-                        json.dumps(response),
-                        client_id
-                    )
-
-                    # 保存助手回复
-                    save_message(
-                        session_id=session_id,
-                        type="assistant",
-                        content=response["content"]["content"]
-                    )
+                    # 开始流式响应
+                    await test_streaming_response(client_id, session_id, content["content"])
 
             except json.JSONDecodeError:
                 await manager.send(
