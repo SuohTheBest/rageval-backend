@@ -117,7 +117,7 @@ class VectorDatabase:
                     return False
                 else:
                     logger.error(f"Error deleting collection '{collection_name}': {e}")
-                    raise
+                    raise e
 
         return await loop.run_in_executor(self.executor, _delete_collection)
 
@@ -327,5 +327,12 @@ if __name__ == "__main__":
     async def main():
         db = await create_vector_db()
         await db.delete_collection("terrariawiki_terenemies")
+        print("Deleted collection 'terrariawiki_terenemies'")
+        await db.delete_collection("terrariawiki_tools")
+        print("Deleted collection 'terrariawiki_tools'")
+        await db.delete_collection("terrariawiki_weapons")
+        print("Deleted collection 'terrariawiki_weapons'")
+        await db.delete_collection("conda")
+        print("Deleted collection 'conda'")
 
     asyncio.run(main())

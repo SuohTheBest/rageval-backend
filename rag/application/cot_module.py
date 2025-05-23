@@ -1,0 +1,492 @@
+"""
+Chain of Thought (COT) Module for RAG system.
+
+This module implements a chain of thought reasoning process that:
+1. Retrieves conversation history from database
+2. Generates a context-aware question using LLM
+3. Searches for relevant documents in knowledge base
+4. Generates final response using retrieved documents
+"""
+
+import sys
+
+sys.path.append("E:\\Projects\\RagevalBackend")
+
+import logging
+import asyncio
+from typing import List, Dict, Any, Optional, AsyncGenerator, Union
+from dataclasses import dataclass
+
+from rag.utils.llm import LLMService
+from rag.utils.vector_db import VectorDatabase
+from rag.utils.chat_session import get_session_messages
+from models.rag_chat import ChatMessage
+
+logger = logging.getLogger(__name__)
+
+# Global prompt templates for easy modification
+CONTEXT_GENERATION_PROMPT = """你是一个智能助手，需要根据用户的当前问题和历史对话记录，生成一个包含完整上下文的新问题。
+
+历史对话记录：
+{history}
+
+当前用户问题：
+{current_question}
+
+请分析历史对话的上下文，理解用户的意图和需求，然后生成一个包含必要上下文信息的完整问题。这个新问题应该：
+1. 保持用户原始问题的核心意图
+2. 融入相关的历史对话上下文
+3. 便于在知识库中进行精确检索
+4. 表达清晰、完整
+
+生成的新问题："""
+
+FINAL_RESPONSE_PROMPT = """你是一个专业的智能助手，请根据提供的相关文档和用户问题，生成准确、有用的回答。
+
+用户问题：
+{question}
+
+相关文档：
+{documents}
+
+请基于提供的文档内容回答用户问题。要求：
+1. 回答要准确、详细且有帮助
+2. 如果文档中没有相关信息，请诚实说明
+3. 保持回答的逻辑性和条理性
+4. 适当引用文档中的具体信息
+
+回答："""
+
+
+@dataclass
+class COTConfig:
+    """COT模块配置类"""
+
+    history_threshold: int = 4000  # 历史记录总长度阈值（字符数）
+    max_history_messages: int = 10  # 最大历史消息数量
+    top_k_documents: int = 5  # 检索的文档数量
+    llm_model: str = "gpt-3.5-turbo"
+    llm_temperature: float = 0.7
+    llm_max_tokens: Optional[int] = None
+    vector_db_path: str = "data/chroma"
+
+
+class COTModule:
+    """
+    Chain of Thought模块
+
+    实现思维链推理过程，包括历史记录检索、上下文生成、文档检索和最终回答生成。
+    """
+
+    def __init__(self, config: COTConfig = None, llm_service: LLMService = None):
+        """
+        初始化COT模块
+
+        Args:
+            config: COT配置对象
+            llm_service: LLM服务实例（可选，如果不提供会自动创建）
+        """
+        self.config = config or COTConfig()
+        self.llm_service = llm_service
+        self.vector_db = VectorDatabase(persist_directory=self.config.vector_db_path)
+
+        logger.info(f"COT模块初始化完成，配置: {self.config}")
+
+    async def initialize(self):
+        """初始化异步组件"""
+        if self.llm_service is None:
+            self.llm_service = LLMService(
+                api_key="sk-6KauMKZj30SWwYYybrW1TYyfizVAyzOAYG5A5xw7JYy8oJkZ",
+                base_url="https://api.bianxie.ai/v1",
+                model=self.config.llm_model,
+                temperature=self.config.llm_temperature,
+                max_tokens=self.config.llm_max_tokens,
+            )
+
+        await self.vector_db.initialize()
+        logger.info("COT模块异步组件初始化完成")
+
+    def _format_history_messages(self, messages: List[ChatMessage]) -> str:
+        """
+        格式化历史消息为字符串
+
+        Args:
+            messages: 历史消息列表
+
+        Returns:
+            格式化后的历史记录字符串
+        """
+        if not messages:
+            return ""
+
+        formatted_history = []
+        for msg in messages:
+            role = "用户" if msg.type == "user" else "助手"
+            formatted_history.append(f"{role}: {msg.content}")
+
+        return "\n".join(formatted_history)
+
+    def _truncate_history(self, messages: List[ChatMessage]) -> List[ChatMessage]:
+        """
+        截取历史记录，确保不超过阈值
+
+        Args:
+            messages: 原始历史消息列表
+
+        Returns:
+            截取后的历史消息列表
+        """
+        if not messages:
+            return []
+
+        # 按时间倒序排列，取最近的消息
+        recent_messages = messages[-self.config.max_history_messages :]
+
+        # 计算总长度并截取
+        total_length = 0
+        truncated_messages = []
+
+        for msg in reversed(recent_messages):
+            msg_length = len(msg.content)
+            if total_length + msg_length <= self.config.history_threshold:
+                truncated_messages.insert(0, msg)
+                total_length += msg_length
+            else:
+                break
+
+        logger.info(
+            f"历史记录截取完成: 原始{len(messages)}条 -> 截取后{len(truncated_messages)}条，总长度{total_length}字符"
+        )
+        return truncated_messages
+
+    async def _retrieve_history(self, session_id: int) -> List[ChatMessage]:
+        """
+        从数据库检索会话历史记录
+
+        Args:
+            session_id: 会话ID
+
+        Returns:
+            历史消息列表
+        """
+        try:
+            logger.info(f"开始检索会话{session_id}的历史记录")
+            messages = get_session_messages(session_id)
+            logger.info(f"检索到{len(messages)}条历史消息")
+            return messages
+        except Exception as e:
+            logger.error(f"检索历史记录失败: {e}")
+            return []
+
+    async def _generate_context_question(
+        self, current_question: str, history: str
+    ) -> str:
+        """
+        使用LLM生成包含上下文的新问题
+
+        Args:
+            current_question: 当前用户问题
+            history: 格式化的历史记录
+
+        Returns:
+            生成的新问题
+        """
+        if not history:
+            logger.warning("历史记录为空，无法生成上下文问题")
+            return current_question
+        try:
+            logger.info("开始生成上下文问题")
+
+            prompt = CONTEXT_GENERATION_PROMPT.format(
+                history=history, current_question=current_question
+            )
+
+            response = await self.llm_service.generate_response(prompt)
+
+            # 提取生成的问题（去除可能的前缀）
+            if "生成的新问题：" in response:
+                new_question = response.split("生成的新问题：")[-1].strip()
+            else:
+                new_question = response.strip()
+
+            logger.info(f"上下文问题生成完成: {new_question}")
+            return new_question
+
+        except Exception as e:
+            logger.error(f"生成上下文问题失败: {e}")
+            # 如果生成失败，返回原问题
+            return current_question
+
+    async def _search_documents(
+        self, question: str, knowledge_bases: Union[str, List[str]]
+    ) -> List[Dict[str, Any]]:
+        """
+        在指定的一个或多个知识库中搜索相关文档。
+
+        Args:
+            question: 搜索问题
+            knowledge_bases: 知识库名称或名称列表
+
+        Returns:
+            搜索结果列表，包含全局 top_k_documents 个最相关的文档
+        """
+        if isinstance(knowledge_bases, str):
+            knowledge_bases = [knowledge_bases]
+
+        all_retrieved_documents = []
+        try:
+            for kb_name in knowledge_bases:
+                logger.info(f"开始在知识库'{kb_name}'中搜索文档，问题: {question}")
+                results = await self.vector_db.search_documents(
+                    collection_name=kb_name,
+                    query_text=question,
+                    k=self.config.top_k_documents,  # Retrieve top_k from each KB
+                )
+                for document, similarity in results:
+                    all_retrieved_documents.append(
+                        {
+                            "content": document,
+                            "similarity": similarity,
+                            "source_kb": kb_name,
+                        }
+                    )
+                logger.info(f"在知识库'{kb_name}'中找到{len(results)}个文档")
+
+            if not all_retrieved_documents:
+                logger.info("所有指定知识库中均未找到相关文档")
+                return []
+
+            # 按相似度降序排序所有检索到的文档
+            all_retrieved_documents.sort(key=lambda x: x["similarity"], reverse=True)
+
+            # 取全局 top_k_documents 个文档
+            top_documents = all_retrieved_documents[: self.config.top_k_documents]
+
+            formatted_results = []
+            for i, doc_info in enumerate(top_documents):
+                formatted_results.append(
+                    {
+                        "index": i + 1,
+                        "content": doc_info["content"],
+                        "similarity": doc_info["similarity"],
+                    }
+                )
+
+            logger.info(
+                f"文档搜索完成，从所有知识库共找到{len(all_retrieved_documents)}个文档，返回最相关的{len(formatted_results)}个"
+            )
+            return formatted_results
+
+        except Exception as e:
+            logger.error(f"文档搜索失败: {e}")
+            return []
+
+    def _format_documents(self, documents: List[Dict[str, Any]]) -> str:
+        """
+        格式化文档为字符串
+
+        Args:
+            documents: 文档列表
+
+        Returns:
+            格式化后的文档字符串
+        """
+        if not documents:
+            return "未找到相关文档"
+
+        formatted_docs = []
+        for doc in documents:
+            formatted_docs.append(
+                f"文档{doc['index']} (相似度: {doc['similarity']:.3f}):\n{doc['content']}"
+            )
+
+        return "\n\n".join(formatted_docs)
+
+    async def _generate_final_response(
+        self, question: str, documents: str, stream: bool = False
+    ) -> Union[str, AsyncGenerator[str, None]]:
+        """
+        生成最终回答
+
+        Args:
+            question: 用户问题
+            documents: 格式化的文档内容
+            stream: 是否流式生成
+
+        Returns:
+            生成的回答（字符串或异步生成器）
+        """
+        try:
+            logger.info(f"开始生成最终回答，流式模式: {stream}")
+
+            prompt = FINAL_RESPONSE_PROMPT.format(
+                question=question, documents=documents
+            )
+
+            if stream:
+                logger.info("使用流式生成模式")
+                return self.llm_service.generate_streaming_response(prompt)
+            else:
+                logger.info("使用非流式生成模式")
+                response = await self.llm_service.generate_response(prompt)
+                logger.info("最终回答生成完成")
+                return response
+
+        except Exception as e:
+            logger.error(f"生成最终回答失败: {e}")
+            if stream:
+
+                async def error_generator():
+                    yield f"抱歉，生成回答时出现错误: {str(e)}"
+
+                return error_generator()
+            else:
+                return f"抱歉，生成回答时出现错误: {str(e)}"
+
+    async def process_request(
+        self,
+        request: str,
+        knowledge_base: Union[str, List[str]],
+        session_id: int,
+        stream: bool = False,
+    ) -> Union[str, AsyncGenerator[str, None]]:
+        """
+        处理COT请求的主要接口
+
+        Args:
+            request: 用户请求/问题
+            knowledge_base: 目标知识库名称或名称列表
+            session_id: 会话ID（用于获取历史记录）
+            stream: 是否流式生成回答
+
+        Returns:
+            生成的回答（字符串或异步生成器）
+        """
+        try:
+            kb_info = (
+                knowledge_base if isinstance(knowledge_base, list) else [knowledge_base]
+            )
+            logger.info(
+                f"开始处理COT请求 - 会话ID: {session_id}, 知识库: {', '.join(kb_info)}, 流式: {stream}"
+            )
+            logger.info(f"用户请求: {request}")
+
+            # 确保组件已初始化
+            if self.llm_service is None:
+                await self.initialize()
+
+            # 步骤1: 检索历史记录
+            logger.info("=== 步骤1: 检索历史记录 ===")
+            raw_history = await self._retrieve_history(session_id)
+            truncated_history = self._truncate_history(raw_history)
+            formatted_history = self._format_history_messages(truncated_history)
+
+            # 步骤2: 生成上下文问题
+            logger.info("=== 步骤2: 生成上下文问题 ===")
+            context_question = await self._generate_context_question(
+                request, formatted_history
+            )
+
+            # 步骤3: 搜索相关文档
+            logger.info("=== 步骤3: 搜索相关文档 ===")
+            documents = await self._search_documents(
+                context_question, knowledge_base
+            )  # knowledge_base is passed directly
+            formatted_documents = self._format_documents(documents)
+
+            # 步骤4: 生成最终回答
+            logger.info("=== 步骤4: 生成最终回答 ===")
+            final_response = await self._generate_final_response(
+                context_question, formatted_documents, stream
+            )
+
+            logger.info("COT请求处理完成")
+            return final_response
+
+        except Exception as e:
+            logger.error(f"COT请求处理失败: {e}")
+            error_message = f"抱歉，处理请求时出现错误: {str(e)}"
+
+            if stream:
+
+                async def error_generator():
+                    yield error_message
+
+                return error_generator()
+            else:
+                return error_message
+
+    async def close(self):
+        """关闭资源"""
+        if self.llm_service:
+            await self.llm_service.close()
+        logger.info("COT模块资源已关闭")
+
+    async def __aenter__(self):
+        """异步上下文管理器入口"""
+        await self.initialize()
+        return self
+
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        """异步上下文管理器出口"""
+        await self.close()
+
+
+# 便捷函数
+async def create_cot_module(
+    history_threshold: int = 4000,
+    max_history_messages: int = 10,
+    top_k_documents: int = 5,  # This top_k is for the final combined result
+    llm_model: str = "gpt-3.5-turbo",
+    vector_db_path: str = "data/chroma",
+) -> COTModule:
+    """
+    创建并初始化COT模块
+
+    Args:
+        history_threshold: 历史记录长度阈值
+        max_history_messages: 最大历史消息数
+        top_k_documents: 最终返回的检索文档数量
+        llm_model: LLM模型名称
+        vector_db_path: 向量数据库路径
+
+    Returns:
+        初始化后的COT模块实例
+    """
+    config = COTConfig(
+        history_threshold=history_threshold,
+        max_history_messages=max_history_messages,
+        top_k_documents=top_k_documents,
+        llm_model=llm_model,
+        vector_db_path=vector_db_path,
+    )
+
+    cot_module = COTModule(config)
+    await cot_module.initialize()
+    return cot_module
+
+
+# 示例使用
+if __name__ == "__main__":
+
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        handlers=[logging.StreamHandler()],  # Log to console
+    )
+
+    async def main():
+        # 创建COT模块
+        # top_k_documents=3 意味着最终会从所有搜索结果中选出最相关的3个
+        cot = await create_cot_module(history_threshold=3000, top_k_documents=3)
+        response_single_kb = await cot.process_request(
+            request="如何删除conda环境？",
+            knowledge_base="conda",  # 单个知识库
+            session_id=1,
+            stream=False,
+        )
+        print("非流式回答 (单个知识库):", response_single_kb)
+        await cot.close()
+
+    # 运行示例
+    asyncio.run(main())

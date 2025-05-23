@@ -2,7 +2,7 @@ from fastapi import APIRouter, WebSocket, HTTPException, Cookie
 from typing import List
 from pydantic import BaseModel
 from .rag_socket import websocket_endpoint
-from rag.utils.session import (
+from rag.utils.chat_session import (
     get_user_sessions,
     get_session_messages,
     delete_session,
