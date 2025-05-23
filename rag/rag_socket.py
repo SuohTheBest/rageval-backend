@@ -2,7 +2,7 @@ from fastapi import WebSocket, WebSocketDisconnect
 import json
 from collections import OrderedDict
 import time
-from .utils import create_session, get_session, save_message
+from utils.web_utils import create_session, get_session, save_message
 import asyncio
 
 
@@ -63,13 +63,17 @@ class ConnectionManager:
             self.connection_times[client_id] = time.time()
 
             try:
-                await self.active_connections[client_id].send_text(json.dumps({
-                    "type": "stream",
-                    "content": {
-                        "stream_type": stream_type,  # start, content, end
-                        "content": content
-                    }
-                }))
+                await self.active_connections[client_id].send_text(
+                    json.dumps(
+                        {
+                            "type": "stream",
+                            "content": {
+                                "stream_type": stream_type,  # start, content, end
+                                "content": content,
+                            },
+                        }
+                    )
+                )
             except:
                 self.disconnect(client_id)
 
@@ -97,11 +101,7 @@ async def test_streaming_response(client_id: str, session_id: int, content: str)
     # 结束标记
     await manager.send_stream(client_id, "end", full_response)
 
-    save_message(
-        session_id=session_id,
-        type="assistant",
-        content=full_response
-    )
+    save_message(session_id=session_id, type="assistant", content=full_response)
 
 
 async def websocket_endpoint(websocket: WebSocket, client_id: str):
@@ -114,7 +114,9 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                 data = json.loads(data)  # {type:"", content:""}
                 type = data["type"]  # message, file, picture,
                 if type == "message":
-                    content = data["content"]  # ChatMessage, 用户传输的包含type, content, session_id和额外的assistant_id
+                    content = data[
+                        "content"
+                    ]  # ChatMessage, 用户传输的包含type, content, session_id和额外的assistant_id
                     assistant_id = content["assistant_id"]
                     session_id = content["session_id"]  # 为None时需新建
 
@@ -129,34 +131,24 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
 
                     # 保存用户消息
                     save_message(
-                        session_id=session_id,
-                        type="user",
-                        content=content["content"]
+                        session_id=session_id, type="user", content=content["content"]
                     )
                     # 发送session_id
-                    response = {
-                        "type": "setSessionId",
-                        "content": session_id
-                    }
+                    response = {"type": "setSessionId", "content": session_id}
                     await manager.send(json.dumps(response), client_id)
                     # 开始流式响应
-                    await test_streaming_response(client_id, session_id, content["content"])
+                    await test_streaming_response(
+                        client_id, session_id, content["content"]
+                    )
 
             except json.JSONDecodeError:
                 await manager.send(
-                    json.dumps({
-                        "type": "error",
-                        "content": "无效的JSON格式"
-                    }),
-                    client_id
+                    json.dumps({"type": "error", "content": "无效的JSON格式"}),
+                    client_id,
                 )
             except ValueError as e:
                 await manager.send(
-                    json.dumps({
-                        "type": "error",
-                        "content": str(e)
-                    }),
-                    client_id
+                    json.dumps({"type": "error", "content": str(e)}), client_id
                 )
 
     except WebSocketDisconnect:
