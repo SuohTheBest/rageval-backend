@@ -223,3 +223,20 @@ def create_chroma_embedding_function(
         ChromaEmbeddingFunction instance
     """
     return ChromaEmbeddingFunction(api_key=api_key, model=model, base_url=base_url)
+
+
+async def main():
+    embedding_service = await create_embedding_service(
+        api_key="sk-6KauMKZj30SWwYYybrW1TYyfizVAyzOAYG5A5xw7JYy8oJkZ",
+        base_url="https://api.bianxie.ai/v1",
+    )
+    async with embedding_service:
+        texts = ["Hello, world!", "This is a test."]
+        embeddings = await embedding_service.embed_texts(texts)
+        print(embeddings)
+        dimension = await embedding_service.get_embedding_dimension()
+        print(f"Embedding dimension: {dimension}")
+
+
+if __name__ == "__main__":
+    asyncio.run(main())

@@ -2,7 +2,7 @@ from fastapi import WebSocket, WebSocketDisconnect
 import json
 from collections import OrderedDict
 import time
-from utils.web_utils import create_session, get_session, save_message
+from rag.utils.session import create_session, get_session, save_message
 import asyncio
 
 

@@ -1,7 +1,7 @@
 from markitdown import MarkItDown
 
 
-class PdfConverter:
+class PdfToMarkdownConverter:
     """
     一个用于将 PDF 文件转换为 Markdown 字符串的工具类。
     """
@@ -24,6 +24,6 @@ class PdfConverter:
 
 if __name__ == "__main__":
     example_pdf_path = "data/knowledge_library/conda.html"
-    markdown_output = PdfConverter.convert(example_pdf_path)
+    markdown_output = PdfToMarkdownConverter.convert(example_pdf_path)
     print(f"\nMarkdown output for '{example_pdf_path}':\n")
     print(markdown_output)

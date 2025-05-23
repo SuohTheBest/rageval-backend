@@ -2,13 +2,17 @@
 Vector database module using ChromaDB for document storage and similarity search.
 """
 
+import sys
+
+sys.path.append("E:\\Projects\\RagevalBackend")
+
 import asyncio
 import logging
 from typing import List, Dict, Any, Optional, Tuple
 from concurrent.futures import ThreadPoolExecutor
 import chromadb
 from chromadb.config import Settings
-from chromadb.utils import embedding_functions
+from rag.utils.embedding import create_chroma_embedding_function
 
 logger = logging.getLogger(__name__)
 
@@ -30,7 +34,13 @@ class VectorDatabase:
         """
         self.persist_directory = persist_directory
         self.client = None
-        self.embedding_function = embedding_function
+        self.embedding_function = (
+            embedding_function
+            or create_chroma_embedding_function(
+                api_key="sk-6KauMKZj30SWwYYybrW1TYyfizVAyzOAYG5A5xw7JYy8oJkZ",
+                base_url="https://api.bianxie.ai/v1",
+            )
+        )
         self.executor = ThreadPoolExecutor(max_workers=4)
 
     async def initialize(self):
@@ -172,20 +182,42 @@ class VectorDatabase:
             )
 
         loop = asyncio.get_event_loop()
+        batch_size = 100
 
-        def _add_documents():
-            # Generate IDs if not provided
-            if ids is None:
-                import uuid
+        def _add_documents_batch(docs_batch, metadatas_batch, ids_batch):
+            collection.add(
+                documents=docs_batch, metadatas=metadatas_batch, ids=ids_batch
+            )
 
-                doc_ids = [str(uuid.uuid4()) for _ in documents]
-            else:
-                doc_ids = ids
+        async def _add_documents_async():
+            import uuid
 
-            collection.add(documents=documents, metadatas=metadatas, ids=doc_ids)
+            num_documents = len(documents)
+            for i in range(0, num_documents, batch_size):
+                docs_batch = documents[i : i + batch_size]
+
+                if ids is None:
+                    ids_batch = [str(uuid.uuid4()) for _ in docs_batch]
+                else:
+                    ids_batch = ids[i : i + batch_size]
+
+                metadatas_batch = None
+                if metadatas is not None:
+                    metadatas_batch = metadatas[i : i + batch_size]
+
+                await loop.run_in_executor(
+                    self.executor,
+                    _add_documents_batch,
+                    docs_batch,
+                    metadatas_batch,
+                    ids_batch,
+                )
+                logger.info(
+                    f"Added batch {i//batch_size + 1}/{(num_documents + batch_size - 1)//batch_size} to collection '{collection_name}'"
+                )
             return True
 
-        return await loop.run_in_executor(self.executor, _add_documents)
+        return await _add_documents_async()
 
     async def search_documents(
         self,
@@ -288,3 +320,12 @@ async def create_vector_db(persist_directory: str = "./data/chroma") -> VectorDa
     db = VectorDatabase(persist_directory)
     await db.initialize()
     return db
+
+
+if __name__ == "__main__":
+    # Example usage
+    async def main():
+        db = await create_vector_db()
+        await db.delete_collection("terrariawiki_terenemies")
+
+    asyncio.run(main())
