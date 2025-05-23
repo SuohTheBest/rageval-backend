@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Response, Request
+from fastapi import APIRouter, Response, Request, Cookie
 from pydantic import BaseModel
 
 import access_token
@@ -70,3 +70,11 @@ async def me(r: Request):
         return {"success": True, "id":usr.id, "name": usr.username, "avatar": usr.avatar}
     except Exception as e:
         return {"success": False, "message": str(e)}
+
+
+@router.get("/get-access-token")
+async def get_access_token(access_token: str = Cookie(None)):
+    if access_token is None:
+        return {"success": False, "message": "Not logged in."}
+    else:
+        return {"success": True, "access_token": access_token}
