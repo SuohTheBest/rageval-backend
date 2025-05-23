@@ -179,7 +179,7 @@ class COTModule:
             return []
 
     async def _generate_context_question(
-        self, current_question: str, history: str
+        self, current_question: str, history: str, picture: Optional[Any] = None
     ) -> str:
         """
         使用LLM生成包含上下文的新问题
@@ -349,7 +349,11 @@ class COTModule:
         knowledge_base: Union[str, List[str]],
         session_id: int,
         stream: bool = False,
-    ) -> Union[str, AsyncGenerator[str, None]]:
+        picture: Optional[Any] = None,
+    ) -> Union[
+        tuple[str, List[Dict[str, Any]]],
+        tuple[AsyncGenerator[str, None], List[Dict[str, Any]]],
+    ]:
         """
         处理COT请求的主要接口
 
@@ -358,9 +362,10 @@ class COTModule:
             knowledge_base: 目标知识库名称或名称列表
             session_id: 会话ID（用于获取历史记录）
             stream: 是否流式生成回答
+            picture: 图片数据（预留接口）
 
         Returns:
-            生成的回答（字符串或异步生成器）
+            元组：(生成的回答（字符串或异步生成器）, 使用的文档列表)
         """
         try:
             kb_info = (
@@ -401,7 +406,7 @@ class COTModule:
             )
 
             logger.info("COT请求处理完成")
-            return final_response
+            return final_response, documents
 
         except Exception as e:
             logger.error(f"COT请求处理失败: {e}")
@@ -412,9 +417,9 @@ class COTModule:
                 async def error_generator():
                     yield error_message
 
-                return error_generator()
+                return error_generator(), []
             else:
-                return error_message
+                return error_message, []
 
     async def close(self):
         """关闭资源"""
