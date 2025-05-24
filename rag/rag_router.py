@@ -56,20 +56,22 @@ async def get_assistants():
                 FeatureOperation(
                     name="游戏截图上传",
                     icon="operations/picture.svg",
-                    require="picture",
+                    require="picture"
                 ),
                 FeatureOperation(
-                    name="游戏存档分析", icon="operations/savefile.png", require="file"
+                    name="游戏存档分析",
+                    icon="operations/file.svg",
+                    require="file"
                 ),
-            ],
+            ]
         ),
         RAGInstance(
             id="op",
             name="原神助手",
             description="启动一下",
             initial_message="这是什么？启动一下。",
-            operations=[],
-        ),
+            operations=[]
+        )
     ]
 
     return {"assistants": assistants}
@@ -91,15 +93,12 @@ async def get_sessions(category: str, access_token: str = Cookie(None)):
     try:
         user_id = await get_user_id(access_token)
         sessions = get_user_sessions(user_id, category)
-        return [
-            ChatSessionResponse(
-                id=session.id,
-                category=session.category,
-                summary=session.summary,
-                updated=session.updated,
-            )
-            for session in sessions
-        ]
+        return [ChatSessionResponse(
+            id=session.id,
+            category=session.category,
+            summary=session.summary,
+            updated=session.updated
+        ) for session in sessions]
     except HTTPException as e:
         raise e
     except Exception as e:
@@ -117,15 +116,12 @@ async def get_messages(session_id: int, access_token: str = Cookie(None)):
         if session.user_id != user_id:
             raise HTTPException(status_code=403, detail="Not allowed.")
         messages = get_session_messages(session_id)
-        return [
-            ChatMessageResponse(
-                id=message.id,
-                type=message.type,
-                content=message.content,
-                feature=message.feature,
-            )
-            for message in messages
-        ]
+        return [ChatMessageResponse(
+            id=message.id,
+            type=message.type,
+            content=message.content,
+            feature=message.feature
+        ) for message in messages]
     except HTTPException as e:
         raise e
     except Exception as e:
@@ -142,8 +138,10 @@ async def delete_chat_session(session_id: int, access_token: str = Cookie(None))
             raise HTTPException(status_code=404, detail="Session not found.")
         if session.user_id != user_id:
             raise HTTPException(status_code=403, detail="Not allowed.")
-
+            
         success = delete_session(session_id)
         return {"success": success}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
