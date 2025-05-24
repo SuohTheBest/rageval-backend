@@ -260,71 +260,6 @@ class AssistantService:
         finally:
             db.close()
 
-    # ==================== 数据库操作辅助方法 ====================
-
-    def _save_chat_messages(
-        self,
-        session_id: int,
-        user_request: str,
-        assistant_response: str,
-        documents: List[Dict[str, Any]],
-        feature: Optional[str] = None,
-    ) -> None:
-        """
-        保存用户请求和助手回复到数据库
-
-        Args:
-            session_id: 会话ID
-            user_request: 用户请求内容
-            assistant_response: 助手回复内容
-            documents: 使用的文档列表
-            feature: 特殊功能标识
-        """
-        db = SessionLocal()
-        try:
-            # 保存用户消息
-            user_message = ChatMessage(
-                session_id=session_id,
-                type="user",
-                feature=feature,
-                content=user_request,
-                meta_type="none",
-            )
-            db.add(user_message)
-            db.flush()  # 获取user_message的ID
-
-            # 保存助手消息
-            assistant_message = ChatMessage(
-                session_id=session_id,
-                type="assistant",
-                feature=feature,
-                content=assistant_response,
-                meta_type="retrieval" if documents else "none",
-            )
-            db.add(assistant_message)
-            db.flush()  # 获取assistant_message的ID
-
-            # 如果有文档，保存检索源信息
-            if documents:
-                for doc in documents:
-                    retrieval_source = RetrievalSource(
-                        message_id=assistant_message.id,
-                        title=f"文档{doc.get('index', '')}",
-                        url="",  # 暂时为空，可以根据需要填充
-                        snippet=doc.get("content", "")[:500],  # 截取前500字符作为摘要
-                        similarity_score=doc.get("similarity", 0.0),
-                    )
-                    db.add(retrieval_source)
-
-            db.commit()
-            logger.info(f"成功保存会话{session_id}的消息到数据库")
-
-        except Exception as e:
-            db.rollback()
-            logger.error(f"保存消息到数据库失败: {e}")
-        finally:
-            db.close()
-
     # ==================== 全局服务接口 ====================
 
     async def process_request(
@@ -333,7 +268,10 @@ class AssistantService:
         request: str,
         stream: bool = False,
         feature: Optional[str] = None,
-    ) -> Union[str, AsyncGenerator[str, None]]:
+    ) -> Union[
+        tuple[str, List[Dict[str, Any]]],
+        tuple[AsyncGenerator[str, None], List[Dict[str, Any]]],
+    ]:
         """
         全局服务接口：处理用户请求
 
@@ -395,21 +333,8 @@ class AssistantService:
                 stream=stream,
             )
 
-            # 解包响应和文档
-            response, documents = response_tuple
-
-            # 4. 如果不是流式生成，保存消息到数据库
-            if not stream:
-                self._save_chat_messages(
-                    session_id=session_id,
-                    user_request=request,
-                    assistant_response=response,
-                    documents=documents,
-                    feature=feature,
-                )
-
             logger.info("全局服务请求处理完成")
-            return response
+            return response_tuple
 
         except Exception as e:
             error_msg = f"处理全局服务请求失败: {str(e)}"
