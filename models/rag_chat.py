@@ -26,9 +26,9 @@ class ChatMessage(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     session_id = Column(Integer)
     type = Column(String(16))  # user, assistant, system
-    feature = Column(String) # 特殊技能
+    feature = Column(String)  # 特殊技能
     content = Column(String)
-    meta_type = Column(String(16)) # 元数据类型, "retrieval", "file", "picture", "none"
+    meta_type = Column(String(16))  # 元数据类型, "retrieval", "file", "picture", "none"
 
 
 # 仅限assistant
@@ -51,5 +51,4 @@ class FileOrPictureSource(Base):
     message_id = Column(Integer)
     title = Column(String)
     size = Column(Integer)
-    type = Column(String(16)) # "file", "picture"
-
+    type = Column(String(16))  # "file", "picture"

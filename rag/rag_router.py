@@ -2,10 +2,15 @@ from fastapi import APIRouter, WebSocket, HTTPException, Cookie
 from typing import List
 from pydantic import BaseModel
 from .rag_socket import websocket_endpoint
-from .utils import get_user_sessions, get_session_messages, delete_session, get_session
+from rag.utils.chat_session import (
+    get_user_sessions,
+    get_session_messages,
+    delete_session,
+    get_session,
+)
 from access_token import get_user_id
 
-router = APIRouter(prefix='/chat', tags=['RagChat'])
+router = APIRouter(prefix="/chat", tags=["RagChat"])
 
 
 class FeatureOperation(BaseModel):
