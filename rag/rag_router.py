@@ -55,7 +55,7 @@ async def get_assistants():
                 ),
                 FeatureOperation(
                     name="游戏存档分析",
-                    icon="operations/savefile.png",
+                    icon="operations/file.svg",
                     require="file"
                 ),
             ]
