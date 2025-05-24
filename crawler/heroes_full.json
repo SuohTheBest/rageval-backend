@@ -1,0 +1,502 @@
+[
+  {
+    "hero": "元流之子(射手)",
+    "url": "https://pvp.qq.com/web201605/herodetail/yuanliuzhizi_archer.shtml"
+  },
+  {
+    "hero": "空空儿",
+    "url": "https://pvp.qq.com/web201605/herodetail/kongkonger.shtml"
+  },
+  {
+    "hero": "苍",
+    "url": "https://pvp.qq.com/web201605/herodetail/cang.shtml"
+  },
+  {
+    "hero": "影",
+    "url": "https://pvp.qq.com/web201605/herodetail/ying.shtml"
+  },
+  {
+    "hero": "少司缘",
+    "url": "https://pvp.qq.com/web201605/herodetail/shaosiyuan.shtml"
+  },
+  {
+    "hero": "元流之子(坦克)",
+    "url": "https://pvp.qq.com/web201605/herodetail/yuanliuzhizi_tank.shtml"
+  },
+  {
+    "hero": "元流之子(法师)",
+    "url": "https://pvp.qq.com/web201605/herodetail/yuanliuzhizi_magic.shtml"
+  },
+  {
+    "hero": "大司命",
+    "url": "https://pvp.qq.com/web201605/herodetail/dasiming.shtml"
+  },
+  {
+    "hero": "敖隐",
+    "url": "https://pvp.qq.com/web201605/herodetail/aoyin.shtml"
+  },
+  {
+    "hero": "海诺",
+    "url": "https://pvp.qq.com/web201605/herodetail/hainuo.shtml"
+  },
+  {
+    "hero": "朵莉亚",
+    "url": "https://pvp.qq.com/web201605/herodetail/duoliya.shtml"
+  },
+  {
+    "hero": "亚连",
+    "url": "https://pvp.qq.com/web201605/herodetail/yalian.shtml"
+  },
+  {
+    "hero": "姬小满",
+    "url": "https://pvp.qq.com/web201605/herodetail/jixiaoman.shtml"
+  },
+  {
+    "hero": "莱西奥",
+    "url": "https://pvp.qq.com/web201605/herodetail/laixiao.shtml"
+  },
+  {
+    "hero": "赵怀真",
+    "url": "https://pvp.qq.com/web201605/herodetail/zhaohuaizhen.shtml"
+  },
+  {
+    "hero": "海月",
+    "url": "https://pvp.qq.com/web201605/herodetail/haiyue.shtml"
+  },
+  {
+    "hero": "戈娅",
+    "url": "https://pvp.qq.com/web201605/herodetail/geya.shtml"
+  },
+  {
+    "hero": "桑启",
+    "url": "https://pvp.qq.com/web201605/herodetail/sangqi.shtml"
+  },
+  {
+    "hero": "暃",
+    "url": "https://pvp.qq.com/web201605/herodetail/fei.shtml"
+  },
+  {
+    "hero": "金蝉",
+    "url": "https://pvp.qq.com/web201605/herodetail/jinchan.shtml"
+  },
+  {
+    "hero": "云缨",
+    "url": "https://pvp.qq.com/web201605/herodetail/yunying.shtml"
+  },
+  {
+    "hero": "艾琳",
+    "url": "https://pvp.qq.com/web201605/herodetail/ailin.shtml"
+  },
+  {
+    "hero": "司空震",
+    "url": "https://pvp.qq.com/web201605/herodetail/sikongzhen.shtml"
+  },
+  {
+    "hero": "澜",
+    "url": "https://pvp.qq.com/web201605/herodetail/lan.shtml"
+  },
+  {
+    "hero": "夏洛特",
+    "url": "https://pvp.qq.com/web201605/herodetail/xialuote.shtml"
+  },
+  {
+    "hero": "阿古朵",
+    "url": "https://pvp.qq.com/web201605/herodetail/aguduo.shtml"
+  },
+  {
+    "hero": "蒙恬",
+    "url": "https://pvp.qq.com/web201605/herodetail/mengtian.shtml"
+  },
+  {
+    "hero": "镜",
+    "url": "https://pvp.qq.com/web201605/herodetail/jing.shtml"
+  },
+  {
+    "hero": "蒙犽",
+    "url": "https://pvp.qq.com/web201605/herodetail/mengya.shtml"
+  },
+  {
+    "hero": "鲁班大师",
+    "url": "https://pvp.qq.com/web201605/herodetail/lubandashi.shtml"
+  },
+  {
+    "hero": "西施",
+    "url": "https://pvp.qq.com/web201605/herodetail/xishi.shtml"
+  },
+  {
+    "hero": "马超",
+    "url": "https://pvp.qq.com/web201605/herodetail/machao.shtml"
+  },
+  {
+    "hero": "曜",
+    "url": "https://pvp.qq.com/web201605/herodetail/dongfangyao.shtml"
+  },
+  {
+    "hero": "云中君",
+    "url": "https://pvp.qq.com/web201605/herodetail/yunzhongjun.shtml"
+  },
+  {
+    "hero": "瑶",
+    "url": "https://pvp.qq.com/web201605/herodetail/yao.shtml"
+  },
+  {
+    "hero": "盘古",
+    "url": "https://pvp.qq.com/web201605/herodetail/pangu.shtml"
+  },
+  {
+    "hero": "猪八戒",
+    "url": "https://pvp.qq.com/web201605/herodetail/zhubajie.shtml"
+  },
+  {
+    "hero": "嫦娥",
+    "url": "https://pvp.qq.com/web201605/herodetail/change.shtml"
+  },
+  {
+    "hero": "上官婉儿",
+    "url": "https://pvp.qq.com/web201605/herodetail/shangguanwaner.shtml"
+  },
+  {
+    "hero": "李信",
+    "url": "https://pvp.qq.com/web201605/herodetail/lixin.shtml"
+  },
+  {
+    "hero": "沈梦溪",
+    "url": "https://pvp.qq.com/web201605/herodetail/shenmengxi.shtml"
+  },
+  {
+    "hero": "伽罗",
+    "url": "https://pvp.qq.com/web201605/herodetail/jialuo.shtml"
+  },
+  {
+    "hero": "盾山",
+    "url": "https://pvp.qq.com/web201605/herodetail/dunshan.shtml"
+  },
+  {
+    "hero": "司马懿",
+    "url": "https://pvp.qq.com/web201605/herodetail/simayi.shtml"
+  },
+  {
+    "hero": "孙策",
+    "url": "https://pvp.qq.com/web201605/herodetail/sunce.shtml"
+  },
+  {
+    "hero": "元歌",
+    "url": "https://pvp.qq.com/web201605/herodetail/yuange.shtml"
+  },
+  {
+    "hero": "米莱狄",
+    "url": "https://pvp.qq.com/web201605/herodetail/milaidi.shtml"
+  },
+  {
+    "hero": "狂铁",
+    "url": "https://pvp.qq.com/web201605/herodetail/kuangtie.shtml"
+  },
+  {
+    "hero": "弈星",
+    "url": "https://pvp.qq.com/web201605/herodetail/yixing.shtml"
+  },
+  {
+    "hero": "裴擒虎",
+    "url": "https://pvp.qq.com/web201605/herodetail/peiqinhu.shtml"
+  },
+  {
+    "hero": "杨玉环",
+    "url": "https://pvp.qq.com/web201605/herodetail/yangyuhuan.shtml"
+  },
+  {
+    "hero": "公孙离",
+    "url": "https://pvp.qq.com/web201605/herodetail/gongsunli.shtml"
+  },
+  {
+    "hero": "明世隐",
+    "url": "https://pvp.qq.com/web201605/herodetail/mingshiyin.shtml"
+  },
+  {
+    "hero": "女娲",
+    "url": "https://pvp.qq.com/web201605/herodetail/nvwa.shtml"
+  },
+  {
+    "hero": "梦奇",
+    "url": "https://pvp.qq.com/web201605/herodetail/mengqi.shtml"
+  },
+  {
+    "hero": "苏烈",
+    "url": "https://pvp.qq.com/web201605/herodetail/sulie.shtml"
+  },
+  {
+    "hero": "百里玄策",
+    "url": "https://pvp.qq.com/web201605/herodetail/bailixuance.shtml"
+  },
+  {
+    "hero": "百里守约",
+    "url": "https://pvp.qq.com/web201605/herodetail/bailishouyue.shtml"
+  },
+  {
+    "hero": "铠",
+    "url": "https://pvp.qq.com/web201605/herodetail/kai.shtml"
+  },
+  {
+    "hero": "鬼谷子",
+    "url": "https://pvp.qq.com/web201605/herodetail/guiguzi.shtml"
+  },
+  {
+    "hero": "干将莫邪",
+    "url": "https://pvp.qq.com/web201605/herodetail/ganjiangmoye.shtml"
+  },
+  {
+    "hero": "东皇太一",
+    "url": "https://pvp.qq.com/web201605/herodetail/donghuangtaiyi.shtml"
+  },
+  {
+    "hero": "大乔",
+    "url": "https://pvp.qq.com/web201605/herodetail/daqiao.shtml"
+  },
+  {
+    "hero": "黄忠",
+    "url": "https://pvp.qq.com/web201605/herodetail/huangzhong.shtml"
+  },
+  {
+    "hero": "诸葛亮",
+    "url": "https://pvp.qq.com/web201605/herodetail/zhugeliang.shtml"
+  },
+  {
+    "hero": "哪吒",
+    "url": "https://pvp.qq.com/web201605/herodetail/nezha.shtml"
+  },
+  {
+    "hero": "太乙真人",
+    "url": "https://pvp.qq.com/web201605/herodetail/taiyizhenren.shtml"
+  },
+  {
+    "hero": "蔡文姬",
+    "url": "https://pvp.qq.com/web201605/herodetail/caiwenji.shtml"
+  },
+  {
+    "hero": "雅典娜",
+    "url": "https://pvp.qq.com/web201605/herodetail/yadianna.shtml"
+  },
+  {
+    "hero": "杨戬",
+    "url": "https://pvp.qq.com/web201605/herodetail/yangjian.shtml"
+  },
+  {
+    "hero": "钟馗",
+    "url": "https://pvp.qq.com/web201605/herodetail/zhongkui.shtml"
+  },
+  {
+    "hero": "虞姬",
+    "url": "https://pvp.qq.com/web201605/herodetail/yuji.shtml"
+  },
+  {
+    "hero": "李元芳",
+    "url": "https://pvp.qq.com/web201605/herodetail/liyuanfang.shtml"
+  },
+  {
+    "hero": "张飞",
+    "url": "https://pvp.qq.com/web201605/herodetail/zhangfei.shtml"
+  },
+  {
+    "hero": "刘备",
+    "url": "https://pvp.qq.com/web201605/herodetail/liubei.shtml"
+  },
+  {
+    "hero": "后羿",
+    "url": "https://pvp.qq.com/web201605/herodetail/houyi.shtml"
+  },
+  {
+    "hero": "牛魔",
+    "url": "https://pvp.qq.com/web201605/herodetail/niumo.shtml"
+  },
+  {
+    "hero": "孙悟空",
+    "url": "https://pvp.qq.com/web201605/herodetail/sunwukong.shtml"
+  },
+  {
+    "hero": "亚瑟",
+    "url": "https://pvp.qq.com/web201605/herodetail/yase.shtml"
+  },
+  {
+    "hero": "橘右京",
+    "url": "https://pvp.qq.com/web201605/herodetail/jvyoujing.shtml"
+  },
+  {
+    "hero": "娜可露露",
+    "url": "https://pvp.qq.com/web201605/herodetail/nakelulu.shtml"
+  },
+  {
+    "hero": "不知火舞",
+    "url": "https://pvp.qq.com/web201605/herodetail/buzhihuowu.shtml"
+  },
+  {
+    "hero": "张良",
+    "url": "https://pvp.qq.com/web201605/herodetail/zhangliang.shtml"
+  },
+  {
+    "hero": "花木兰",
+    "url": "https://pvp.qq.com/web201605/herodetail/huamulan.shtml"
+  },
+  {
+    "hero": "兰陵王",
+    "url": "https://pvp.qq.com/web201605/herodetail/lanlingwang.shtml"
+  },
+  {
+    "hero": "王昭君",
+    "url": "https://pvp.qq.com/web201605/herodetail/wangzhaojun.shtml"
+  },
+  {
+    "hero": "韩信",
+    "url": "https://pvp.qq.com/web201605/herodetail/hanxin.shtml"
+  },
+  {
+    "hero": "刘邦",
+    "url": "https://pvp.qq.com/web201605/herodetail/liubang.shtml"
+  },
+  {
+    "hero": "姜子牙",
+    "url": "https://pvp.qq.com/web201605/herodetail/jiangziya.shtml"
+  },
+  {
+    "hero": "露娜",
+    "url": "https://pvp.qq.com/web201605/herodetail/luna.shtml"
+  },
+  {
+    "hero": "程咬金",
+    "url": "https://pvp.qq.com/web201605/herodetail/chengyaojin.shtml"
+  },
+  {
+    "hero": "安琪拉",
+    "url": "https://pvp.qq.com/web201605/herodetail/anqila.shtml"
+  },
+  {
+    "hero": "貂蝉",
+    "url": "https://pvp.qq.com/web201605/herodetail/diaochan.shtml"
+  },
+  {
+    "hero": "关羽",
+    "url": "https://pvp.qq.com/web201605/herodetail/guanyu.shtml"
+  },
+  {
+    "hero": "老夫子",
+    "url": "https://pvp.qq.com/web201605/herodetail/laofuzi.shtml"
+  },
+  {
+    "hero": "武则天",
+    "url": "https://pvp.qq.com/web201605/herodetail/wuzetian.shtml"
+  },
+  {
+    "hero": "项羽",
+    "url": "https://pvp.qq.com/web201605/herodetail/xiangyu.shtml"
+  },
+  {
+    "hero": "达摩",
+    "url": "https://pvp.qq.com/web201605/herodetail/damo.shtml"
+  },
+  {
+    "hero": "狄仁杰",
+    "url": "https://pvp.qq.com/web201605/herodetail/direnjie.shtml"
+  },
+  {
+    "hero": "马可波罗",
+    "url": "https://pvp.qq.com/web201605/herodetail/makeboluo.shtml"
+  },
+  {
+    "hero": "李白",
+    "url": "https://pvp.qq.com/web201605/herodetail/libai.shtml"
+  },
+  {
+    "hero": "宫本武藏",
+    "url": "https://pvp.qq.com/web201605/herodetail/gongbenwuzang.shtml"
+  },
+  {
+    "hero": "典韦",
+    "url": "https://pvp.qq.com/web201605/herodetail/dianwei.shtml"
+  },
+  {
+    "hero": "曹操",
+    "url": "https://pvp.qq.com/web201605/herodetail/caocao.shtml"
+  },
+  {
+    "hero": "甄姬",
+    "url": "https://pvp.qq.com/web201605/herodetail/zhenji.shtml"
+  },
+  {
+    "hero": "夏侯惇",
+    "url": "https://pvp.qq.com/web201605/herodetail/xiahoudun.shtml"
+  },
+  {
+    "hero": "周瑜",
+    "url": "https://pvp.qq.com/web201605/herodetail/zhouyv.shtml"
+  },
+  {
+    "hero": "吕布",
+    "url": "https://pvp.qq.com/web201605/herodetail/lvbu.shtml"
+  },
+  {
+    "hero": "芈月",
+    "url": "https://pvp.qq.com/web201605/herodetail/miyue.shtml"
+  },
+  {
+    "hero": "白起",
+    "url": "https://pvp.qq.com/web201605/herodetail/baiqi.shtml"
+  },
+  {
+    "hero": "扁鹊",
+    "url": "https://pvp.qq.com/web201605/herodetail/bianque.shtml"
+  },
+  {
+    "hero": "孙膑",
+    "url": "https://pvp.qq.com/web201605/herodetail/sunbin.shtml"
+  },
+  {
+    "hero": "钟无艳",
+    "url": "https://pvp.qq.com/web201605/herodetail/zhongwuyan.shtml"
+  },
+  {
+    "hero": "阿轲",
+    "url": "https://pvp.qq.com/web201605/herodetail/ake.shtml"
+  },
+  {
+    "hero": "高渐离",
+    "url": "https://pvp.qq.com/web201605/herodetail/gaojianli.shtml"
+  },
+  {
+    "hero": "刘禅",
+    "url": "https://pvp.qq.com/web201605/herodetail/liushan.shtml"
+  },
+  {
+    "hero": "庄周",
+    "url": "https://pvp.qq.com/web201605/herodetail/zhuangzhou.shtml"
+  },
+  {
+    "hero": "鲁班七号",
+    "url": "https://pvp.qq.com/web201605/herodetail/lubanqihao.shtml"
+  },
+  {
+    "hero": "孙尚香",
+    "url": "https://pvp.qq.com/web201605/herodetail/sunshangxiang.shtml"
+  },
+  {
+    "hero": "嬴政",
+    "url": "https://pvp.qq.com/web201605/herodetail/yingzheng.shtml"
+  },
+  {
+    "hero": "妲己",
+    "url": "https://pvp.qq.com/web201605/herodetail/daji.shtml"
+  },
+  {
+    "hero": "墨子",
+    "url": "https://pvp.qq.com/web201605/herodetail/mozi.shtml"
+  },
+  {
+    "hero": "赵云",
+    "url": "https://pvp.qq.com/web201605/herodetail/zhaoyun.shtml"
+  },
+  {
+    "hero": "小乔",
+    "url": "https://pvp.qq.com/web201605/herodetail/xiaoqiao.shtml"
+  },
+  {
+    "hero": "廉颇",
+    "url": "https://pvp.qq.com/web201605/herodetail/lianpo.shtml"
+  }
+]
