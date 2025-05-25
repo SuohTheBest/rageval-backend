@@ -50,5 +50,6 @@ class FileOrPictureSource(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     message_id = Column(Integer)
     title = Column(String)
+    path = Column(String)
     size = Column(Integer)
     type = Column(String(16))  # "file", "picture"

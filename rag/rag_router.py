@@ -1,14 +1,16 @@
-from fastapi import APIRouter, WebSocket, HTTPException, Cookie
-from typing import List
+from fastapi import APIRouter, WebSocket, HTTPException, Cookie, UploadFile, File
+from typing import List, Dict
 from pydantic import BaseModel
-from .rag_socket import websocket_endpoint
+from .rag_socket import websocket_endpoint, temp_files
 from rag.utils.chat_session import (
     get_user_sessions,
     get_session_messages,
     delete_session,
-    get_session,
+    get_session, get_message_metadata,
 )
 from access_token import get_user_id
+import os
+import uuid
 
 router = APIRouter(prefix="/chat", tags=["RagChat"])
 
@@ -40,6 +42,7 @@ class ChatMessageResponse(BaseModel):
     type: str
     content: str
     feature: str | None = None
+    metadata: dict | List[dict] | None = None
 
 
 @router.get("/assistants")
@@ -120,7 +123,8 @@ async def get_messages(session_id: int, access_token: str = Cookie(None)):
             id=message.id,
             type=message.type,
             content=message.content,
-            feature=message.feature
+            feature=message.feature,
+            metadata=get_message_metadata(message)
         ) for message in messages]
     except HTTPException as e:
         raise e
@@ -138,10 +142,39 @@ async def delete_chat_session(session_id: int, access_token: str = Cookie(None))
             raise HTTPException(status_code=404, detail="Session not found.")
         if session.user_id != user_id:
             raise HTTPException(status_code=403, detail="Not allowed.")
-            
+
         success = delete_session(session_id)
         return {"success": success}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@router.post("/temp_file")
+async def upload_temp_file(
+        file: UploadFile = File(...),
+        access_token: str = Cookie(None)
+):
+    """上传临时文件"""
+    try:
+        user_id = await get_user_id(access_token)
+        temp_file_id = str(uuid.uuid4())
+        file_type = "picture" if file.content_type.startswith("image/") else "file"
+        temp_dir = os.path.join("uploads", "temp", str(user_id))
+        os.makedirs(temp_dir, exist_ok=True)
+        file_path = os.path.join(temp_dir, file.filename)
+        file_size = 0
+        with open(file_path, "wb") as f:
+            while chunk := await file.read(8192):
+                f.write(chunk)
+                file_size += len(chunk)
+
+        meta = {
+            "file_path": file_path,
+            "file_name": file.filename,
+            "file_size": file_size,
+            "file_type": file_type,
+        }
+        temp_files[temp_file_id] = meta
+        return {"temp_file_id": temp_file_id}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

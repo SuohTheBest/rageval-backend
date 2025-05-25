@@ -1,8 +1,10 @@
+from typing import Dict
+
 from fastapi import WebSocket, WebSocketDisconnect
 import json
 from collections import OrderedDict
 import time
-from rag.utils.chat_session import create_session, get_session, save_message
+from rag.utils.chat_session import create_session, get_session, save_message_with_temp_file, save_message
 import asyncio
 
 
@@ -84,6 +86,8 @@ class ConnectionManager:
 
 manager = ConnectionManager()
 
+temp_files: Dict[str, dict] = {}
+
 
 async def test_streaming_response(client_id: str, session_id: int, content: str):
     """模拟流式响应"""
@@ -101,7 +105,11 @@ async def test_streaming_response(client_id: str, session_id: int, content: str)
     # 结束标记
     await manager.send_stream(client_id, "end", full_response)
 
-    save_message(session_id=session_id, type="assistant", content=full_response)
+    save_message(
+        session_id=session_id,
+        role="assistant",
+        content=full_response,
+    )
 
 
 async def websocket_endpoint(websocket: WebSocket, client_id: str):
@@ -112,30 +120,35 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
             try:
                 # 解析接收到的JSON数据
                 data = json.loads(data)  # {type:"", content:""}
-                type = data["type"]  # message, file, picture,
+                type = data["type"]  # message
                 if type == "message":
-                    content = data[
-                        "content"
-                    ]  # ChatMessage, 用户传输的包含type, content, session_id和额外的assistant_id
+                    # ChatMessage, 用户传输的包含type, content, session_id和额外的assistant_id
+                    content = data["content"]
                     assistant_id = content["assistant_id"]
                     session_id = content["session_id"]  # 为None时需新建
+                    temp_file_id = content.get("temp_file_id")  # 可选的临时文件ID
 
                     # 获取或创建会话
                     if session_id is None:
                         session = create_session(int(client_id), assistant_id)
                         session_id = session.id
+                        # 发送session_id
+                        response = {"type": "setSessionId", "content": session_id}
+                        await manager.send(json.dumps(response), client_id)
                     else:
                         session = get_session(session_id)
                         if not session:
                             raise ValueError("Invalid session_id")
 
-                    # 保存用户消息
-                    save_message(
-                        session_id=session_id, type="user", content=content["content"]
+                    # 保存用户消息和关联的临时文件
+                    message = save_message_with_temp_file(
+                        session_id=session_id,
+                        role="user",
+                        content=content["content"],
+                        feature=content["feature"],
+                        temp_file_id=temp_file_id,
+                        temp_files=temp_files
                     )
-                    # 发送session_id
-                    response = {"type": "setSessionId", "content": session_id}
-                    await manager.send(json.dumps(response), client_id)
                     # 开始流式响应
                     await test_streaming_response(
                         client_id, session_id, content["content"]
