@@ -3,12 +3,14 @@ from models.rag_chat import (
     ChatMessage,
     RetrievalSource,
     FileOrPictureSource,
+    KnowledgeBase,
 )
 from models.database import SessionLocal
 import time
 from typing import List, Optional
 import os
 import shutil
+from models.User import User
 
 
 def create_session(user_id: int, assistant_id: str) -> ChatSession:
@@ -233,5 +235,72 @@ def get_message_metadata(message: ChatMessage):
                 }
 
         return metadata if metadata else None
+    finally:
+        db.close()
+
+
+def check_admin(user_id: int) -> bool:
+    """检查用户是否是管理员"""
+    db = SessionLocal()
+    try:
+        user = db.query(User).filter(User.id == user_id).first()
+        return user and user.role == "admin"
+    finally:
+        db.close()
+
+
+def add_knowledge_base(
+    name: str,
+    path: str,
+    description: str,
+    type: str,
+    created_at: int
+) -> KnowledgeBase:
+    """添加知识库"""
+    db = SessionLocal()
+    try:
+        kb = KnowledgeBase(
+            name=name,
+            path=path,
+            description=description,
+            type=type,
+            created_at=created_at
+        )
+        db.add(kb)
+        db.commit()
+        db.refresh(kb)
+        return kb
+    finally:
+        db.close()
+
+
+def get_knowledge_base(kb_id: int) -> Optional[KnowledgeBase]:
+    """获取知识库信息"""
+    db = SessionLocal()
+    try:
+        return db.query(KnowledgeBase).filter(KnowledgeBase.id == kb_id).first()
+    finally:
+        db.close()
+
+
+def delete_knowledge_base(kb_id: int) -> bool:
+    """删除知识库"""
+    db = SessionLocal()
+    try:
+        kb = db.query(KnowledgeBase).filter(KnowledgeBase.id == kb_id).first()
+        if not kb:
+            return False
+        db.delete(kb)
+        db.commit()
+        return True
+    finally:
+        db.close()
+
+
+def get_knowledge_bases() -> List[KnowledgeBase]:
+    """获取所有知识库"""
+    db = SessionLocal()
+    try:
+        return db.query(KnowledgeBase).all()
     finally:
         db.close()
