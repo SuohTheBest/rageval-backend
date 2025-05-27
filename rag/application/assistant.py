@@ -17,8 +17,12 @@ from typing import List, Optional, Union, AsyncGenerator, Dict, Any
 from sqlalchemy.exc import IntegrityError
 
 from models.database import SessionLocal
-from models.assistant_knowledge import AssistantKnowledgeBase
-from models.rag_chat import ChatMessage, FileOrPictureSource, RetrievalSource
+from models.rag_chat import (
+    ChatMessage,
+    FileOrPictureSource,
+    RetrievalSource,
+    AssistantKnowledgeBase,
+)
 from rag.utils.chat_session import get_session
 from rag.application.cot_module import COTModule, COTConfig
 

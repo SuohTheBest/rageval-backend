@@ -6,11 +6,13 @@ from rag.utils.chat_session import (
     get_user_sessions,
     get_session_messages,
     delete_session,
-    get_session, get_message_metadata,
+    get_session,
+    get_message_metadata,
     check_admin,
     add_knowledge_base,
     delete_knowledge_base,
-    get_knowledge_bases, get_knowledge_base,
+    get_knowledge_bases,
+    get_knowledge_base,
 )
 from access_token import get_user_id
 import os
@@ -79,22 +81,20 @@ async def get_assistants():
                 FeatureOperation(
                     name="游戏截图上传",
                     icon="operations/picture.svg",
-                    require="picture"
+                    require="picture",
                 ),
                 FeatureOperation(
-                    name="游戏存档分析",
-                    icon="operations/file.svg",
-                    require="file"
+                    name="游戏存档分析", icon="operations/file.svg", require="file"
                 ),
-            ]
+            ],
         ),
         RAGInstance(
             id="op",
             name="原神助手",
             description="启动一下",
             initial_message="这是什么？启动一下。",
-            operations=[]
-        )
+            operations=[],
+        ),
     ]
 
     return {"assistants": assistants}
@@ -116,12 +116,15 @@ async def get_sessions(category: str, access_token: str = Cookie(None)):
     try:
         user_id = await get_user_id(access_token)
         sessions = get_user_sessions(user_id, category)
-        return [ChatSessionResponse(
-            id=session.id,
-            category=session.category,
-            summary=session.summary,
-            updated=session.updated
-        ) for session in sessions]
+        return [
+            ChatSessionResponse(
+                id=session.id,
+                category=session.category,
+                summary=session.summary,
+                updated=session.updated,
+            )
+            for session in sessions
+        ]
     except HTTPException as e:
         raise e
     except Exception as e:
@@ -139,13 +142,16 @@ async def get_messages(session_id: int, access_token: str = Cookie(None)):
         if session.user_id != user_id:
             raise HTTPException(status_code=403, detail="Not allowed.")
         messages = get_session_messages(session_id)
-        return [ChatMessageResponse(
-            id=message.id,
-            type=message.type,
-            content=message.content,
-            feature=message.feature,
-            metadata=get_message_metadata(message)
-        ) for message in messages]
+        return [
+            ChatMessageResponse(
+                id=message.id,
+                type=message.type,
+                content=message.content,
+                feature=message.feature,
+                metadata=get_message_metadata(message),
+            )
+            for message in messages
+        ]
     except HTTPException as e:
         raise e
     except Exception as e:
@@ -171,8 +177,7 @@ async def delete_chat_session(session_id: int, access_token: str = Cookie(None))
 
 @router.post("/temp_file")
 async def upload_temp_file(
-        file: UploadFile = File(...),
-        access_token: str = Cookie(None)
+    file: UploadFile = File(...), access_token: str = Cookie(None)
 ):
     """上传临时文件"""
     try:
@@ -205,7 +210,7 @@ async def add_knowledge_base_route(
     file: UploadFile = File(...),
     type: str = Form(...),
     description: str = Form(...),
-    access_token: str = Cookie(None)
+    access_token: str = Cookie(None),
 ):
     """添加知识库"""
     try:
@@ -215,33 +220,33 @@ async def add_knowledge_base_route(
         # 创建知识库目录
         kb_dir = os.path.join("data", "knowledge_library")
         os.makedirs(kb_dir, exist_ok=True)
-        
+
         # 生成文件名
         file_ext = os.path.splitext(file.filename)[1]
         file_name = f"{uuid.uuid4()}{file_ext}"
         file_path = os.path.join(kb_dir, file_name)
-        
+
         # 保存文件
         with open(file_path, "wb") as f:
             while chunk := await file.read(8192):
                 f.write(chunk)
-        
+
         # 添加到数据库
         kb = add_knowledge_base(
             name=file.filename,
             path=file_path,
             description=description,
             type=type,
-            created_at=int(time.time())
+            created_at=int(time.time()),
         )
-        
+
         return {
             "id": kb.id,
             "name": kb.name,
             "path": kb.path,
             "description": kb.description,
             "type": kb.type,
-            "created_at": kb.created_at
+            "created_at": kb.created_at,
         }
     except HTTPException as e:
         raise e
@@ -255,14 +260,17 @@ async def get_knowledge_bases_route(access_token: str = Cookie(None)):
     try:
         user_id = await get_user_id(access_token)
         kbs = get_knowledge_bases()
-        return [{
-            "id": kb.id,
-            "name": kb.name,
-            "path": kb.path,
-            "description": kb.description,
-            "type": kb.type,
-            "created_at": kb.created_at
-        } for kb in kbs]
+        return [
+            {
+                "id": kb.id,
+                "name": kb.name,
+                "path": kb.path,
+                "description": kb.description,
+                "type": kb.type,
+                "created_at": kb.created_at,
+            }
+            for kb in kbs
+        ]
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
