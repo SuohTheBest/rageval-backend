@@ -15,14 +15,14 @@ class LLMService:
     """
 
     def __init__(
-        self,
-        api_key: Optional[str] = None,
-        model: str = "gpt-3.5-turbo",
-        base_url: Optional[str] = None,
-        max_retries: int = 3,
-        timeout: float = 60.0,
-        temperature: float = 0.7,
-        max_tokens: Optional[int] = None,
+            self,
+            api_key: Optional[str] = None,
+            model: str = "gpt-3.5-turbo",
+            base_url: Optional[str] = None,
+            max_retries: int = 3,
+            timeout: float = 60.0,
+            temperature: float = 0.7,
+            max_tokens: Optional[int] = None,
     ):
         """
         Initialize the LLM service.
@@ -48,12 +48,12 @@ class LLMService:
         )
 
     async def generate_response(
-        self,
-        prompt: str,
-        system_message: Optional[str] = None,
-        temperature: Optional[float] = None,
-        max_tokens: Optional[int] = None,
-        **kwargs,
+            self,
+            prompt: str,
+            system_message: Optional[str] = None,
+            temperature: Optional[float] = None,
+            max_tokens: Optional[int] = None,
+            **kwargs,
     ) -> str:
         """
         Generate a response for a given prompt.
@@ -89,11 +89,11 @@ class LLMService:
             raise
 
     async def generate_chat_response(
-        self,
-        messages: List[Dict[str, str]],
-        temperature: Optional[float] = None,
-        max_tokens: Optional[int] = None,
-        **kwargs,
+            self,
+            messages: List[Dict[str, str]],
+            temperature: Optional[float] = None,
+            max_tokens: Optional[int] = None,
+            **kwargs,
     ) -> str:
         """
         Generate a response for a chat conversation.
@@ -121,12 +121,12 @@ class LLMService:
             raise
 
     async def generate_streaming_response(
-        self,
-        prompt: str,
-        system_message: Optional[str] = None,
-        temperature: Optional[float] = None,
-        max_tokens: Optional[int] = None,
-        **kwargs,
+            self,
+            prompt: str,
+            system_message: Optional[str] = None,
+            temperature: Optional[float] = None,
+            max_tokens: Optional[int] = None,
+            **kwargs,
     ) -> AsyncGenerator[str, None]:
         """
         Generate a streaming response for a given prompt.
@@ -159,18 +159,18 @@ class LLMService:
             )
 
             async for chunk in stream:
-                if chunk.choices[0].delta.content is not None:
+                if chunk.choices and chunk.choices[0].delta.content is not None:
                     yield chunk.choices[0].delta.content
         except Exception as e:
             logger.error(f"Error generating streaming response: {e}")
             raise
 
     async def generate_streaming_chat_response(
-        self,
-        messages: List[Dict[str, str]],
-        temperature: Optional[float] = None,
-        max_tokens: Optional[int] = None,
-        **kwargs,
+            self,
+            messages: List[Dict[str, str]],
+            temperature: Optional[float] = None,
+            max_tokens: Optional[int] = None,
+            **kwargs,
     ) -> AsyncGenerator[str, None]:
         """
         Generate a streaming response for a chat conversation.
@@ -216,11 +216,11 @@ class LLMService:
 
 # Convenience functions
 async def create_llm_service(
-    api_key: Optional[str] = None,
-    model: str = "gpt-3.5-turbo",
-    base_url: Optional[str] = None,
-    temperature: float = 0.7,
-    max_tokens: Optional[int] = None,
+        api_key: Optional[str] = None,
+        model: str = "gpt-3.5-turbo",
+        base_url: Optional[str] = None,
+        temperature: float = 0.7,
+        max_tokens: Optional[int] = None,
 ) -> LLMService:
     """
     Create an LLM service instance.
@@ -245,10 +245,10 @@ async def create_llm_service(
 
 
 async def quick_generate(
-    prompt: str,
-    api_key: Optional[str] = None,
-    model: str = "gpt-3.5-turbo",
-    temperature: float = 0.7,
+        prompt: str,
+        api_key: Optional[str] = None,
+        model: str = "gpt-3.5-turbo",
+        temperature: float = 0.7,
 ) -> str:
     """
     Quick function to generate a response without creating a service instance.
@@ -263,6 +263,6 @@ async def quick_generate(
         Generated response
     """
     async with create_llm_service(
-        api_key=api_key, model=model, temperature=temperature
+            api_key=api_key, model=model, temperature=temperature
     ) as llm:
         return await llm.generate_response(prompt)
