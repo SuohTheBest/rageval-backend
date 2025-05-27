@@ -50,5 +50,17 @@ class FileOrPictureSource(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     message_id = Column(Integer)
     title = Column(String)
+    path = Column(String)
     size = Column(Integer)
     type = Column(String(16))  # "file", "picture"
+
+
+class KnowledgeBase(Base):
+    __tablename__ = "knowledge_base"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    assistant_id = Column(String(32))
+    name = Column(String(32)) # 文件名
+    path = Column(String) # 存储路径
+    description = Column(String(255)) # 描述
+    type = Column(String(16)) # markdown, pdf, json, html...
+    created_at = Column(Integer)

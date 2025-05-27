@@ -67,7 +67,7 @@ async def me(r: Request):
         if jwt is None:
             return {"success": False, "message": "Not logged in."}
         usr = await access_token.get_current_user(jwt)
-        return {"success": True, "id":usr.id, "name": usr.username, "avatar": usr.avatar}
+        return {"success": True, "id": usr.id, "name": usr.username, "avatar": usr.avatar, "role": usr.role}
     except Exception as e:
         return {"success": False, "message": str(e)}
 
