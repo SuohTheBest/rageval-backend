@@ -13,8 +13,7 @@ import sys
 sys.path.append("E:\\Projects\\RagevalBackend")
 
 import logging
-from typing import List, Optional, Union, AsyncGenerator, Dict, Any
-from sqlalchemy.orm import sessionmaker
+from typing import List, Optional, Union, AsyncGenerator
 from sqlalchemy.exc import IntegrityError
 
 from models.database import SessionLocal
