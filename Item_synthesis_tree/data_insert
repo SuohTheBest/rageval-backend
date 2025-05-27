@@ -1,0 +1,45 @@
+from neo4j import GraphDatabase
+import json
+from tqdm import tqdm
+
+URI = "neo4j+s://7c083033.databases.neo4j.io"
+USER = "neo4j"
+PASSWORD = "YhqctoPsXJz6PVobPXApV-IG8_vTfWKNkt5ilqBlMKo"
+
+driver = GraphDatabase.driver(URI, auth=(USER, PASSWORD))
+
+with open("terraria_recipes_merged.json", "r", encoding="utf-8") as f:
+    raw_data = json.load(f)
+
+data = []
+for station, recipes in tqdm(raw_data["合成站"].items(), desc="合成站"):
+    for recipe in recipes:
+        data.append({
+            "station": station,
+            "product": recipe["生成物"],
+            "materials": [
+                {"name": m["名称"], "amount": m["数量"]}
+                for m in recipe["材料"]
+            ]
+        })
+
+cypher_query = """
+UNWIND $data AS row
+MERGE (p:Item {name: row.product})
+MERGE (s:Station {name: row.station})
+MERGE (p)-[:CRAFTED_AT]->(s)
+WITH p, row
+UNWIND row.materials AS mat
+MERGE (m:Item {name: mat.name})
+MERGE (p)-[:REQUIRES {amount: mat.amount}]->(m)
+"""
+
+batch_size = 1000
+total = len(data)
+with driver.session() as session:
+    for i in tqdm(range(0, total, batch_size), desc="批量导入"):
+        batch = data[i:i+batch_size]
+        session.run(cypher_query, data=batch)
+
+print("✅ 数据分批导入完成")
+driver.close()
