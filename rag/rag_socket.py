@@ -175,7 +175,7 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                         session_id=session_id,
                         role="user",
                         content=content["content"],
-                        feature=content["feature"],
+                        feature=content.get("feature"),
                         temp_file_id=temp_file_id,
                         temp_files=temp_files,
                     )

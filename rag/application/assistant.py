@@ -56,11 +56,9 @@ class AssistantService:
     ) -> bool:
         """
         为助手添加知识库
-
         Args:
             assistant_id: 助手ID
             knowledge_base_name: 知识库名称
-
         Returns:
             bool: 添加成功返回True，已存在或失败返回False
         """
@@ -75,11 +73,9 @@ class AssistantService:
                 )
                 .first()
             )
-
             if existing:
                 logger.warning(f"助手{assistant_id}已关联知识库{knowledge_base_name}")
                 return False
-
             # 添加新关联
             relationship = AssistantKnowledgeBase(
                 assistant_id=assistant_id, knowledge_base_name=knowledge_base_name
@@ -278,10 +274,9 @@ class AssistantService:
         全局服务接口：处理用户请求
 
         Args:
-            session_id: 会话ID
             request: 用户请求
             stream: 是否流式生成
-
+            extend_source
         Returns:
             生成的回答（字符串或异步生成器）和引用内容
         """
@@ -296,7 +291,7 @@ class AssistantService:
                 await self.initialize()
 
             # 1. 根据session_id获取对应的助手
-            session_id = user_query.session_id
+            session_id = request.session_id
             session = get_session(session_id)
             if not session:
                 error_msg = f"会话{session_id}不存在"
