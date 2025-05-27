@@ -429,3 +429,9 @@ if __name__ == "__main__":
 
     # Run the main synchronization logic
     asyncio.run(knowledge_manager._ori_konwledge())
+
+    # async def main():
+    #     res = await knowledge_manager.sync_library()
+    #     print(res)
+
+    # asyncio.run(main())

@@ -41,7 +41,7 @@ def get_session(session_id: int) -> Optional[ChatSession]:
 
 
 def save_message(
-        session_id: int, role: str, content: str, feature: str = None
+    session_id: int, role: str, content: str, feature: str = None
 ) -> ChatMessage:
     """保存消息到数据库"""
     db = SessionLocal()
@@ -122,10 +122,12 @@ def delete_session(session_id: int) -> bool:
 
         if file_picture_message_ids:
             # 获取所有文件记录
-            file_sources = db.query(FileOrPictureSource).filter(
-                FileOrPictureSource.message_id.in_(file_picture_message_ids)
-            ).all()
-            
+            file_sources = (
+                db.query(FileOrPictureSource)
+                .filter(FileOrPictureSource.message_id.in_(file_picture_message_ids))
+                .all()
+            )
+
             # 删除文件
             for source in file_sources:
                 if source.path and os.path.exists(source.path):
@@ -133,7 +135,7 @@ def delete_session(session_id: int) -> bool:
                         os.remove(source.path)
                     except Exception as e:
                         print(f"删除文件失败: {source.path}, 错误: {str(e)}")
-            
+
             # 删除数据库记录
             db.query(FileOrPictureSource).filter(
                 FileOrPictureSource.message_id.in_(file_picture_message_ids)
@@ -149,12 +151,12 @@ def delete_session(session_id: int) -> bool:
 
 
 def save_message_with_temp_file(
-        session_id: int,
-        role: str,
-        content: str,
-        feature: str = None,
-        temp_file_id: str = None,
-        temp_files: dict = None
+    session_id: int,
+    role: str,
+    content: str,
+    feature: str = None,
+    temp_file_id: str = None,
+    temp_files: dict = None,
 ) -> ChatMessage:
     """保存消息和关联的临时文件到数据库"""
     db = SessionLocal()
@@ -165,7 +167,7 @@ def save_message_with_temp_file(
             type=role,
             content=content,
             feature=feature,
-            meta_type="none"
+            meta_type="none",
         )
         db.add(message)
         db.commit()
@@ -179,7 +181,9 @@ def save_message_with_temp_file(
             target_dir = os.path.join("uploads", file_type)
             os.makedirs(target_dir, exist_ok=True)
             # 移动文件
-            target_path = os.path.join(target_dir, (temp_file_id + temp_file["file_name"])[:40])
+            target_path = os.path.join(
+                target_dir, (temp_file_id + temp_file["file_name"])[:40]
+            )
             shutil.move(temp_file["file_path"], target_path)
 
             # 创建文件记录
@@ -201,6 +205,28 @@ def save_message_with_temp_file(
         db.close()
 
 
+def save_assistant_message(
+    session_id: int, content: str, retrieval: List[RetrievalSource]
+) -> ChatMessage:
+    """保存消息到数据库"""
+    db = SessionLocal()
+    try:
+        message = ChatMessage(
+            session_id=session_id,
+            type="assistant",
+            content=content,
+            feature="retrieval",
+        )
+        db.add(message)
+        for source in retrieval:
+            db.add(source)
+        db.commit()
+        db.refresh(message)
+        return message
+    finally:
+        db.close()
+
+
 def get_message_metadata(message: ChatMessage):
     """获取消息的元数据"""
     if not message.meta_type or message.meta_type == "none":
@@ -209,29 +235,33 @@ def get_message_metadata(message: ChatMessage):
     try:
         metadata = {}
         if message.meta_type == "retrieval":
-            sources = db.query(RetrievalSource).filter(
-                RetrievalSource.message_id == message.id
-            ).first()
+            sources = (
+                db.query(RetrievalSource)
+                .filter(RetrievalSource.message_id == message.id)
+                .first()
+            )
             if sources:
                 metadata["sources"] = [
                     {
                         "title": source.title,
                         "url": source.url,
                         "snippet": source.snippet,
-                        "similarityScore": source.similarity_score
+                        "similarityScore": source.similarity_score,
                     }
                     for source in sources
                 ]
         elif message.meta_type in ["file", "picture"]:
-            source = db.query(FileOrPictureSource).filter(
-                FileOrPictureSource.message_id == message.id
-            ).first()
+            source = (
+                db.query(FileOrPictureSource)
+                .filter(FileOrPictureSource.message_id == message.id)
+                .first()
+            )
             if source:
                 metadata["sources"] = {
                     "id": source.id,
                     "title": source.title,
                     "size": source.size,
-                    "type": source.type
+                    "type": source.type,
                 }
 
         return metadata if metadata else None
@@ -250,11 +280,7 @@ def check_admin(user_id: int) -> bool:
 
 
 def add_knowledge_base(
-    name: str,
-    path: str,
-    description: str,
-    type: str,
-    created_at: int
+    name: str, path: str, description: str, type: str, created_at: int
 ) -> KnowledgeBase:
     """添加知识库"""
     db = SessionLocal()
@@ -264,7 +290,7 @@ def add_knowledge_base(
             path=path,
             description=description,
             type=type,
-            created_at=created_at
+            created_at=created_at,
         )
         db.add(kb)
         db.commit()

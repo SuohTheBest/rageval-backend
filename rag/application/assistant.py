@@ -267,8 +267,8 @@ class AssistantService:
         request: ChatMessage,
         stream: bool = False,
     ) -> Union[
-        tuple[str, List[Dict[str, Any]]],
-        tuple[AsyncGenerator[str, None], List[Dict[str, Any]]],
+        tuple[str, List[RetrievalSource]],
+        tuple[AsyncGenerator[str, None], List[RetrievalSource]],
     ]:
         """
         全局服务接口：处理用户请求
@@ -277,10 +277,9 @@ class AssistantService:
             session_id: 会话ID
             request: 用户请求
             stream: 是否流式生成
-            feature: 特殊功能标识
 
         Returns:
-            生成的回答（字符串或异步生成器）
+            生成的回答（字符串或异步生成器）和引用内容
         """
         user_query = request.content
         session_id = request.session_id
@@ -303,9 +302,9 @@ class AssistantService:
                     async def error_generator():
                         yield error_msg
 
-                    return error_generator()
+                    return error_generator(), []
                 else:
-                    return error_msg
+                    return error_msg, []
 
             assistant_id = session.category
             logger.info(f"会话{session_id}对应的助手ID: {assistant_id}")
@@ -320,24 +319,34 @@ class AssistantService:
                     async def error_generator():
                         yield error_msg
 
-                    return error_generator()
+                    return error_generator(), []
                 else:
-                    return error_msg
+                    return error_msg, []
 
             logger.info(f"助手{assistant_id}关联的知识库: {knowledge_bases}")
 
             # 3. 将请求、知识库ID列表、session_id传给COTModule生成回复
             logger.info("开始调用COT模块处理请求")
-            ChatMessage
-            response_tuple = await self.cot_module.process_request(
+            response, retrieval = await self.cot_module.process_request(
                 request=user_query,
                 knowledge_base=knowledge_bases,
                 session_id=session_id,
                 stream=stream,
             )
 
+            retrieval_sources = [
+                RetrievalSource(
+                    message_id=request.id,
+                    title=source["content"][:10],
+                    url=None,
+                    snippet=source["content"],
+                    similarity_score=source["similarity"],
+                )
+                for source in retrieval
+            ]
+
             logger.info("全局服务请求处理完成")
-            return response_tuple
+            return response, retrieval_sources
 
         except Exception as e:
             error_msg = f"处理全局服务请求失败: {str(e)}"
@@ -348,9 +357,9 @@ class AssistantService:
                 async def error_generator():
                     yield error_msg
 
-                return error_generator()
+                return error_generator(), []
             else:
-                return error_msg
+                return error_msg, []
 
     async def close(self):
         """关闭资源"""
