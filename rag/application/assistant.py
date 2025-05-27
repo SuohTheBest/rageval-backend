@@ -264,10 +264,8 @@ class AssistantService:
 
     async def process_request(
         self,
-        session_id: int,
-        request: str,
+        request: ChatMessage,
         stream: bool = False,
-        feature: Optional[str] = None,
     ) -> Union[
         tuple[str, List[Dict[str, Any]]],
         tuple[AsyncGenerator[str, None], List[Dict[str, Any]]],
@@ -284,15 +282,18 @@ class AssistantService:
         Returns:
             生成的回答（字符串或异步生成器）
         """
+        user_query = request.content
+        session_id = request.session_id
         try:
             logger.info(f"开始处理全局服务请求 - 会话ID: {session_id}, 流式: {stream}")
-            logger.info(f"用户请求: {request}")
+            logger.info(f"用户请求: {user_query}")
 
             # 确保COT模块已初始化
             if self.cot_module is None:
                 await self.initialize()
 
             # 1. 根据session_id获取对应的助手
+            session_id = user_query.session_id
             session = get_session(session_id)
             if not session:
                 error_msg = f"会话{session_id}不存在"
@@ -306,7 +307,7 @@ class AssistantService:
                 else:
                     return error_msg
 
-            assistant_id = session.category  # category字段存储的是助手ID
+            assistant_id = session.category
             logger.info(f"会话{session_id}对应的助手ID: {assistant_id}")
 
             # 2. 在数据库中查找对应的知识库ID列表
@@ -326,8 +327,10 @@ class AssistantService:
             logger.info(f"助手{assistant_id}关联的知识库: {knowledge_bases}")
 
             # 3. 将请求、知识库ID列表、session_id传给COTModule生成回复
+            logger.info("开始调用COT模块处理请求")
+            ChatMessage
             response_tuple = await self.cot_module.process_request(
-                request=request,
+                request=user_query,
                 knowledge_base=knowledge_bases,
                 session_id=session_id,
                 stream=stream,

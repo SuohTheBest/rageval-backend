@@ -130,7 +130,7 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                             raise ValueError("Invalid session_id")
 
                     # 保存用户消息
-                    save_message(
+                    message = save_message(
                         session_id=session_id, type="user", content=content["content"]
                     )
                     # 发送session_id
