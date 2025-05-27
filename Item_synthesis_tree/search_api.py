@@ -1,79 +1,74 @@
-from neo4j import GraphDatabase
-
+from neo4j import AsyncGraphDatabase
+import asyncio
 URI = "neo4j+s://7c083033.databases.neo4j.io"
 USER = "neo4j"
 PASSWORD = "YhqctoPsXJz6PVobPXApV-IG8_vTfWKNkt5ilqBlMKo"
-driver = GraphDatabase.driver(URI, auth=(USER, PASSWORD))
+driver = AsyncGraphDatabase.driver(URI, auth=(USER, PASSWORD))
 
 
-def get_crafting_info(item_name: str) -> dict:
+async def get_crafting_info(item_name: str) -> dict:
     '''
     输入：
-    item_name: "弱效生命药水"
+    item_name: "毒瓶"
     输出：
     {
-        "station": "炼药台",
+        "station": "浸泡装置",
         "materials": [
-            {"name": "玻璃瓶", "amount": 2},
-            {"name": "凝胶", "amount": 2},
-            {"name": "蘑菇", "amount": 1}
+            {"name": "瓶装水", "amount": 1},
+            {"name": "毒刺", "amount": 5}
         ]
     }
     '''
-    regex = f"^{item_name}(×.*)"
-    query = """
-    MATCH (p:Item)
-    WHERE p.name =~ $regex
-    OPTIONAL MATCH (p)-[:CRAFTED_AT]->(s:Station)
-    OPTIONAL MATCH (p)-[r:REQUIRES]->(m:Item)
-    RETURN s.name AS station, collect({name: m.name, amount: r.amount}) AS materials
-    """
-    with driver.session() as session:
-        result = session.execute_read(_query_crafting_info, item_name)
-        return result
+    async def _query_crafting_info(tx, item_name):
+        regex = f"^{item_name}(×.*)?"
+        query = """
+        MATCH (p:Item)
+        WHERE p.name =~ $regex
+        OPTIONAL MATCH (p)-[:CRAFTED_AT]->(s:Station)
+        OPTIONAL MATCH (p)-[r:REQUIRES]->(m:Item)
+        RETURN p.name AS name, s.name AS station, collect({name: m.name, amount: r.amount}) AS materials
+        """
+        record = await tx.run(query, regex=regex)
+        record = await record.single()
+        if record:
+            return {
+                "station": record["station"],
+                "materials": [
+                    {"name": m["name"], "amount": m["amount"]}
+                    for m in record["materials"] if m["name"] is not None
+                ]
+            }
+        else:
+            return {"station": None, "materials": []}
 
-def _query_crafting_info(tx, item_name):
-    record = tx.run(query, regex=regex).single()
-    if record:
-        return {
-            "station": record["station"],
-            "materials": [
-                {"name": m["name"], "amount": m["amount"]}
-                for m in record["materials"] if m["name"] is not None
-            ]
-        }
-    else:
-        return {"station": None, "materials": []}
+    async with driver.session() as session:
+        return await session.execute_read(_query_crafting_info, item_name)
     
-def build_crafting_tree(item_name: str, max_depth: int = 2) -> dict:
+async def build_crafting_tree(item_name: str, max_depth: int = 2) -> dict:
     '''
     输入：
-    item_name: "黑曜石踏水靴"
+    item_name: "毒瓶"
     max_depth: 2
     输出：
     {
-        "name": "黑曜石踏水靴",
-        "station": "工匠作坊",
+        "name": "毒瓶",
+        "station": "浸泡装置",
         "materials": [
             {
-                "name": "黑曜石头骨",
-                "station": "熔炉",
+                "name": "瓶装水",
+                "station": "水",
                 "materials": [
-                    {"name": "黑曜石", "station": None, "materials": [], "amount": 20}
+                    {"name": "玻璃瓶", "station": None, "materials": [], "amount": 1}
                 ],
                 "amount": 1
             },
-            {
-                "name": "踏水靴",
-                "station": None,
-                "materials": [],
-                "amount": 1
-            }
+            {"name": "毒刺", "station": None, "materials": [], "amount": 5}
         ]
     }
     '''
-    def _recursive(tx, item_name, depth):
-        if depth > max_depth:
+
+    async def _recursive(tx, item_name, depth):
+        if depth >= max_depth:
             return {"name": item_name, "station": None, "materials": []}
 
         regex = f"^{item_name}(×.*)?"
@@ -84,7 +79,8 @@ def build_crafting_tree(item_name: str, max_depth: int = 2) -> dict:
         OPTIONAL MATCH (p)-[r:REQUIRES]->(m:Item)
         RETURN p.name AS name, s.name AS station, collect({name: m.name, amount: r.amount}) AS materials
         """
-        record = tx.run(query, regex=regex).single()
+        result = await tx.run(query, regex=regex)
+        record = await result.single()
 
         if not record:
             return {"name": item_name, "station": None, "materials": []}
@@ -92,7 +88,7 @@ def build_crafting_tree(item_name: str, max_depth: int = 2) -> dict:
         materials = []
         for m in record["materials"]:
             if m["name"] is not None:
-                sub_info = _recursive(tx, m["name"], depth + 1)
+                sub_info = await _recursive(tx, m["name"], depth + 1)
                 sub_info["amount"] = m["amount"]
                 materials.append(sub_info)
 
@@ -102,13 +98,16 @@ def build_crafting_tree(item_name: str, max_depth: int = 2) -> dict:
             "materials": materials
         }
 
-    with driver.session() as session:
-        return session.execute_read(_recursive, item_name, 0)
+    async with driver.session() as session:
+        return await session.execute_read(_recursive, item_name, 0)
+    
 
 if __name__ == "__main__":
-    item_name = "黑曜石踏水靴"
-    #api1
-    tree = build_crafting_tree(item_name, max_depth=2)
-    #api2
-    info = get_crafting_info(item_name)
-    print(crafting_info)
+    async def main():
+        item_name = "毒瓶"
+        tree = await build_crafting_tree(item_name, max_depth=2)
+        info = await get_crafting_info(item_name)
+        print("Crafting Tree:", tree)
+        print("Crafting Info:", info)
+
+    asyncio.run(main())

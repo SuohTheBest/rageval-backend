@@ -13,7 +13,7 @@ import sys
 sys.path.append("E:\\Projects\\RagevalBackend")
 
 import logging
-from typing import List, Optional, Union, AsyncGenerator, Dict, Any
+from typing import List, Optional, Union, AsyncGenerator
 from sqlalchemy.exc import IntegrityError
 
 from models.database import SessionLocal
@@ -314,8 +314,10 @@ class AssistantService:
                 error_msg = f"助手{assistant_id}未关联任何知识库"
                 logger.warning(error_msg)
                 if stream:
+
                     async def error_generator():
                         yield error_msg
+
                     return error_generator(), []
                 else:
                     return error_msg, []

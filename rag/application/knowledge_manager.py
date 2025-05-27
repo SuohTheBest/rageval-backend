@@ -7,7 +7,7 @@ import sys
 sys.path.append("E:\\Projects\\RagevalBackend")
 
 import logging
-from typing import List, Optional
+from typing import List
 from pathlib import Path
 
 from rag.doc_process.json_to_markdown import JsonToMarkdownConverter
