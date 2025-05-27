@@ -10,6 +10,7 @@ import logging
 from typing import List
 from pathlib import Path
 import time
+import json
 
 from rag.doc_process.json_to_markdown import JsonToMarkdownConverter
 from rag.doc_process.pdf_to_markdown import PdfToMarkdownConverter
@@ -587,13 +588,158 @@ class KnowledgeManager:
             logger.info("数据库会话已关闭。")
 
 
+def _export_original_knowledge(
+    output_filename: str = "original_knowledge.json",
+) -> bool:
+    """
+    将 KnowledgeBase 表的内容序列化为 JSON 文件。
+    文件将存储在 self.knowledge_library_path 的父目录 (通常是 'data/') 中。
+
+    Args:
+        output_filename: 输出 JSON 文件的名称。
+
+    Returns:
+        True 如果导出成功, 否则 False。
+    """
+    output_dir = Path("data")
+    file_path = output_dir / output_filename
+
+    try:
+        output_dir.mkdir(parents=True, exist_ok=True)
+        logger.info(f"准备将 KnowledgeBase 导出到 {file_path}...")
+
+        db = SessionLocal()
+        try:
+            records = db.query(KnowledgeBase).all()
+            data_to_export = []
+            for record in records:
+                data_to_export.append(
+                    {
+                        "id": record.id,  # 包含id，但导入新条目时通常会忽略它
+                        "assistant_id": record.assistant_id,
+                        "name": record.name,
+                        "path": record.path,
+                        "description": record.description,
+                        "type": record.type,
+                        "created_at": record.created_at,
+                    }
+                )
+
+            with open(file_path, "w", encoding="utf-8") as f:
+                json.dump(data_to_export, f, indent=4, ensure_ascii=False)
+
+            logger.info(f"成功将 {len(data_to_export)} 条记录导出到 {file_path}")
+            return True
+        except Exception as e:
+            logger.error(f"导出 KnowledgeBase 到 JSON 时发生错误: {e}")
+            return False
+        finally:
+            db.close()
+    except Exception as e:
+        logger.error(f"准备导出路径或目录时发生错误: {e}")
+        return False
+
+
+def original_knowledge_init(
+    input_filename: str = "original_knowledge.json",
+) -> bool:
+    """
+    从 JSON 文件导入数据到 KnowledgeBase 表。
+    如果数据库中已存在同名（name 字段）的记录，则跳过该条记录的导入。
+    JSON 文件应位于 self.knowledge_library_path 的父目录 (通常是 'data/') 中。
+
+    Args:
+        input_filename: 输入 JSON 文件的名称。
+
+    Returns:
+        True 如果导入成功（即使部分记录被跳过），否则 False。
+    """
+    input_dir = Path("data")
+    file_path = input_dir / input_filename
+
+    if not file_path.exists():
+        logger.error(f"导入失败: JSON 文件 {file_path} 未找到。")
+        return False
+
+    logger.info(f"准备从 {file_path} 导入 KnowledgeBase...")
+    db = SessionLocal()
+    try:
+        with open(file_path, "r", encoding="utf-8") as f:
+            data_to_import = json.load(f)
+
+        if not isinstance(data_to_import, list):
+            logger.error("导入失败: JSON 文件内容不是一个列表。")
+            return False
+
+        imported_count = 0
+        skipped_count = 0
+
+        for item_data in data_to_import:
+            if not isinstance(item_data, dict):
+                logger.warning(f"跳过无效的条目（非字典格式）: {item_data}")
+                skipped_count += 1
+                continue
+
+            name = item_data.get("name")
+            if not name:
+                logger.warning(f"跳过条目，因为缺少 'name' 字段: {item_data}")
+                skipped_count += 1
+                continue
+
+            existing_record = (
+                db.query(KnowledgeBase).filter(KnowledgeBase.name == name).first()
+            )
+            if existing_record:
+                logger.info(
+                    f"KnowledgeBase 中已存在名为 '{name}' 的记录 (ID: {existing_record.id})。跳过导入。"
+                )
+                skipped_count += 1
+                continue
+
+            created_at_val = item_data.get("created_at")
+            if created_at_val is None:
+                created_at_val = int(time.time())
+
+            try:
+                new_entry = KnowledgeBase(
+                    assistant_id=item_data.get("assistant_id"),
+                    name=name,
+                    path=item_data.get("path"),
+                    description=item_data.get("description"),
+                    type=item_data.get("type"),
+                    created_at=created_at_val,
+                )
+                db.add(new_entry)
+                imported_count += 1
+                logger.info(f"准备导入新记录: '{name}'")
+            except Exception as e:
+                logger.warning(
+                    f"为 '{name}' 创建 KnowledgeBase 对象时出错: {e}。条目数据: {item_data}"
+                )
+                skipped_count += 1
+
+        db.commit()
+        logger.info(
+            f"KnowledgeBase 导入完成。成功导入 {imported_count} 条记录，跳过 {skipped_count} 条记录。"
+        )
+        return True
+
+    except json.JSONDecodeError as e:
+        logger.error(f"导入失败: JSON 文件 {file_path} 解析错误: {e}")
+        db.rollback()
+        return False
+    except Exception as e:
+        logger.error(f"从 JSON 导入 KnowledgeBase 时发生未知错误: {e}")
+        db.rollback()
+        return False
+    finally:
+        db.close()
+        logger.info("数据库会话已关闭。")
+
+
 if __name__ == "__main__":
     import asyncio
     import logging
-
-    from models.database import Base, engine
-
-    Base.metadata.create_all(bind=engine)
 
     logging.basicConfig(
         level=logging.INFO,
@@ -601,21 +747,29 @@ if __name__ == "__main__":
         handlers=[logging.StreamHandler()],  # Log to console
     )
 
-    knowledge_manager = KnowledgeManager()
+    # _export_original_knowledge()
+    # from models.database import Base, engine
+
+    # Base.metadata.create_all(bind=engine)
+    # original_knowledge_init()
+
+    # knowledge_manager = KnowledgeManager()
 
     # === Initialize Knowledge Manager ===
-    async def run_kb_sync():
-        try:
-            await knowledge_manager._sync_libraryBase()
-        except Exception as e:
-            logger.error(f"运行 _sync_libraryBase 时发生错误: {e}")
+    # async def run_kb_sync():
+    #     from models.database import Base, engine
 
-    asyncio.run(run_kb_sync())
+    #     Base.metadata.create_all(bind=engine)
+    #     try:
+    #         await knowledge_manager._sync_libraryBase()
+    #     except Exception as e:
+    #         logger.error(f"运行 _sync_libraryBase 时发生错误: {e}")
+
+    # asyncio.run(run_kb_sync())
 
     # === Force Check ===
     # async def run_force_check():
     #     await knowledge_manager._force_sync_libraryFile()
-
     # asyncio.run(run_force_check())
 
     # === Sync Library ===

@@ -7,12 +7,13 @@ from models.database import Base, engine
 from models import Task, User, rag_chat
 from fastapi import FastAPI
 from auth import user_router
+from rag.application.knowledge_manager import original_knowledge_init
 from task import task_router
 
 g_prefix = "/api"
 
 Base.metadata.create_all(bind=engine)
-
+original_knowledge_init()
 origins = [
     "http://47.97.175.75",
     "https://47.97.175.75",
