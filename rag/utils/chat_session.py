@@ -10,7 +10,11 @@ import time
 from typing import List, Optional
 import os
 import shutil
+import asyncio
 from models.User import User
+from rag.application.knowledge_manager import KnowledgeManager
+
+knowledge_manager = KnowledgeManager()
 
 
 def create_session(user_id: int, assistant_id: str) -> ChatSession:
@@ -41,7 +45,7 @@ def get_session(session_id: int) -> Optional[ChatSession]:
 
 
 def save_message(
-        session_id: int, role: str, content: str, feature: str = None
+    session_id: int, role: str, content: str, feature: str = None
 ) -> ChatMessage:
     """保存消息到数据库"""
     db = SessionLocal()
@@ -151,12 +155,12 @@ def delete_session(session_id: int) -> bool:
 
 
 def save_message_with_temp_file(
-        session_id: int,
-        role: str,
-        content: str = None,
-        feature: str = None,
-        temp_file_id: str = None,
-        temp_files: dict = None,
+    session_id: int,
+    role: str,
+    content: str = None,
+    feature: str = None,
+    temp_file_id: str = None,
+    temp_files: dict = None,
 ) -> tuple[ChatMessage, FileOrPictureSource]:
     """保存消息和关联的临时文件到数据库"""
     db = SessionLocal()
@@ -206,7 +210,7 @@ def save_message_with_temp_file(
 
 
 def save_assistant_message(
-        session_id: int, content: str, retrieval: List[RetrievalSource]
+    session_id: int, content: str, retrieval: List[RetrievalSource]
 ) -> ChatMessage:
     """保存消息到数据库"""
     db = SessionLocal()
@@ -280,7 +284,12 @@ def check_admin(user_id: int) -> bool:
 
 
 def add_knowledge_base(
-        name: str, path: str, description: str, type: str, assistant_id: str, created_at: int
+    name: str,
+    path: str,
+    description: str,
+    type: str,
+    assistant_id: str,
+    created_at: int,
 ) -> KnowledgeBase:
     """添加知识库"""
     db = SessionLocal()
@@ -293,6 +302,7 @@ def add_knowledge_base(
             type=type,
             created_at=created_at,
         )
+        asyncio.run(knowledge_manager.add_file(kb.path))
         db.add(kb)
         db.commit()
         db.refresh(kb)
@@ -317,6 +327,7 @@ def delete_knowledge_base(kb_id: int) -> bool:
         kb = db.query(KnowledgeBase).filter(KnowledgeBase.id == kb_id).first()
         if not kb:
             return False
+        asyncio.run(knowledge_manager.delete_file(kb.path))
         db.delete(kb)
         db.commit()
         return True
@@ -328,6 +339,7 @@ def get_knowledge_bases() -> List[KnowledgeBase]:
     """获取所有知识库"""
     db = SessionLocal()
     try:
+        asyncio.run(knowledge_manager._sync_libraryBase())
         return db.query(KnowledgeBase).all()
     finally:
         db.close()
