@@ -20,6 +20,7 @@ from dataclasses import dataclass
 from rag.utils.llm import LLMService
 from rag.utils.vector_db import VectorDatabase
 from rag.utils.chat_session import get_session_messages
+from image_recognize.recognize import recognize_image
 from models.rag_chat import ChatMessage
 
 logger = logging.getLogger(__name__)
@@ -179,7 +180,7 @@ class COTModule:
             return []
 
     async def _generate_context_question(
-        self, current_question: str, history: str, picture: Optional[Any] = None
+        self, current_question: str, history: str, picture: str = ""
     ) -> str:
         """
         使用LLM生成包含上下文的新问题
@@ -187,18 +188,45 @@ class COTModule:
         Args:
             current_question: 当前用户问题
             history: 格式化的历史记录
+            picture: 图片路径 (如果提供)
 
         Returns:
             生成的新问题
         """
-        if not history:
-            logger.warning("历史记录为空，无法生成上下文问题")
+        question_to_pass_to_llm = current_question
+
+        if picture:
+            try:
+                logger.info(f"开始识别图片: {picture}")
+                # 调用图片识别模块
+                top_names, top_confidences = recognize_image(picture)
+
+                if top_names and top_confidences:
+                    # 获取置信度最高的结果
+                    image_content_name = top_names[0]
+                    image_confidence = top_confidences[0]
+                    image_description = f"用户上传了一张图片，内容为{image_content_name}，识别置信度为{image_confidence:.2f}。"
+                    logger.info(f"图片识别成功: {image_description}")
+                    question_to_pass_to_llm = f"{image_description} {current_question}"
+                else:
+                    logger.warning(f"图片识别成功，但未返回有效结果: {picture}")
+                    image_description = "用户上传了一张图片，但未能识别出具体内容。"
+                    question_to_pass_to_llm = f"{image_description} {current_question}"
+            except Exception as e:
+                logger.error(f"图片识别失败 ({picture}): {e}")
+                image_description = "用户上传了一张图片，但识别过程中发生错误。"
+                question_to_pass_to_llm = f"{image_description} {current_question}"
+
+        # 如果历史记录为空，并且没有提供图片，则直接返回原始问题
+        if not history and not picture:
+            logger.warning("历史记录为空且无图片输入，直接使用原始问题。")
             return current_question
+
         try:
-            logger.info("开始生成上下文问题")
+            logger.info("开始生成上下文问题 (可能包含图片信息和/或历史记录)")
 
             prompt = CONTEXT_GENERATION_PROMPT.format(
-                history=history, current_question=current_question
+                history=history, current_question=question_to_pass_to_llm
             )
 
             response = await self.llm_service.generate_response(prompt)
@@ -214,8 +242,8 @@ class COTModule:
 
         except Exception as e:
             logger.error(f"生成上下文问题失败: {e}")
-            # 如果生成失败，返回原问题
-            return current_question
+            # 如果生成失败，返回我们已构建的问题（可能包含图片信息）
+            return question_to_pass_to_llm
 
     async def _search_documents(
         self, question: str, knowledge_bases: Union[str, List[str]]
@@ -349,7 +377,7 @@ class COTModule:
         knowledge_base: Union[str, List[str]],
         session_id: int,
         stream: bool = False,
-        picture: Optional[Any] = None,
+        picture: str = "",
     ) -> Union[
         tuple[str, List[Dict[str, Any]]],
         tuple[AsyncGenerator[str, None], List[Dict[str, Any]]],
@@ -362,7 +390,7 @@ class COTModule:
             knowledge_base: 目标知识库名称或名称列表
             session_id: 会话ID（用于获取历史记录）
             stream: 是否流式生成回答
-            picture: 图片数据（预留接口）
+            picture: 图片数据
 
         Returns:
             元组：(生成的回答（字符串或异步生成器）, 使用的文档列表)
@@ -389,7 +417,7 @@ class COTModule:
             # 步骤2: 生成上下文问题
             logger.info("=== 步骤2: 生成上下文问题 ===")
             context_question = await self._generate_context_question(
-                request, formatted_history
+                request, formatted_history, picture
             )
 
             # 步骤3: 搜索相关文档
@@ -485,12 +513,12 @@ if __name__ == "__main__":
         # top_k_documents=3 意味着最终会从所有搜索结果中选出最相关的3个
         cot = await create_cot_module(history_threshold=3000, top_k_documents=3)
         response_single_kb = await cot.process_request(
-            request="如何删除conda环境？",
-            knowledge_base="conda",  # 单个知识库
+            request="如何...？",
+            knowledge_base="",  # 单个知识库
             session_id=1,
             stream=False,
         )
-        print("非流式回答 (单个知识库):", response_single_kb)
+        print("非流式回答:", response_single_kb)
         await cot.close()
 
     # 运行示例

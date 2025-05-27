@@ -218,13 +218,17 @@ class KnowledgeManager:
 
             # Build result list
             result = []
+            processed_collections = set()
+
             for filename in files:
                 collection_name = self._get_collection_name(filename)
+                processed_collections.add(collection_name)
+                file_path = self._get_file_path(filename)
                 file_info = {
                     "filename": filename,
                     "collection_name": collection_name,
                     "has_collection": collection_name in collections,
-                    "file_size": self._get_file_path(filename).stat().st_size,
+                    "file_size": file_path.stat().st_size if file_path.exists() else 0,
                     "file_type": Path(filename).suffix.lower(),
                 }
 
@@ -240,11 +244,7 @@ class KnowledgeManager:
 
             # Also check for orphaned collections (collections without files)
             for collection_name in collections:
-                # Find if there's a corresponding file
-                corresponding_files = [
-                    f for f in files if self._get_collection_name(f) == collection_name
-                ]
-                if not corresponding_files:
+                if collection_name not in processed_collections:
                     result.append(
                         {
                             "filename": None,
@@ -297,74 +297,10 @@ class KnowledgeManager:
             logger.error(f"Error syncing library: {e}")
             return {"error": str(e)}
 
-    async def search_in_library(
-        self, query: str, collection_name: Optional[str] = None, k: int = 5
-    ) -> List[dict]:
+    async def _sync_knowledge_base(self):
         """
-        Search for documents in the knowledge library.
-
-        Args:
-            query: Search query
-            collection_name: Specific collection to search in (optional)
-            k: Number of results to return
-
-        Returns:
-            List of search results
-        """
-        try:
-            all_results = []
-            collections_to_search = []
-
-            if collection_name:
-                if isinstance(
-                    collection_name, str
-                ):  # Handle if a single string is passed for backward compatibility or ease of use
-                    collections_to_search = [collection_name]
-                elif isinstance(collection_name, list):
-                    collections_to_search = collection_name
-                else:
-                    logger.error(
-                        "collection_name must be a string or a list of strings."
-                    )
-                    return []
-            else:
-                # Search in all collections if no specific collection_name is provided
-                collections_to_search = await self.vector_db.list_collections()
-
-            if not collections_to_search:
-                logger.info("No collections specified or found to search in.")
-                return []
-
-            for coll_name in collections_to_search:
-                # Ensure collection exists before searching
-                if not await self.vector_db.collection_exists(coll_name):
-                    logger.warning(f"Collection {coll_name} does not exist, skipping.")
-                    continue
-                results = await self.vector_db.search_documents(
-                    collection_name=coll_name,
-                    query_text=query,
-                    k=k,  # k here applies per collection
-                )
-                for doc, sim in results:
-                    all_results.append(
-                        {
-                            "collection": coll_name,
-                            "document": doc,
-                            "similarity": sim,
-                        }
-                    )
-
-            # Sort all aggregated results by similarity and return top k
-            all_results.sort(key=lambda x: x["similarity"], reverse=True)
-            return all_results[:k]
-
-        except Exception as e:
-            logger.error(f"Error searching in library: {e}")
-            return []
-
-    async def _ori_konwledge(self):
-        """
-        Main logic to synchronize the library by adding missing files to the database.
+        Main logic to synchronize the library by adding missing files to the database
+        and removing orphaned collections.
         """
         logger.info("Starting knowledge library synchronization...")
         await self.initialize()  # Ensure vector_db is initialized
@@ -375,40 +311,164 @@ class KnowledgeManager:
             logger.error(f"Could not perform sync: {sync_status['error']}")
             return
 
+        # Add files without collections
         files_to_add = sync_status.get("files_without_collections", [])
+        if files_to_add:
+            logger.info(
+                f"Found {len(files_to_add)} files to add to the database: {files_to_add}"
+            )
+            for filename in files_to_add:
+                logger.info(f"Processing and adding file: {filename}")
+                file_path_to_add = self._get_file_path(filename)
+                if not file_path_to_add.exists():
+                    logger.warning(
+                        f"File {filename} listed for adding does not exist at {file_path_to_add}. Skipping."
+                    )
+                    continue
+                success = await self.add_file(filename)
+                if success:
+                    logger.info(f"Successfully added file {filename} to the database.")
+                else:
+                    logger.error(f"Failed to add file {filename} to the database.")
+        else:
+            logger.info("No files found that need to be added to the database.")
 
-        if not files_to_add:
-            logger.info("Knowledge library is already synchronized. No files to add.")
-            return
-
-        logger.info(
-            f"Found {len(files_to_add)} files to add to the database: {files_to_add}"
-        )
-
-        for filename in files_to_add:
-            logger.info(f"Processing and adding file: {filename}")
-            # Ensure the file actually exists in the knowledge library path before adding
-            file_path_to_add = self._get_file_path(filename)
-            if not file_path_to_add.exists():
-                logger.warning(
-                    f"File {filename} listed for adding does not exist at {file_path_to_add}. Skipping."
-                )
-                continue
-
-            success = await self.add_file(filename)
-            if success:
-                logger.info(f"Successfully added file {filename} to the database.")
-            else:
-                logger.error(f"Failed to add file {filename} to the database.")
-
+        # Remove orphaned collections
         orphaned_collections = sync_status.get("orphaned_collections", [])
         if orphaned_collections:
             logger.info(
-                f"Found {len(orphaned_collections)} orphaned collections: {orphaned_collections}"
+                f"Found {len(orphaned_collections)} orphaned collections to remove: {orphaned_collections}"
             )
-            # Optionally, add logic here to handle orphaned collections (e.g., delete them)
+            for collection_name in orphaned_collections:
+                logger.info(f"Deleting orphaned collection: {collection_name}")
+                deleted = await self.vector_db.delete_collection(collection_name)
+                if deleted:
+                    logger.info(
+                        f"Successfully deleted orphaned collection {collection_name}."
+                    )
+                else:
+                    logger.error(
+                        f"Failed to delete orphaned collection {collection_name}."
+                    )
+        else:
+            logger.info("No orphaned collections found.")
 
         logger.info("Knowledge library synchronization finished.")
+
+    async def _force_check_base(self):
+        """
+        Force check and synchronize the knowledge base.
+        - Adds files without collections.
+        - Removes orphaned collections.
+        - For synced files, re-processes and checks document count, re-adds if different.
+        """
+        logger.info("Starting forceful knowledge library check and synchronization...")
+        await self.initialize()
+
+        sync_status = await self.sync_library()
+
+        if "error" in sync_status:
+            logger.error(f"Could not perform force check: {sync_status['error']}")
+            return
+
+        # Add files without collections
+        files_to_add = sync_status.get("files_without_collections", [])
+        if files_to_add:
+            logger.info(
+                f"[Force Check] Found {len(files_to_add)} files to add: {files_to_add}"
+            )
+            for filename in files_to_add:
+                logger.info(f"[Force Check] Adding file: {filename}")
+                file_path_to_add = self._get_file_path(filename)
+                if not file_path_to_add.exists():
+                    logger.warning(
+                        f"[Force Check] File {filename} for adding does not exist at {file_path_to_add}. Skipping."
+                    )
+                    continue
+                await self.add_file(filename)
+        else:
+            logger.info("[Force Check] No new files to add.")
+
+        # Remove orphaned collections
+        orphaned_collections = sync_status.get("orphaned_collections", [])
+        if orphaned_collections:
+            logger.info(
+                f"[Force Check] Found {len(orphaned_collections)} orphaned collections to remove: {orphaned_collections}"
+            )
+            for collection_name in orphaned_collections:
+                logger.info(
+                    f"[Force Check] Deleting orphaned collection: {collection_name}"
+                )
+                await self.vector_db.delete_collection(collection_name)
+        else:
+            logger.info("[Force Check] No orphaned collections to remove.")
+
+        # Check synced files
+        synced_files = sync_status.get("synced_files", [])
+        if synced_files:
+            logger.info(
+                f"[Force Check] Checking {len(synced_files)} synced files for consistency: {synced_files}"
+            )
+            for filename in synced_files:
+                logger.info(f"[Force Check] Verifying file: {filename}")
+                collection_name = self._get_collection_name(filename)
+                try:
+                    current_doc_count = await self.vector_db.get_collection_count(
+                        collection_name
+                    )
+
+                    # Perform file processing to get expected document count
+                    file_path = self._get_file_path(filename)
+                    if not file_path.exists():
+                        logger.warning(
+                            f"[Force Check] Synced file {filename} not found at {file_path}. Skipping."
+                        )
+                        # This case should ideally be caught as an orphaned collection if the file is truly gone
+                        # or as a file to add if the collection was somehow deleted.
+                        # If it's synced but file is gone, it's an inconsistency.
+                        # We might want to delete the collection here.
+                        logger.info(
+                            f"[Force Check] Deleting collection for missing synced file: {collection_name}"
+                        )
+                        await self.vector_db.delete_collection(collection_name)
+                        continue
+
+                    file_extension = file_path.suffix.lower()
+                    markdown_content = ""
+                    if file_extension == ".json":
+                        markdown_content = JsonToMarkdownConverter.convert(
+                            str(file_path)
+                        )
+                    else:  # Assuming PDF or other convertible types
+                        converter_result = PdfToMarkdownConverter.convert(
+                            str(file_path)
+                        )
+                        markdown_content = str(converter_result)
+
+                    processed_documents = self.markdown_processor.process(
+                        markdown_content
+                    )
+                    expected_doc_count = len(processed_documents)
+
+                    if current_doc_count != expected_doc_count:
+                        logger.warning(
+                            f"[Force Check] Mismatch for {filename} (collection: {collection_name}). DB count: {current_doc_count}, Expected: {expected_doc_count}. Re-adding."
+                        )
+                        await self.vector_db.delete_collection(collection_name)
+                        await self.add_file(filename)  # This will re-process and add
+                    else:
+                        logger.info(
+                            f"[Force Check] File {filename} (collection: {collection_name}) is consistent. DB count: {current_doc_count}."
+                        )
+
+                except Exception as e:
+                    logger.error(
+                        f"[Force Check] Error verifying file {filename}: {e}. Skipping."
+                    )
+        else:
+            logger.info("[Force Check] No synced files to verify.")
+
+        logger.info("Forceful knowledge library check and synchronization finished.")
 
 
 if __name__ == "__main__":
@@ -428,7 +488,13 @@ if __name__ == "__main__":
     knowledge_manager = KnowledgeManager()
 
     # Run the main synchronization logic
-    asyncio.run(knowledge_manager._ori_konwledge())
+    # asyncio.run(knowledge_manager._sync_knowledge_base())
+
+    # Example for force check:
+    async def run_force_check():
+        await knowledge_manager._force_check_base()
+
+    asyncio.run(run_force_check())
 
     # async def main():
     #     res = await knowledge_manager.sync_library()

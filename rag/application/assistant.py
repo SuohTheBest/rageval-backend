@@ -19,7 +19,7 @@ from sqlalchemy.exc import IntegrityError
 
 from models.database import SessionLocal
 from models.assistant_knowledge import AssistantKnowledgeBase
-from models.rag_chat import ChatMessage, RetrievalSource
+from models.rag_chat import ChatMessage, FileOrPictureSource, RetrievalSource
 from rag.utils.chat_session import get_session
 from rag.application.cot_module import COTModule, COTConfig
 
@@ -266,6 +266,7 @@ class AssistantService:
         self,
         request: ChatMessage,
         stream: bool = False,
+        extend_source: FileOrPictureSource = None,
     ) -> Union[
         tuple[str, List[RetrievalSource]],
         tuple[AsyncGenerator[str, None], List[RetrievalSource]],
@@ -332,6 +333,9 @@ class AssistantService:
                 knowledge_base=knowledge_bases,
                 session_id=session_id,
                 stream=stream,
+                picture=(
+                    extend_source.path if extend_source else ""
+                ),  # 传递图片或文件扩展信息
             )
 
             retrieval_sources = [

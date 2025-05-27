@@ -4,11 +4,14 @@ from fastapi import WebSocket, WebSocketDisconnect
 import json
 from collections import OrderedDict
 import time
+from models.rag_chat import ChatMessage, FileOrPictureSource
+from rag.application.assistant import create_assistant_service
 from rag.utils.chat_session import (
     create_session,
     get_session,
     save_message_with_temp_file,
     save_message,
+    save_assistant_message,  # 确保导入 save_assistant_message
 )
 import asyncio
 
@@ -90,31 +93,55 @@ class ConnectionManager:
 
 
 manager = ConnectionManager()
+assistant = create_assistant_service()
 
 temp_files: Dict[str, dict] = {}
 
 
-async def test_streaming_response(client_id: str, session_id: int, content: str):
-    """模拟流式响应"""
-    words = content.split()
-    full_response = "收到消息:" + content
+async def rag_streaming_response(
+    client_id: str, message: ChatMessage, source: FileOrPictureSource
+):
+    """使用 assistant.process_request 处理并流式响应"""
+    full_response_content = ""
+    retrieval_sources = []
 
-    # 开始标记
-    await manager.send_stream(client_id, "start", "")
+    try:
+        response_generator, retrieval_sources = await assistant.process_request(
+            request=message, stream=True, extend_source=source
+        )
 
-    # 逐字发送
-    for char in full_response:
-        await manager.send_stream(client_id, "content", char)
-        await asyncio.sleep(0.5)  # 模拟处理延迟
+        # 开始标记
+        await manager.send_stream(client_id, "start", "")
 
-    # 结束标记
-    await manager.send_stream(client_id, "end", full_response)
+        # 逐块处理流式内容
+        async for chunk in response_generator:
+            await manager.send_stream(client_id, "content", chunk)
+            full_response_content += chunk
 
-    save_message(
-        session_id=session_id,
-        role="assistant",
-        content=full_response,
-    )
+        # 结束标记
+        await manager.send_stream(client_id, "end", full_response_content)
+
+        # 保存助手消息
+        save_assistant_message(
+            session_id=message.session_id,
+            content=full_response_content,
+            retrieval=retrieval_sources,
+        )
+
+    except Exception as e:
+        # 处理在 process_request 或流式处理中发生的错误
+        error_message = f"Error processing request: {str(e)}"
+        print(error_message)  # 记录错误到服务器日志
+        try:
+            # 尝试向客户端发送错误信息
+            await manager.send_stream(client_id, "error", error_message)
+            # 确保发送结束标记，即使有错误
+            await manager.send_stream(client_id, "end", "")
+        except Exception as send_error:
+            # 如果发送错误信息也失败，则记录
+            print(f"Failed to send error to client {client_id}: {str(send_error)}")
+        # 根据错误类型，可能还需要断开连接或进行其他清理
+        # self.disconnect(client_id) # 例如
 
 
 async def websocket_endpoint(websocket: WebSocket, client_id: str):
@@ -153,8 +180,8 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                         temp_files=temp_files,
                     )
                     # 开始流式响应
-                    await test_streaming_response(
-                        client_id, session_id, content["content"]
+                    await rag_streaming_response(
+                        client_id, message, file_or_picture_source
                     )
 
             except json.JSONDecodeError:
