@@ -177,7 +177,7 @@ async def delete_chat_session(session_id: int, access_token: str = Cookie(None))
 
 @router.post("/temp_file")
 async def upload_temp_file(
-    file: UploadFile = File(...), access_token: str = Cookie(None)
+        file: UploadFile = File(...), access_token: str = Cookie(None)
 ):
     """上传临时文件"""
     try:
@@ -207,10 +207,11 @@ async def upload_temp_file(
 
 @router.post("/knowledge_base")
 async def add_knowledge_base_route(
-    file: UploadFile = File(...),
-    type: str = Form(...),
-    description: str = Form(...),
-    access_token: str = Cookie(None),
+        file: UploadFile = File(...),
+        type: str = Form(...),
+        description: str = Form(...),
+        assistant_id: str = Form(...),
+        access_token: str = Cookie(None),
 ):
     """添加知识库"""
     try:
@@ -236,6 +237,7 @@ async def add_knowledge_base_route(
             name=file.filename,
             path=file_path,
             description=description,
+            assistant_id=assistant_id,
             type=type,
             created_at=int(time.time()),
         )
@@ -245,6 +247,7 @@ async def add_knowledge_base_route(
             "name": kb.name,
             "path": kb.path,
             "description": kb.description,
+            "assistant_id": kb.assistant_id,
             "type": kb.type,
             "created_at": kb.created_at,
         }

@@ -280,7 +280,7 @@ def check_admin(user_id: int) -> bool:
 
 
 def add_knowledge_base(
-        name: str, path: str, description: str, type: str, created_at: int
+        name: str, path: str, description: str, type: str, assistant_id: str, created_at: int
 ) -> KnowledgeBase:
     """添加知识库"""
     db = SessionLocal()
@@ -289,6 +289,7 @@ def add_knowledge_base(
             name=name,
             path=path,
             description=description,
+            assistant_id=assistant_id,
             type=type,
             created_at=created_at,
         )
