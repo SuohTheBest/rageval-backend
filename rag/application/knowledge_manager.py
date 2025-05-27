@@ -541,7 +541,7 @@ class KnowledgeManager:
                     f"正在向 KnowledgeBase 添加 {len(files_to_add_info)} 条新记录..."
                 )
                 for file_path_obj in files_to_add_info:
-                    filename = file_path_obj.name
+                    filename = file_path_obj.stem
                     # 从文件名后缀获取文件类型，并移除前导点
                     file_type = (
                         file_path_obj.suffix.lower().lstrip(".")
