@@ -223,9 +223,8 @@ async def add_knowledge_base_route(
         os.makedirs(kb_dir, exist_ok=True)
 
         # 生成文件名
-        file_ext = os.path.splitext(file.filename)[1]
-        file_name = f"{uuid.uuid4()}{file_ext}"
-        file_path = os.path.join(kb_dir, file_name)
+        file_name = os.path.splitext(file.filename)[0]
+        file_path = os.path.join(kb_dir, file.filename)
 
         # 保存文件
         with open(file_path, "wb") as f:
@@ -234,7 +233,7 @@ async def add_knowledge_base_route(
 
         # 添加到数据库
         kb = add_knowledge_base(
-            name=file.filename,
+            name=file_name,
             path=file_path,
             description=description,
             assistant_id=assistant_id,

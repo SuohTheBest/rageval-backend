@@ -2,7 +2,7 @@
     {
         "id": 1,
         "assistant_id": "gok",
-        "name": "gok_equipment.json",
+        "name": "gok_equipment",
         "path": "data\\knowledge_library\\gok_equipment.json",
         "description": "装备",
         "type": "json",
@@ -11,7 +11,7 @@
     {
         "id": 2,
         "assistant_id": "gok",
-        "name": "gok_hero.json",
+        "name": "gok_hero",
         "path": "data\\knowledge_library\\gok_hero.json",
         "description": "英雄",
         "type": "json",
@@ -20,7 +20,7 @@
     {
         "id": 3,
         "assistant_id": "terraria",
-        "name": "terrariawiki_terenemies.json",
+        "name": "terrariawiki_terenemies",
         "path": "data\\knowledge_library\\terrariawiki_terenemies.json",
         "description": "敌人",
         "type": "json",
@@ -29,7 +29,7 @@
     {
         "id": 4,
         "assistant_id": "terraria",
-        "name": "terrariawiki_tools.json",
+        "name": "terrariawiki_tools",
         "path": "data\\knowledge_library\\terrariawiki_tools.json",
         "description": "工具",
         "type": "json",
@@ -38,7 +38,7 @@
     {
         "id": 5,
         "assistant_id": "terraria",
-        "name": "terrariawiki_weapons.json",
+        "name": "terrariawiki_weapons",
         "path": "data\\knowledge_library\\terrariawiki_weapons.json",
         "description": "武器",
         "type": "json",
@@ -47,7 +47,7 @@
     {
         "id": 6,
         "assistant_id": "terraria",
-        "name": "terraria_recipes_merged.json",
+        "name": "terraria_recipes_merged",
         "path": "data\\knowledge_library\\terraria_recipes_merged.json",
         "description": "合成表",
         "type": "json",

@@ -71,7 +71,6 @@ class ConnectionManager:
         if client_id in self.active_connections:
             self.connection_times.move_to_end(client_id)
             self.connection_times[client_id] = time.time()
-
             try:
                 await self.active_connections[client_id].send_text(
                     json.dumps(
