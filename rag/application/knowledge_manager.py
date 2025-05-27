@@ -9,11 +9,15 @@ sys.path.append("E:\\Projects\\RagevalBackend")
 import logging
 from typing import List
 from pathlib import Path
+import time
 
 from rag.doc_process.json_to_markdown import JsonToMarkdownConverter
 from rag.doc_process.pdf_to_markdown import PdfToMarkdownConverter
 from rag.doc_process.markdown_process import MarkdownProcessor
 from rag.utils.vector_db import VectorDatabase
+from models.database import SessionLocal
+from models.rag_chat import KnowledgeBase
+from sqlalchemy.orm import Session
 
 logger = logging.getLogger(__name__)
 
@@ -264,7 +268,7 @@ class KnowledgeManager:
             logger.error(f"Error getting knowledge library list: {e}")
             return []
 
-    async def sync_library(self) -> dict:
+    async def _get_libraryFile_sync_stat(self) -> dict:
         """
         Synchronize the knowledge library with vector database collections.
 
@@ -297,7 +301,7 @@ class KnowledgeManager:
             logger.error(f"Error syncing library: {e}")
             return {"error": str(e)}
 
-    async def _sync_knowledge_base(self):
+    async def _sync_libraryFile(self):
         """
         Main logic to synchronize the library by adding missing files to the database
         and removing orphaned collections.
@@ -305,7 +309,7 @@ class KnowledgeManager:
         logger.info("Starting knowledge library synchronization...")
         await self.initialize()  # Ensure vector_db is initialized
 
-        sync_status = await self.sync_library()
+        sync_status = await self._get_libraryFile_sync_stat()
 
         if "error" in sync_status:
             logger.error(f"Could not perform sync: {sync_status['error']}")
@@ -355,7 +359,7 @@ class KnowledgeManager:
 
         logger.info("Knowledge library synchronization finished.")
 
-    async def _force_check_base(self):
+    async def _force_sync_libraryFile(self):
         """
         Force check and synchronize the knowledge base.
         - Adds files without collections.
@@ -365,7 +369,7 @@ class KnowledgeManager:
         logger.info("Starting forceful knowledge library check and synchronization...")
         await self.initialize()
 
-        sync_status = await self.sync_library()
+        sync_status = await self._get_libraryFile_sync_stat()
 
         if "error" in sync_status:
             logger.error(f"Could not perform force check: {sync_status['error']}")
@@ -470,10 +474,126 @@ class KnowledgeManager:
 
         logger.info("Forceful knowledge library check and synchronization finished.")
 
+    async def _sync_libraryBase(self):
+        """
+        将知识库中的文件与 KnowledgeBase 表同步。
+        - 如果相应的文件丢失，则删除表记录。
+        - 如果文件存在但没有相应的表记录，则添加表记录。
+          assistant_id 和 description 将通过控制台提示输入。
+        """
+        logger.info("开始将文件系统与 KnowledgeBase 表同步...")
+        # await self.initialize() # vector_db 初始化与此方法无关，可以移除
+        db = SessionLocal()
+        try:
+            # 1. 获取知识库中的所有文件
+            library_files = {}  # filename: Path 对象
+            if self.knowledge_library_path.exists():
+                for file_path_obj in self.knowledge_library_path.iterdir():
+                    if file_path_obj.is_file():
+                        library_files[file_path_obj.name] = file_path_obj
+            logger.info(
+                f"在知识库中找到 {len(library_files)} 个文件: {list(library_files.keys())}"
+            )
+
+            # 2. 从 KnowledgeBase 表中获取所有记录
+            kb_records = db.query(KnowledgeBase).all()
+            kb_records_map = {
+                record.name: record for record in kb_records
+            }  # filename: KnowledgeBase 对象
+            logger.info(
+                f"在 KnowledgeBase 表中找到 {len(kb_records)} 条记录: {list(kb_records_map.keys())}"
+            )
+
+            # 3. 识别要删除的记录 (存在于数据库但文件系统中不存在)
+            records_to_delete = []
+            for filename_in_db, record in kb_records_map.items():
+                if filename_in_db not in library_files:
+                    records_to_delete.append(record)
+                    logger.info(
+                        f"标记删除: KnowledgeBase 记录针对不存在的文件 '{filename_in_db}' (ID: {record.id})"
+                    )
+
+            # 4. 识别要添加的文件 (存在于文件系统但数据库中不存在)
+            files_to_add_info = []  # Path 对象的列表
+            for filename_in_fs, file_path_obj in library_files.items():
+                if filename_in_fs not in kb_records_map:
+                    files_to_add_info.append(file_path_obj)
+                    logger.info(
+                        f"标记添加: 文件 '{filename_in_fs}' 在 KnowledgeBase 表中未找到。"
+                    )
+
+            # 5. 执行删除操作
+            if records_to_delete:
+                logger.info(
+                    f"正在删除 {len(records_to_delete)} 条孤立的 KnowledgeBase 记录..."
+                )
+                for record in records_to_delete:
+                    db.delete(record)
+                db.commit()  # 提交删除
+                logger.info(f"成功删除 {len(records_to_delete)} 条记录。")
+            else:
+                logger.info("没有需要删除的 KnowledgeBase 记录。")
+
+            # 6. 执行添加操作
+            if files_to_add_info:
+                logger.info(
+                    f"正在向 KnowledgeBase 添加 {len(files_to_add_info)} 条新记录..."
+                )
+                for file_path_obj in files_to_add_info:
+                    filename = file_path_obj.name
+                    # 从文件名后缀获取文件类型，并移除前导点
+                    file_type = (
+                        file_path_obj.suffix.lower().lstrip(".")
+                        if file_path_obj.suffix
+                        else "unknown"
+                    )
+                    file_full_path = str(file_path_obj.resolve())  # 使用绝对路径
+                    created_at_ts = int(time.time())
+
+                    print(f"\n--- 为文件添加新的 KnowledgeBase 条目: {filename} ---")
+                    print(f"  文件路径: {file_full_path}")
+                    print(f"  文件类型: {file_type}")
+                    print(f"  创建时间 (时间戳): {created_at_ts}")
+
+                    # 注意: 在异步函数中直接使用 input() 会阻塞事件循环。
+                    # 对于后端服务，这种交互最好通过 API 或专用 CLI 工具处理。
+                    # 此处根据要求使用 input()。
+                    assistant_id = input(f"为 '{filename}' 输入 assistant_id: ").strip()
+                    description = input(f"为 '{filename}' 输入 description: ").strip()
+
+                    new_kb_entry = KnowledgeBase(
+                        name=filename,
+                        path=file_full_path,
+                        type=file_type,
+                        created_at=created_at_ts,
+                        assistant_id=assistant_id,
+                        description=description,
+                    )
+                    db.add(new_kb_entry)
+                    logger.info(f"已准备好 '{filename}' 的新 KnowledgeBase 条目。")
+
+                db.commit()  # 提交添加
+                logger.info(f"成功添加 {len(files_to_add_info)} 条新记录。")
+            else:
+                logger.info("没有新文件需要添加到 KnowledgeBase 表。")
+
+            logger.info("KnowledgeBase 表与文件系统同步完成。")
+
+        except Exception as e:
+            logger.error(f"KnowledgeBase 表同步期间发生错误: {e}")
+            db.rollback()  # 发生错误时回滚
+        finally:
+            db.close()
+            logger.info("数据库会话已关闭。")
+
 
 if __name__ == "__main__":
     import asyncio
     import logging
+
+    from models.database import Base, engine
+
+    Base.metadata.create_all(bind=engine)
 
     logging.basicConfig(
         level=logging.INFO,
@@ -481,23 +601,25 @@ if __name__ == "__main__":
         handlers=[logging.StreamHandler()],  # Log to console
     )
 
-    # Create an instance of KnowledgeManager
-    # Uses default paths from __init__:
-    # knowledge_library_path="data/knowledge_library"
-    # vector_db_path="data/chroma"
     knowledge_manager = KnowledgeManager()
 
-    # Run the main synchronization logic
-    # asyncio.run(knowledge_manager._sync_knowledge_base())
+    # === Initialize Knowledge Manager ===
+    async def run_kb_sync():
+        try:
+            await knowledge_manager._sync_libraryBase()
+        except Exception as e:
+            logger.error(f"运行 _sync_libraryBase 时发生错误: {e}")
 
-    # Example for force check:
-    async def run_force_check():
-        await knowledge_manager._force_check_base()
+    asyncio.run(run_kb_sync())
 
-    asyncio.run(run_force_check())
+    # === Force Check ===
+    # async def run_force_check():
+    #     await knowledge_manager._force_sync_libraryFile()
 
-    # async def main():
-    #     res = await knowledge_manager.sync_library()
+    # asyncio.run(run_force_check())
+
+    # === Sync Library ===
+    # async def run_get_sync_stat():
+    #     res = await knowledge_manager._get_libraryFile_sync_stat()
     #     print(res)
-
-    # asyncio.run(main())
+    # asyncio.run(run_get_sync_stat())honorOfKings

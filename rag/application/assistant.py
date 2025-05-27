@@ -21,7 +21,7 @@ from models.rag_chat import (
     ChatMessage,
     FileOrPictureSource,
     RetrievalSource,
-    AssistantKnowledgeBase,
+    KnowledgeBase,
 )
 from rag.utils.chat_session import get_session
 from rag.application.cot_module import COTModule, COTConfig
@@ -51,99 +51,9 @@ class AssistantService:
 
     # ==================== 助手-知识库关系管理接口 ====================
 
-    def add_knowledge_base_to_assistant(
-        self, assistant_id: str, knowledge_base_name: str
-    ) -> bool:
-        """
-        为助手添加知识库
-        Args:
-            assistant_id: 助手ID
-            knowledge_base_name: 知识库名称
-        Returns:
-            bool: 添加成功返回True，已存在或失败返回False
-        """
-        db = SessionLocal()
-        try:
-            # 检查是否已存在
-            existing = (
-                db.query(AssistantKnowledgeBase)
-                .filter(
-                    AssistantKnowledgeBase.assistant_id == assistant_id,
-                    AssistantKnowledgeBase.knowledge_base_name == knowledge_base_name,
-                )
-                .first()
-            )
-            if existing:
-                logger.warning(f"助手{assistant_id}已关联知识库{knowledge_base_name}")
-                return False
-            # 添加新关联
-            relationship = AssistantKnowledgeBase(
-                assistant_id=assistant_id, knowledge_base_name=knowledge_base_name
-            )
-            db.add(relationship)
-            db.commit()
-
-            logger.info(f"成功为助手{assistant_id}添加知识库{knowledge_base_name}")
-            return True
-
-        except IntegrityError as e:
-            db.rollback()
-            logger.error(f"添加知识库关联失败，数据完整性错误: {e}")
-            return False
-        except Exception as e:
-            db.rollback()
-            logger.error(f"添加知识库关联失败: {e}")
-            return False
-        finally:
-            db.close()
-
-    def remove_knowledge_base_from_assistant(
-        self, assistant_id: str, knowledge_base_name: str
-    ) -> bool:
-        """
-        从助手中移除知识库
-
-        Args:
-            assistant_id: 助手ID
-            knowledge_base_name: 知识库名称
-
-        Returns:
-            bool: 删除成功返回True，不存在或失败返回False
-        """
-        db = SessionLocal()
-        try:
-            result = (
-                db.query(AssistantKnowledgeBase)
-                .filter(
-                    AssistantKnowledgeBase.assistant_id == assistant_id,
-                    AssistantKnowledgeBase.knowledge_base_name == knowledge_base_name,
-                )
-                .delete()
-            )
-
-            db.commit()
-
-            if result > 0:
-                logger.info(
-                    f"成功从助手{assistant_id}中移除知识库{knowledge_base_name}"
-                )
-                return True
-            else:
-                logger.warning(
-                    f"助手{assistant_id}与知识库{knowledge_base_name}的关联不存在"
-                )
-                return False
-
-        except Exception as e:
-            db.rollback()
-            logger.error(f"移除知识库关联失败: {e}")
-            return False
-        finally:
-            db.close()
-
     def get_knowledge_bases_by_assistant(self, assistant_id: str) -> List[str]:
         """
-        查找助手对应的所有知识库
+        查找助手对应的所有知识库名称
 
         Args:
             assistant_id: 助手ID
@@ -153,109 +63,19 @@ class AssistantService:
         """
         db = SessionLocal()
         try:
-            relationships = (
-                db.query(AssistantKnowledgeBase)
-                .filter(AssistantKnowledgeBase.assistant_id == assistant_id)
+            knowledge_bases_info = (
+                db.query(KnowledgeBase.name)
+                .filter(KnowledgeBase.assistant_id == assistant_id)
                 .all()
             )
 
-            knowledge_bases = [rel.knowledge_base_name for rel in relationships]
-            logger.info(f"助手{assistant_id}关联的知识库: {knowledge_bases}")
-            return knowledge_bases
+            knowledge_base_names = [name for (name,) in knowledge_bases_info]
+            logger.info(f"助手{assistant_id}关联的知识库名称: {knowledge_base_names}")
+            return knowledge_base_names
 
         except Exception as e:
             logger.error(f"查询助手知识库失败: {e}")
             return []
-        finally:
-            db.close()
-
-    def get_assistants_by_knowledge_base(self, knowledge_base_name: str) -> List[str]:
-        """
-        查找知识库对应的所有助手
-
-        Args:
-            knowledge_base_name: 知识库名称
-
-        Returns:
-            List[str]: 助手ID列表
-        """
-        db = SessionLocal()
-        try:
-            relationships = (
-                db.query(AssistantKnowledgeBase)
-                .filter(
-                    AssistantKnowledgeBase.knowledge_base_name == knowledge_base_name
-                )
-                .all()
-            )
-
-            assistants = [rel.assistant_id for rel in relationships]
-            logger.info(f"知识库{knowledge_base_name}关联的助手: {assistants}")
-            return assistants
-
-        except Exception as e:
-            logger.error(f"查询知识库助手失败: {e}")
-            return []
-        finally:
-            db.close()
-
-    def remove_assistant(self, assistant_id: str) -> bool:
-        """
-        删除助手及其所有知识库关联
-
-        Args:
-            assistant_id: 助手ID
-
-        Returns:
-            bool: 删除成功返回True
-        """
-        db = SessionLocal()
-        try:
-            result = (
-                db.query(AssistantKnowledgeBase)
-                .filter(AssistantKnowledgeBase.assistant_id == assistant_id)
-                .delete()
-            )
-
-            db.commit()
-            logger.info(f"成功删除助手{assistant_id}及其{result}个知识库关联")
-            return True
-
-        except Exception as e:
-            db.rollback()
-            logger.error(f"删除助手失败: {e}")
-            return False
-        finally:
-            db.close()
-
-    def remove_knowledge_base(self, knowledge_base_name: str) -> bool:
-        """
-        删除知识库及其所有助手关联
-
-        Args:
-            knowledge_base_name: 知识库名称
-
-        Returns:
-            bool: 删除成功返回True
-        """
-        db = SessionLocal()
-        try:
-            result = (
-                db.query(AssistantKnowledgeBase)
-                .filter(
-                    AssistantKnowledgeBase.knowledge_base_name == knowledge_base_name
-                )
-                .delete()
-            )
-
-            db.commit()
-            logger.info(f"成功删除知识库{knowledge_base_name}及其{result}个助手关联")
-            return True
-
-        except Exception as e:
-            db.rollback()
-            logger.error(f"删除知识库失败: {e}")
-            return False
         finally:
             db.close()
 
@@ -395,64 +215,3 @@ def create_assistant_service(
         助手服务实例
     """
     return AssistantService(cot_module)
-
-
-# ==================== 独立的数据库操作函数 ====================
-
-
-def add_knowledge_base_to_assistant(
-    assistant_id: str, knowledge_base_name: str
-) -> bool:
-    """为助手添加知识库（独立函数）"""
-    service = create_assistant_service()
-    return service.add_knowledge_base_to_assistant(assistant_id, knowledge_base_name)
-
-
-def remove_knowledge_base_from_assistant(
-    assistant_id: str, knowledge_base_name: str
-) -> bool:
-    """从助手中移除知识库（独立函数）"""
-    service = create_assistant_service()
-    return service.remove_knowledge_base_from_assistant(
-        assistant_id, knowledge_base_name
-    )
-
-
-def get_knowledge_bases_by_assistant(assistant_id: str) -> List[str]:
-    """查找助手对应的所有知识库（独立函数）"""
-    service = create_assistant_service()
-    return service.get_knowledge_bases_by_assistant(assistant_id)
-
-
-def get_assistants_by_knowledge_base(knowledge_base_name: str) -> List[str]:
-    """查找知识库对应的所有助手（独立函数）"""
-    service = create_assistant_service()
-    return service.get_assistants_by_knowledge_base(knowledge_base_name)
-
-
-def remove_assistant(assistant_id: str) -> bool:
-    """删除助手及其所有知识库关联（独立函数）"""
-    service = create_assistant_service()
-    return service.remove_assistant(assistant_id)
-
-
-def remove_knowledge_base(knowledge_base_name: str) -> bool:
-    """删除知识库及其所有助手关联（独立函数）"""
-    service = create_assistant_service()
-    return service.remove_knowledge_base(knowledge_base_name)
-
-
-# ==================== 示例使用 ====================
-
-if __name__ == "__main__":
-    import asyncio
-
-    logging.basicConfig(
-        level=logging.INFO,
-        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
-        handlers=[logging.StreamHandler()],
-    )
-
-    add_knowledge_base_to_assistant("terraria", "terrariawiki_terenemies")
-    add_knowledge_base_to_assistant("terraria", "terrariawiki_tools")
-    add_knowledge_base_to_assistant("terraria", "terrariawiki_weapons")
