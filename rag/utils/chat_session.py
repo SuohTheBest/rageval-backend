@@ -302,7 +302,7 @@ def add_knowledge_base(
             type=type,
             created_at=created_at,
         )
-        asyncio.run(knowledge_manager.add_file(kb.path))
+        asyncio.run(knowledge_manager.add_knowledge(kb))
         db.add(kb)
         db.commit()
         db.refresh(kb)
@@ -327,7 +327,7 @@ def delete_knowledge_base(kb_id: int) -> bool:
         kb = db.query(KnowledgeBase).filter(KnowledgeBase.id == kb_id).first()
         if not kb:
             return False
-        asyncio.run(knowledge_manager.delete_file(kb.path))
+        asyncio.run(knowledge_manager.delete_knowledge(kb))
         db.delete(kb)
         db.commit()
         return True
@@ -339,7 +339,7 @@ def get_knowledge_bases() -> List[KnowledgeBase]:
     """获取所有知识库"""
     db = SessionLocal()
     try:
-        asyncio.run(knowledge_manager._sync_libraryBase())
+        asyncio.run(knowledge_manager._sync_library())
         return db.query(KnowledgeBase).all()
     finally:
         db.close()
