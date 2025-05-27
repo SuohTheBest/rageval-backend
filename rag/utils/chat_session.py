@@ -41,7 +41,7 @@ def get_session(session_id: int) -> Optional[ChatSession]:
 
 
 def save_message(
-    session_id: int, role: str, content: str, feature: str = None
+        session_id: int, role: str, content: str, feature: str = None
 ) -> ChatMessage:
     """保存消息到数据库"""
     db = SessionLocal()
@@ -151,13 +151,13 @@ def delete_session(session_id: int) -> bool:
 
 
 def save_message_with_temp_file(
-    session_id: int,
-    role: str,
-    content: str,
-    feature: str = None,
-    temp_file_id: str = None,
-    temp_files: dict = None,
-) -> ChatMessage:
+        session_id: int,
+        role: str,
+        content: str,
+        feature: str = None,
+        temp_file_id: str = None,
+        temp_files: dict = None,
+) -> tuple[ChatMessage, FileOrPictureSource]:
     """保存消息和关联的临时文件到数据库"""
     db = SessionLocal()
     try:
@@ -172,7 +172,7 @@ def save_message_with_temp_file(
         db.add(message)
         db.commit()
         db.refresh(message)
-
+        file_source = None
         # 如果有临时文件，处理文件
         if temp_file_id and temp_file_id in temp_files:
             temp_file = temp_files[temp_file_id]
@@ -200,13 +200,13 @@ def save_message_with_temp_file(
             db.commit()
             # 删除临时文件记录
             del temp_files[temp_file_id]
-        return message
+        return message, file_source
     finally:
         db.close()
 
 
 def save_assistant_message(
-    session_id: int, content: str, retrieval: List[RetrievalSource]
+        session_id: int, content: str, retrieval: List[RetrievalSource]
 ) -> ChatMessage:
     """保存消息到数据库"""
     db = SessionLocal()
@@ -280,7 +280,7 @@ def check_admin(user_id: int) -> bool:
 
 
 def add_knowledge_base(
-    name: str, path: str, description: str, type: str, created_at: int
+        name: str, path: str, description: str, type: str, created_at: int
 ) -> KnowledgeBase:
     """添加知识库"""
     db = SessionLocal()

@@ -132,7 +132,6 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                     assistant_id = content["assistant_id"]
                     session_id = content["session_id"]  # 为None时需新建
                     temp_file_id = content.get("temp_file_id")  # 可选的临时文件ID
-
                     # 获取或创建会话
                     if session_id is None:
                         session = create_session(int(client_id), assistant_id)
@@ -144,9 +143,8 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                         session = get_session(session_id)
                         if not session:
                             raise ValueError("Invalid session_id")
-
                     # 保存用户消息和关联的临时文件
-                    message = save_message_with_temp_file(
+                    message, file_or_picture_source = save_message_with_temp_file(
                         session_id=session_id,
                         role="user",
                         content=content["content"],
