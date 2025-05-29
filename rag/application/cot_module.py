@@ -30,6 +30,7 @@ CONTEXT_GENERATION_PROMPT = """你是一个智能助手，需要根据用户的�
 
 历史对话记录：
 {history}
+历史对话记录结束。
 
 当前用户问题：
 {current_question}
@@ -123,7 +124,7 @@ class COTModule:
         formatted_history = []
         for msg in messages:
             role = "用户" if msg.type == "user" else "助手"
-            formatted_history.append(f"{role}: {msg.content}")
+            formatted_history.append(f"【{role}】: {msg.content}")
 
         return "\n".join(formatted_history)
 
@@ -141,7 +142,7 @@ class COTModule:
             return []
 
         # 按时间倒序排列，取最近的消息
-        recent_messages = messages[-self.config.max_history_messages :]
+        recent_messages = messages[-self.config.max_history_messages - 1 : -1]
 
         # 计算总长度并截取
         total_length = 0
@@ -205,16 +206,16 @@ class COTModule:
                     # 获取置信度最高的结果
                     image_content_name = top_names[0]
                     image_confidence = top_confidences[0]
-                    image_description = f"用户上传了一张图片，内容为{image_content_name}，识别置信度为{image_confidence:.2f}。"
+                    image_description = f"【用户上传了一张图片，内容为{image_content_name}，识别置信度为{image_confidence:.2f}。】"
                     logger.info(f"图片识别成功: {image_description}")
-                    question_to_pass_to_llm = f"{image_description} {current_question}"
+                    question_to_pass_to_llm = f"{image_description}\n{current_question}"
                 else:
                     logger.warning(f"图片识别成功，但未返回有效结果: {picture}")
-                    image_description = "用户上传了一张图片，但未能识别出具体内容。"
+                    image_description = "【用户上传了一张图片，但未能识别出具体内容。】"
                     question_to_pass_to_llm = f"{image_description} {current_question}"
             except Exception as e:
                 logger.error(f"图片识别失败 ({picture}): {e}")
-                image_description = "用户上传了一张图片，但识别过程中发生错误。"
+                image_description = "【用户上传了一张图片，但未能识别出具体内容。】"
                 question_to_pass_to_llm = f"{image_description} {current_question}"
 
         # 如果历史记录为空，并且没有提供图片，则直接返回原始问题
