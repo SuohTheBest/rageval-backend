@@ -233,6 +233,10 @@ class KnowledgeManager:
             if file_type == "json":
                 logger.info(f"正在将 JSON 知识 {knowledge.name} 转换为 markdown")
                 markdown_content = JsonToMarkdownConverter.convert(str(file_path))
+            elif file_type == "markdown" or file_type == "md":
+                logger.info(f"知识 {knowledge.name} 已经是 markdown 格式，直接读取内容")
+                with open(file_path, "r", encoding="utf-8") as md_file:
+                    markdown_content = md_file.read()
             else:
                 logger.info(
                     f"正在使用 PdfToMarkdownConverter 将知识 {knowledge.name} 转换为 markdown"
