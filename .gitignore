@@ -16,3 +16,4 @@ downloads/
 eval_plots/
 .pytest_cache/
 .conda/
+data/chroma
