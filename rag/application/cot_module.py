@@ -22,6 +22,7 @@ from rag.utils.vector_db import VectorDatabase
 from rag.utils.chat_session import get_session_messages
 from image_recognize.recognize import recognize_image
 from models.rag_chat import ChatMessage
+from rag.rag_socket import manager
 
 logger = logging.getLogger(__name__)
 
@@ -379,6 +380,7 @@ class COTModule:
         session_id: int,
         stream: bool = False,
         picture: str = "",
+        client_id: Optional[str] = None,
     ) -> Union[
         tuple[str, List[Dict[str, Any]]],
         tuple[AsyncGenerator[str, None], List[Dict[str, Any]]],
@@ -411,18 +413,21 @@ class COTModule:
 
             # 步骤1: 检索历史记录
             logger.info("=== 步骤1: 检索历史记录 ===")
+            manager.send_stream(client_id, "think", f"检索历史记录...")
             raw_history = await self._retrieve_history(session_id)
             truncated_history = self._truncate_history(raw_history)
             formatted_history = self._format_history_messages(truncated_history)
 
             # 步骤2: 生成上下文问题
             logger.info("=== 步骤2: 生成上下文问题 ===")
+            manager.send_stream(client_id, "think", f"生成上下文问题...")
             context_question = await self._generate_context_question(
                 request, formatted_history, picture
             )
 
             # 步骤3: 搜索相关文档
             logger.info("=== 步骤3: 搜索相关文档 ===")
+            manager.send_stream(client_id, "think", f"搜索相关文档...")
             documents = await self._search_documents(
                 context_question, knowledge_base
             )  # knowledge_base is passed directly
@@ -430,6 +435,7 @@ class COTModule:
 
             # 步骤4: 生成最终回答
             logger.info("=== 步骤4: 生成最终回答 ===")
+            manager.send_stream(client_id, "think", f"生成最终回答...")
             final_response = await self._generate_final_response(
                 context_question, formatted_documents, stream
             )

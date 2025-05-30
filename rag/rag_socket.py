@@ -105,9 +105,11 @@ async def rag_streaming_response(
     retrieval_sources = []
 
     try:
+
         response_generator, retrieval_sources = await assistant.process_request(
-            request=message, stream=True, extend_source=source
+            request=message, stream=True, extend_source=source, client_id=client_id
         )
+        await manager.send_stream(client_id, "end_think", "")
 
         # 开始标记
         await manager.send_stream(client_id, "start", "")

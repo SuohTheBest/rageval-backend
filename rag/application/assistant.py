@@ -14,7 +14,7 @@ sys.path.append("E:\\Projects\\RagevalBackend")
 
 import logging
 from typing import List, Optional, Union, AsyncGenerator
-from sqlalchemy.exc import IntegrityError
+from rag.rag_socket import manager
 
 from models.database import SessionLocal
 from models.rag_chat import (
@@ -86,6 +86,7 @@ class AssistantService:
         request: ChatMessage,
         stream: bool = False,
         extend_source: FileOrPictureSource = None,
+        client_id: Optional[str] = None,
     ) -> Union[
         tuple[str, List[RetrievalSource]],
         tuple[AsyncGenerator[str, None], List[RetrievalSource]],
@@ -105,10 +106,12 @@ class AssistantService:
         try:
             logger.info(f"开始处理全局服务请求 - 会话ID: {session_id}, 流式: {stream}")
             logger.info(f"用户请求: {user_query}")
+            manager.send_stream(client_id, "think", f"开始处理请求...")
 
             # 确保COT模块已初始化
             if self.cot_module is None:
                 await self.initialize()
+            manager.send_stream(client_id, "think", f"初始化知识库...")
 
             # 1. 根据session_id获取对应的助手
             session_id = request.session_id
@@ -154,6 +157,7 @@ class AssistantService:
                 picture=(
                     extend_source.path if extend_source else ""
                 ),  # 传递图片或文件扩展信息
+                client_id=client_id,
             )
 
             retrieval_sources = [
