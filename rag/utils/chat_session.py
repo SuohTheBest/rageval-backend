@@ -379,11 +379,11 @@ def delete_knowledge_base(kb_id: int) -> bool:
         db.close()
 
 
-def get_knowledge_bases() -> List[KnowledgeBase]:
+def get_knowledge_bases(assistant_id: str) -> List[KnowledgeBase]:
     """获取所有知识库"""
     db = SessionLocal()
     try:
         asyncio.run(knowledge_manager._sync_library())
-        return db.query(KnowledgeBase).all()
+        return db.query(KnowledgeBase).filter(KnowledgeBase.assistant_id == assistant_id).all()
     finally:
         db.close()

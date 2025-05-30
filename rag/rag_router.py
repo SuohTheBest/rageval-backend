@@ -1,5 +1,7 @@
 from fastapi import APIRouter, WebSocket, HTTPException, Cookie, UploadFile, File, Form
 from typing import List
+
+from fastapi.params import Query
 from pydantic import BaseModel
 from .rag_socket import websocket_endpoint, temp_files
 from rag.utils.chat_session import (
@@ -257,11 +259,10 @@ async def add_knowledge_base_route(
 
 
 @router.get("/knowledge_base")
-async def get_knowledge_bases_route(access_token: str = Cookie(None)):
+async def get_knowledge_bases_route(assistant_id: str = Query(...)):
     """获取所有知识库"""
     try:
-        user_id = await get_user_id(access_token)
-        kbs = get_knowledge_bases()
+        kbs = get_knowledge_bases(assistant_id)
         return [
             {
                 "id": kb.id,
