@@ -182,8 +182,8 @@ class KnowledgeManager:
 
     def __init__(
         self,
-        knowledge_library_path: str = "data/knowledge_library",
-        vector_db_path: str = "data/chroma",
+        knowledge_library_path: str = "./data/knowledge_library",
+        vector_db_path: str = "./data/chroma",
     ):
         """
         初始化知识管理器重建。
@@ -220,10 +220,7 @@ class KnowledgeManager:
             collection_name = knowledge.name
 
             # 使用 knowledge.path 构建文件路径或与库路径结合
-            if os.path.isabs(knowledge.path):
-                file_path = Path(knowledge.path)
-            else:
-                file_path = self.knowledge_library_path / knowledge.path
+            file_path = Path(knowledge.path)
 
             # 检查文件是否存在
             if not file_path.exists():
@@ -406,11 +403,7 @@ class KnowledgeManager:
                 kb_records_all = db.query(KnowledgeBase).all()
                 kb_expected_path_to_record: Dict[str, KnowledgeBase] = {}
                 for record in kb_records_all:
-                    if os.path.isabs(record.path):
-                        expected_path = Path(record.path)
-                    else:
-                        # 假设 record.path 是相对于 self.knowledge_library_path 的路径
-                        expected_path = self.knowledge_library_path / record.path
+                    expected_path = Path(record.path)
                     # 使用解析后的路径以进行一致的比较
                     kb_expected_path_to_record[str(expected_path.resolve())] = record
 

@@ -45,7 +45,7 @@ def get_session(session_id: int) -> Optional[ChatSession]:
 
 
 def save_message(
-    session_id: int, role: str, content: str, feature: str = None
+        session_id: int, role: str, content: str, feature: str = None
 ) -> ChatMessage:
     """保存消息到数据库"""
     db = SessionLocal()
@@ -155,12 +155,12 @@ def delete_session(session_id: int) -> bool:
 
 
 def save_message_with_temp_file(
-    session_id: int,
-    role: str,
-    content: str = None,
-    feature: str = None,
-    temp_file_id: str = None,
-    temp_files: dict = None,
+        session_id: int,
+        role: str,
+        content: str = None,
+        feature: str = None,
+        temp_file_id: str = None,
+        temp_files: dict = None,
 ) -> tuple[ChatMessage, FileOrPictureSource]:
     """保存消息和关联的临时文件到数据库"""
     db = SessionLocal()
@@ -181,12 +181,13 @@ def save_message_with_temp_file(
         if temp_file_id and temp_file_id in temp_files:
             temp_file = temp_files[temp_file_id]
             file_type = temp_file["file_type"]
+            name, ext = os.path.splitext(temp_file["file_name"])
             # 创建目标目录
             target_dir = os.path.join("uploads", file_type)
             os.makedirs(target_dir, exist_ok=True)
             # 移动文件
             target_path = os.path.join(
-                target_dir, (temp_file_id + temp_file["file_name"])[:40]
+                target_dir, (temp_file_id + name)[:40] + ext
             )
             shutil.move(temp_file["file_path"], target_path)
 
@@ -210,7 +211,7 @@ def save_message_with_temp_file(
 
 
 def save_assistant_message(
-    session_id: int, content: str, retrieval: List[RetrievalSource]
+        session_id: int, content: str, retrieval: List[RetrievalSource]
 ) -> ChatMessage:
     """保存消息到数据库"""
     db = SessionLocal()
@@ -284,12 +285,12 @@ def check_admin(user_id: int) -> bool:
 
 
 def add_knowledge_base(
-    name: str,
-    path: str,
-    description: str,
-    type: str,
-    assistant_id: str,
-    created_at: int,
+        name: str,
+        path: str,
+        description: str,
+        type: str,
+        assistant_id: str,
+        created_at: int,
 ) -> KnowledgeBase:
     """添加知识库"""
     db = SessionLocal()
