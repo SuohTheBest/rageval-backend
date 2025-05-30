@@ -578,11 +578,11 @@ if __name__ == "__main__":
         await knowledge_manager.initialize()
 
         # 获取同步统计信息
-        stats = await knowledge_manager._get_sync_stat()
-        print("同步统计信息:", stats)
+        # stats = await knowledge_manager._get_sync_stat()
+        # print("同步统计信息:", stats)
 
         # 执行完全同步
-        # results = await knowledge_manager._sync_library()
-        # print("同步结果:", results)
+        results = await knowledge_manager._sync_library()
+        print("同步结果:", results)
 
     asyncio.run(test_sync())
