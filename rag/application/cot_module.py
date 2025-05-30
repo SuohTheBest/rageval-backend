@@ -22,7 +22,7 @@ from rag.utils.vector_db import VectorDatabase
 from rag.utils.chat_session import get_session_messages, update_session_summary
 from image_recognize.recognize import recognize_image
 from models.rag_chat import ChatMessage
-from rag.rag_socket import manager
+from rag.utils.socket_manager import manager
 
 logger = logging.getLogger(__name__)
 

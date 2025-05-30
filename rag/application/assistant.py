@@ -14,7 +14,7 @@ sys.path.append("E:\\Projects\\RagevalBackend")
 
 import logging
 from typing import List, Optional, Union, AsyncGenerator
-from rag.rag_socket import manager
+from rag.utils.socket_manager import manager
 
 from models.database import SessionLocal
 from models.rag_chat import (
