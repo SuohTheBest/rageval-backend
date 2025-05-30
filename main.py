@@ -4,7 +4,6 @@ from fastapi.staticfiles import StaticFiles
 
 from rag import rag_router
 from models.database import Base, engine
-from models import Task, User, rag_chat
 from fastapi import FastAPI
 from auth import user_router
 from rag.application.knowledge_manager import original_knowledge_init
@@ -41,3 +40,11 @@ app.include_router(rag_router.router, prefix=g_prefix)
 @app.get("/")
 async def root():
     return {"message": "Hello World!"}
+
+
+def main():
+    uvicorn.run(app, host="0.0.0.0", port=8000)
+
+
+if __name__ == "__main__":
+    main()
