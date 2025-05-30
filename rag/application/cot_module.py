@@ -474,7 +474,7 @@ class COTModule:
                 request, formatted_history, picture
             )
             if len(raw_history) == 1:
-                summary = self._generate_summary(context_question)
+                summary = await self._generate_summary(context_question)
                 update_session_summary(session_id, summary)
 
             # 步骤3: 搜索相关文档
