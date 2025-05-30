@@ -1,3 +1,5 @@
+from pydantic import BaseModel
+
 from models.rag_chat import (
     ChatSession,
     ChatMessage,
@@ -15,6 +17,24 @@ from models.User import User
 from rag.application.knowledge_manager import KnowledgeManager
 
 knowledge_manager = KnowledgeManager()
+
+
+class FileOrPictureModel(BaseModel):
+    id: int
+    message_id: int
+    title: str
+    path: str
+    size: int
+    type: str  # "file", "picture"
+
+
+class MessageModel(BaseModel):
+    id: int
+    session_id: int
+    type: str  # user, assistant, system
+    feature: str  # 特殊技能
+    content: str
+    meta_type: str  # 元数据类型, "retrieval", "file", "picture", "none"
 
 
 def create_session(user_id: int, assistant_id: str) -> ChatSession:
@@ -161,7 +181,7 @@ def save_message_with_temp_file(
         feature: str = None,
         temp_file_id: str = None,
         temp_files: dict = None,
-) -> tuple[ChatMessage, FileOrPictureSource]:
+) -> tuple[MessageModel, FileOrPictureModel | None]:
     """保存消息和关联的临时文件到数据库"""
     db = SessionLocal()
     try:
@@ -205,7 +225,23 @@ def save_message_with_temp_file(
             db.commit()
             # 删除临时文件记录
             del temp_files[temp_file_id]
-        return message, file_source
+        message_data = MessageModel(
+            id=message.id,
+            session_id=message.session_id,
+            type=message.type,
+            feature=message.feature,
+            content=message.content,
+            meta_type=message.meta_type,
+        )
+        file_data = FileOrPictureModel(
+            id=file_source.id,
+            message_id=message.id,
+            title=file_source.title,
+            path=file_source.path,
+            size=file_source.size,
+            type=file_source.type,
+        ) if file_source else None
+        return message_data, file_data
     finally:
         db.close()
 
@@ -227,7 +263,14 @@ def save_assistant_message(
             db.add(source)
         db.commit()
         db.refresh(message)
-        return message
+        return MessageModel(
+            id=message.id,
+            session_id=message.session_id,
+            type=message.type,
+            feature=message.feature,
+            content=message.content,
+            meta_type=message.meta_type,
+        )
     finally:
         db.close()
 
