@@ -19,7 +19,7 @@ from dataclasses import dataclass
 
 from rag.utils.llm import LLMService
 from rag.utils.vector_db import VectorDatabase
-from rag.utils.chat_session import get_session_messages
+from rag.utils.chat_session import get_session_messages, update_session_summary
 from image_recognize.recognize import recognize_image
 from models.rag_chat import ChatMessage
 from rag.rag_socket import manager
@@ -27,22 +27,49 @@ from rag.rag_socket import manager
 logger = logging.getLogger(__name__)
 
 # Global prompt templates for easy modification
-CONTEXT_GENERATION_PROMPT = """你是一个智能助手，需要根据用户的当前问题和历史对话记录，生成一个包含完整上下文的新问题。
+CONTEXT_GENERATION_SYS_PROMPT = """
+role: "智能上下文整合助手"
+specific_instructions:
+  - "分析历史对话记录，识别核心话题、未解决问题和关键实体（人物/地点/概念）"
+  - "提取当前问题的核心意图，识别其与历史对话的关联性"
+  - "融合必要历史上下文时遵循三原则：
+      1. 仅保留直接影响当前问题理解的对话片段
+      2. 保持时间顺序逻辑
+      3. 用括号标注补充背景信息"
+  - "重构后的新问题需满足：
+      - 单句完整表达（不超过25词）
+      - 包含明确检索关键词
+      - 消除所有指代歧义"
 
-历史对话记录：
+input_description:
+  history: "多轮对话文本（格式：用户/助手交替发言）"
+  current_question: "用户当前提问（字符串格式）"
+
+output_requirements:
+  structure: 生成的新问题：
+    [重构后的完整问题]
+  quality_control:
+    - 禁止新增历史对话未出现的信息
+    - 关键实体必须完整重现（不可用代词）
+    - 时间敏感问题需保留时间标记
+
+processing_example:
+  历史对话: 
+    - 用户：巴黎有哪些必看景点？
+    - 助手：推荐卢浮宫、埃菲尔铁塔和塞纳河游船
+    - 用户：卢浮宫需要预约吗？
+  当前问题: "开放时间呢？"
+  输出结果: 生成的新问题：
+    巴黎卢浮宫的开放时间和预约要求是什么？
+"""
+
+CONTEXT_GENERATION_PROMPT = """历史对话记录：
 {history}
 历史对话记录结束。
 
 当前用户问题：
 {current_question}
-
-请分析历史对话的上下文，理解用户的意图和需求，然后生成一个包含必要上下文信息的完整问题。这个新问题应该：
-1. 保持用户原始问题的核心意图
-2. 融入相关的历史对话上下文
-3. 便于在知识库中进行精确检索
-4. 表达清晰、完整
-
-生成的新问题："""
+"""
 
 FINAL_RESPONSE_PROMPT = """你是一个专业的智能助手，请根据提供的相关文档和用户问题，生成准确、有用的回答。
 
@@ -231,7 +258,9 @@ class COTModule:
                 history=history, current_question=question_to_pass_to_llm
             )
 
-            response = await self.llm_service.generate_response(prompt)
+            response = await self.llm_service.generate_response(
+                prompt, system_prompt=CONTEXT_GENERATION_SYS_PROMPT
+            )
 
             # 提取生成的问题（去除可能的前缀）
             if "生成的新问题：" in response:
@@ -373,6 +402,26 @@ class COTModule:
             else:
                 return f"抱歉，生成回答时出现错误: {str(e)}"
 
+    async def _generate_summary(self, content: str) -> str:
+        """
+        生成会话摘要
+
+        Args:
+            content: 会话内容
+
+        Returns:
+            生成的摘要
+        """
+        try:
+            logger.info("开始生成会话摘要")
+            prompt = f"请为以下会话内容生成简洁的摘要：\n{content}"
+            summary = await self.llm_service.generate_response(prompt)
+            logger.info(f"会话摘要生成完成")
+            return summary
+        except Exception as e:
+            logger.error(f"生成会话摘要失败: {e}")
+            return "无法生成摘要"
+
     async def process_request(
         self,
         request: str,
@@ -424,6 +473,9 @@ class COTModule:
             context_question = await self._generate_context_question(
                 request, formatted_history, picture
             )
+            if len(raw_history) == 1:
+                summary = self._generate_summary(context_question)
+                update_session_summary(session_id, summary)
 
             # 步骤3: 搜索相关文档
             logger.info("=== 步骤3: 搜索相关文档 ===")
