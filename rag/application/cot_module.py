@@ -259,7 +259,7 @@ class COTModule:
             )
 
             response = await self.llm_service.generate_response(
-                prompt, system_prompt=CONTEXT_GENERATION_SYS_PROMPT
+                prompt, system_message=CONTEXT_GENERATION_SYS_PROMPT
             )
 
             # 提取生成的问题（去除可能的前缀）
@@ -414,7 +414,7 @@ class COTModule:
         """
         try:
             logger.info("开始生成会话摘要")
-            prompt = f"请为以下会话内容生成简洁的摘要：\n{content}"
+            prompt = f"请为以下会话内容生成简洁的摘要：\n{content}\n\n注意，你不需要回答问题，请直接输出摘要内容。"
             summary = await self.llm_service.generate_response(prompt)
             logger.info(f"会话摘要生成完成")
             return summary
@@ -462,14 +462,14 @@ class COTModule:
 
             # 步骤1: 检索历史记录
             logger.info("=== 步骤1: 检索历史记录 ===")
-            manager.send_stream(client_id, "think", f"检索历史记录...")
+            manager.send_stream(client_id, "think", "检索历史记录...")
             raw_history = await self._retrieve_history(session_id)
             truncated_history = self._truncate_history(raw_history)
             formatted_history = self._format_history_messages(truncated_history)
 
             # 步骤2: 生成上下文问题
             logger.info("=== 步骤2: 生成上下文问题 ===")
-            manager.send_stream(client_id, "think", f"生成上下文问题...")
+            manager.send_stream(client_id, "think", "生成上下文问题...")
             context_question = await self._generate_context_question(
                 request, formatted_history, picture
             )
@@ -479,7 +479,7 @@ class COTModule:
 
             # 步骤3: 搜索相关文档
             logger.info("=== 步骤3: 搜索相关文档 ===")
-            manager.send_stream(client_id, "think", f"搜索相关文档...")
+            manager.send_stream(client_id, "think", "搜索相关文档...")
             documents = await self._search_documents(
                 context_question, knowledge_base
             )  # knowledge_base is passed directly
@@ -487,7 +487,7 @@ class COTModule:
 
             # 步骤4: 生成最终回答
             logger.info("=== 步骤4: 生成最终回答 ===")
-            manager.send_stream(client_id, "think", f"生成最终回答...")
+            manager.send_stream(client_id, "think", "生成最终回答...")
             final_response = await self._generate_final_response(
                 context_question, formatted_documents, stream
             )

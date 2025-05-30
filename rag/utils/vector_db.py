@@ -9,6 +9,7 @@ sys.path.append("E:\\Projects\\RagevalBackend")
 import asyncio
 import logging
 from typing import List, Dict, Any, Optional, Tuple
+from collections import deque  # 新增导入
 from concurrent.futures import ThreadPoolExecutor
 import chromadb
 from chromadb.config import Settings
@@ -42,6 +43,7 @@ class VectorDatabase:
             )
         )
         self.executor = ThreadPoolExecutor(max_workers=4)
+        self.query_cache = deque(maxlen=3)  # 初始化查询嵌入缓存
 
     async def initialize(self):
         """Initialize the ChromaDB client asynchronously."""
@@ -228,6 +230,7 @@ class VectorDatabase:
     ) -> List[Tuple[str, float]]:
         """
         Search for similar documents in a collection.
+        Uses a cache for recent query embeddings.
 
         Args:
             collection_name: Name of the collection
@@ -244,22 +247,89 @@ class VectorDatabase:
             return []
 
         loop = asyncio.get_event_loop()
+        embedding_to_use = None
+        found_in_cache = False
 
-        def _search_documents():
+        # 检查缓存
+        cached_entry = None
+        for q_text_cache, q_emb_cache in self.query_cache:
+            if q_text_cache == query_text:
+                cached_entry = (q_text_cache, q_emb_cache)
+                found_in_cache = True
+                break
+
+        if found_in_cache and cached_entry:
+            embedding_to_use = cached_entry[1]
+            # 将命中的条目移到队列末尾 (最近使用)
+            self.query_cache.remove(cached_entry)
+            self.query_cache.append(cached_entry)
+            logger.debug(f"Cache hit for query: '{query_text}'")
+        else:  # 缓存未命中
+            logger.debug(f"Cache miss for query: '{query_text}'. Computing embedding.")
+
+            if not self.embedding_function:
+                logger.error("Embedding function is not available.")
+                raise ValueError("Embedding function is not initialized.")
+
+            def _generate_embedding_sync():
+                # self.embedding_function([query_text]) 返回 List[List[float]]
+                embedding_list_outer = self.embedding_function([query_text])
+                if (
+                    not embedding_list_outer
+                    or not isinstance(embedding_list_outer, list)
+                    or not embedding_list_outer
+                ):
+                    logger.error(
+                        f"Embedding function returned invalid result for: {query_text}"
+                    )
+                    raise ValueError(
+                        f"Failed to compute embedding for query: {query_text}"
+                    )
+
+                if not isinstance(embedding_list_outer[0], list):
+                    logger.error(
+                        f"Embedding function returned invalid embedding structure for: {query_text}"
+                    )
+                    raise ValueError(
+                        f"Embedding structure incorrect for query: {query_text}"
+                    )
+                return embedding_list_outer[0]
+
+            embedding_to_use = await loop.run_in_executor(
+                self.executor, _generate_embedding_sync
+            )
+            self.query_cache.append((query_text, embedding_to_use))  # 添加到缓存
+            logger.debug(f"Cached new embedding for query: '{query_text}'")
+
+        def _perform_search_with_embedding(embedding_vector: List[float]):
             results = collection.query(
-                query_texts=[query_text], n_results=k, where=where
+                query_embeddings=[embedding_vector],  # 使用嵌入向量进行查询
+                n_results=k,
+                where=where,
             )
 
-            # Extract documents and distances
-            documents = results["documents"][0] if results["documents"] else []
-            distances = results["distances"][0] if results["distances"] else []
+            # 提取文档和距离
+            # ChromaDB 返回: results["documents"] = [["doc1", "doc2", ...]] for a single query
+            documents_list = results.get("documents")
+            distances_list = results.get("distances")
 
-            # Convert distances to similarity scores (1 - distance for cosine similarity)
-            similarities = [1 - dist for dist in distances]
+            actual_documents = []
+            actual_distances = []
 
-            return list(zip(documents, similarities))
+            if documents_list and len(documents_list) > 0:
+                actual_documents = documents_list[0]
 
-        return await loop.run_in_executor(self.executor, _search_documents)
+            if distances_list and len(distances_list) > 0:
+                actual_distances = distances_list[0]
+
+            # 将距离转换为相似度分数 (1 - distance for cosine similarity)
+            similarities = [1 - dist for dist in actual_distances]
+
+            return list(zip(actual_documents, similarities))
+
+        return await loop.run_in_executor(
+            self.executor, _perform_search_with_embedding, embedding_to_use
+        )
 
     async def list_collections(self) -> List[str]:
         """

@@ -106,12 +106,12 @@ class AssistantService:
         try:
             logger.info(f"开始处理全局服务请求 - 会话ID: {session_id}, 流式: {stream}")
             logger.info(f"用户请求: {user_query}")
-            manager.send_stream(client_id, "think", f"开始处理请求...")
+            manager.send_stream(client_id, "think", "开始处理请求...")
 
             # 确保COT模块已初始化
             if self.cot_module is None:
                 await self.initialize()
-            manager.send_stream(client_id, "think", f"初始化知识库...")
+            manager.send_stream(client_id, "think", "初始化知识库...")
 
             # 1. 根据session_id获取对应的助手
             session_id = request.session_id
