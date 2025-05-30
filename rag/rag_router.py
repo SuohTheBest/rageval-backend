@@ -89,10 +89,10 @@ async def get_assistants():
             ],
         ),
         RAGInstance(
-            id="op",
-            name="原神助手",
-            description="启动一下",
-            initial_message="这是什么？启动一下。",
+            id="gok",
+            name="🗡️🗡️🗡️王者荣耀助手🗡️🗡️🗡️",
+            description="专门解答王者荣耀游戏相关问题的AI助手，包括英雄数据、装备推荐、战术分析等",
+            initial_message="你好，我是王者荣耀助手，精通英雄数据、装备推荐以及战术分析。让我们开始对话吧！",
             operations=[],
         ),
     ]
@@ -177,7 +177,7 @@ async def delete_chat_session(session_id: int, access_token: str = Cookie(None))
 
 @router.post("/temp_file")
 async def upload_temp_file(
-        file: UploadFile = File(...), access_token: str = Cookie(None)
+    file: UploadFile = File(...), access_token: str = Cookie(None)
 ):
     """上传临时文件"""
     try:
@@ -207,11 +207,11 @@ async def upload_temp_file(
 
 @router.post("/knowledge_base")
 async def add_knowledge_base_route(
-        file: UploadFile = File(...),
-        type: str = Form(...),
-        description: str = Form(...),
-        assistant_id: str = Form(...),
-        access_token: str = Cookie(None),
+    file: UploadFile = File(...),
+    type: str = Form(...),
+    description: str = Form(...),
+    assistant_id: str = Form(...),
+    access_token: str = Cookie(None),
 ):
     """添加知识库"""
     try:
