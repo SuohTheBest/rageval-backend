@@ -43,14 +43,5 @@
         "description": "武器",
         "type": "json",
         "created_at": 1748355849
-    },
-    {
-        "id": 6,
-        "assistant_id": "terraria",
-        "name": "terraria_recipes_merged",
-        "path": "./data/knowledge_library/terraria_recipes_merged.json",
-        "description": "合成表",
-        "type": "json",
-        "created_at": 1748355854
     }
 ]
