@@ -28,6 +28,7 @@ class FeatureOperation(BaseModel):
     name: str
     icon: str | None = None
     require: str = "none"  # none, picture, file
+    url: str | None = None
 
 
 class RAGInstance(BaseModel):
@@ -88,6 +89,9 @@ async def get_assistants():
                 FeatureOperation(
                     name="游戏存档分析", icon="operations/file.svg", require="file"
                 ),
+                FeatureOperation(
+                    name="合成树查询", icon="operations/search.svg", require="web", url="/terraria/search"
+                )
             ],
         ),
         RAGInstance(
@@ -179,7 +183,7 @@ async def delete_chat_session(session_id: int, access_token: str = Cookie(None))
 
 @router.post("/temp_file")
 async def upload_temp_file(
-    file: UploadFile = File(...), access_token: str = Cookie(None)
+        file: UploadFile = File(...), access_token: str = Cookie(None)
 ):
     """上传临时文件"""
     try:
@@ -209,11 +213,11 @@ async def upload_temp_file(
 
 @router.post("/knowledge_base")
 async def add_knowledge_base_route(
-    file: UploadFile = File(...),
-    type: str = Form(...),
-    description: str = Form(...),
-    assistant_id: str = Form(...),
-    access_token: str = Cookie(None),
+        file: UploadFile = File(...),
+        type: str = Form(...),
+        description: str = Form(...),
+        assistant_id: str = Form(...),
+        access_token: str = Cookie(None),
 ):
     """添加知识库"""
     try:
