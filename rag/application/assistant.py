@@ -18,12 +18,10 @@ from rag.utils.socket_manager import manager
 
 from models.database import SessionLocal
 from models.rag_chat import (
-    ChatMessage,
-    FileOrPictureSource,
     RetrievalSource,
     KnowledgeBase,
 )
-from rag.utils.chat_session import get_session
+from rag.utils.chat_session import get_session, MessageModel, FileOrPictureModel
 from rag.application.cot_module import COTModule, COTConfig
 
 logger = logging.getLogger(__name__)
@@ -83,9 +81,9 @@ class AssistantService:
 
     async def process_request(
         self,
-        request: ChatMessage,
+        request: MessageModel,
         stream: bool = False,
-        extend_source: FileOrPictureSource = None,
+        extend_source: FileOrPictureModel = None,
         client_id: Optional[str] = None,
     ) -> Union[
         tuple[str, List[RetrievalSource]],
