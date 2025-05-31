@@ -41,16 +41,15 @@ async def rag_streaming_response(
                                                 "similarityScore": r.similarity_score},
                                      retrieval_sources))
             await manager.send_stream(client_id, "sources", retrieval_arr)
-
-        # 结束标记
-        await manager.send_stream(client_id, "end", '')
-
         # 保存助手消息
         save_assistant_message(
             session_id=message.session_id,
             content=full_response_content,
             retrieval=retrieval_sources,
         )
+
+        # 结束标记
+        await manager.send_stream(client_id, "end", '')
 
     except Exception as e:
         # 处理在 process_request 或流式处理中发生的错误
