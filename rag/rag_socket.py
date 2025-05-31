@@ -34,11 +34,16 @@ async def rag_streaming_response(
             await manager.send_stream(client_id, "content", chunk)
             full_response_content += chunk
 
-        # if retrieval_sources and len(retrieval_sources) > 0:
-        #     await manager.send_stream(client_id, "sources", retrieval_sources)
+        if retrieval_sources and len(retrieval_sources) > 0:
+            retrieval_arr = list(map(lambda r: {"title": r.title,
+                                                "url": r.url,
+                                                "snippet": r.snippet,
+                                                "similarityScore": r.similarity_score},
+                                     retrieval_sources))
+            await manager.send_stream(client_id, "sources", retrieval_arr)
 
         # 结束标记
-        await manager.send_stream(client_id, "end", full_response_content)
+        await manager.send_stream(client_id, "end", '')
 
         # 保存助手消息
         save_assistant_message(
