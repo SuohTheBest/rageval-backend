@@ -34,18 +34,22 @@ async def rag_streaming_response(
             await manager.send_stream(client_id, "content", chunk)
             full_response_content += chunk
 
-        # if retrieval_sources and len(retrieval_sources) > 0:
-        #     await manager.send_stream(client_id, "sources", retrieval_sources)
-
-        # 结束标记
-        await manager.send_stream(client_id, "end", full_response_content)
-
+        if retrieval_sources and len(retrieval_sources) > 0:
+            retrieval_arr = list(map(lambda r: {"title": r.title,
+                                                "url": r.url,
+                                                "snippet": r.snippet,
+                                                "similarityScore": r.similarity_score},
+                                     retrieval_sources))
+            await manager.send_stream(client_id, "sources", retrieval_arr)
         # 保存助手消息
         save_assistant_message(
             session_id=message.session_id,
             content=full_response_content,
             retrieval=retrieval_sources,
         )
+
+        # 结束标记
+        await manager.send_stream(client_id, "end", '')
 
     except Exception as e:
         # 处理在 process_request 或流式处理中发生的错误
