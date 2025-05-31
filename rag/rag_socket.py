@@ -2,13 +2,12 @@ from typing import Dict
 
 from fastapi import WebSocket, WebSocketDisconnect
 import json
-from models.rag_chat import ChatMessage, FileOrPictureSource
 from rag.application.assistant import create_assistant_service
 from rag.utils.chat_session import (
     create_session,
     get_session,
     save_message_with_temp_file,
-    save_assistant_message,
+    save_assistant_message, MessageModel, FileOrPictureModel,
 )
 from rag.utils.socket_manager import manager
 
@@ -17,26 +16,26 @@ temp_files: Dict[str, dict] = {}
 
 
 async def rag_streaming_response(
-    client_id: str, message: ChatMessage, source: FileOrPictureSource
+        client_id: str, message: MessageModel, source: FileOrPictureModel
 ):
     """使用 assistant.process_request 处理并流式响应"""
     full_response_content = ""
-    retrieval_sources = []
-
     try:
+        # 开始标记
+        await manager.send_stream(client_id, "start", "")
 
         response_generator, retrieval_sources = await assistant.process_request(
             request=message, stream=True, extend_source=source, client_id=client_id
         )
         await manager.send_stream(client_id, "end_think", "")
 
-        # 开始标记
-        await manager.send_stream(client_id, "start", "")
-
         # 逐块处理流式内容
         async for chunk in response_generator:
             await manager.send_stream(client_id, "content", chunk)
             full_response_content += chunk
+
+        # if retrieval_sources and len(retrieval_sources) > 0:
+        #     await manager.send_stream(client_id, "sources", retrieval_sources)
 
         # 结束标记
         await manager.send_stream(client_id, "end", full_response_content)
