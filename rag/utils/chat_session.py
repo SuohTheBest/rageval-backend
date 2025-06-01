@@ -395,3 +395,19 @@ def get_knowledge_bases(assistant_id: str) -> List[KnowledgeBase]:
         )
     finally:
         db.close()
+
+
+def get_knowledge_base_file_path(kb_id: int) -> tuple[Optional[str], Optional[str]]:
+    """获取知识库文件路径和文件名
+    
+    Returns:
+        tuple: (文件路径, 文件名) 如果知识库不存在则返回 (None, None)
+    """
+    db = SessionLocal()
+    try:
+        kb = db.query(KnowledgeBase).filter(KnowledgeBase.id == kb_id).first()
+        if not kb:
+            return None, None
+        return kb.path, kb.name
+    finally:
+        db.close()
