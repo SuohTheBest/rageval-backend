@@ -161,7 +161,7 @@ class VectorDatabase:
         ids: Optional[List[str]] = None,
     ) -> bool:
         """
-        Add documents to a collection.
+        Add documents to a collection with concurrent batch processing.
 
         Args:
             collection_name: Name of the collection
@@ -184,17 +184,36 @@ class VectorDatabase:
             )
 
         loop = asyncio.get_event_loop()
-        batch_size = 100
+        batch_size = 10
+        # Limit concurrent batches
+        semaphore = asyncio.Semaphore(16)
+        num_documents = len(documents)
 
         def _add_documents_batch(docs_batch, metadatas_batch, ids_batch):
             collection.add(
                 documents=docs_batch, metadatas=metadatas_batch, ids=ids_batch
             )
 
+        async def _process_batch(batch_idx, docs_batch, metadatas_batch, ids_batch):
+            async with semaphore:
+                await loop.run_in_executor(
+                    self.executor,
+                    _add_documents_batch,
+                    docs_batch,
+                    metadatas_batch,
+                    ids_batch,
+                )
+                logger.info(
+                    f"Added batch {batch_idx + 1}/{(num_documents + batch_size - 1)//batch_size} to collection '{collection_name}'"
+                )
+                return True
+
         async def _add_documents_async():
             import uuid
 
             num_documents = len(documents)
+            tasks = []
+
             for i in range(0, num_documents, batch_size):
                 docs_batch = documents[i : i + batch_size]
 
@@ -207,16 +226,12 @@ class VectorDatabase:
                 if metadatas is not None:
                     metadatas_batch = metadatas[i : i + batch_size]
 
-                await loop.run_in_executor(
-                    self.executor,
-                    _add_documents_batch,
-                    docs_batch,
-                    metadatas_batch,
-                    ids_batch,
+                batch_idx = i // batch_size
+                tasks.append(
+                    _process_batch(batch_idx, docs_batch, metadatas_batch, ids_batch)
                 )
-                logger.info(
-                    f"Added batch {i//batch_size + 1}/{(num_documents + batch_size - 1)//batch_size} to collection '{collection_name}'"
-                )
+
+            await asyncio.gather(*tasks)
             return True
 
         return await _add_documents_async()
