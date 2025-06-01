@@ -46,11 +46,11 @@
     },
     {
         "id": 6,
-        "assistant_id":"gok",
-        "name":"gok_monsters",
-        "path":"./data/knowledge_library/gok_monsters.json",
-        "description":"野怪",
-        "type":"json",
-        "created_at":1748355850
-        }
+        "assistant_id": "gok",
+        "name": "gok_monsters",
+        "path": "./data/knowledge_library/gok_monsters.json",
+        "description": "野怪",
+        "type": "json",
+        "created_at": 1748355850
+    }
 ]
