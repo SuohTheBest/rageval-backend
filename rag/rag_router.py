@@ -1,5 +1,6 @@
 from fastapi import APIRouter, WebSocket, HTTPException, Cookie, UploadFile, File, Form
 from typing import List
+from fastapi.responses import FileResponse
 
 from fastapi.params import Query
 from pydantic import BaseModel
@@ -15,6 +16,7 @@ from rag.utils.chat_session import (
     delete_knowledge_base,
     get_knowledge_bases,
     get_knowledge_base,
+    get_knowledge_base_file_path,
 )
 from access_token import get_user_id
 import os
@@ -300,6 +302,27 @@ async def delete_knowledge_base_route(kb_id: int, access_token: str = Cookie(Non
         if not delete_knowledge_base(kb_id):
             raise HTTPException(status_code=404, detail="知识库不存在")
         return {"success": True}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/knowledge_base/{kb_id}/download")
+async def download_knowledge_base(kb_id: int, access_token: str = Cookie(None)):
+    """下载知识库文件"""
+    try:
+        user_id = await get_user_id(access_token)
+        if not check_admin(user_id):
+            raise HTTPException(status_code=403, detail="需要管理员权限")
+            
+        file_path, file_name = get_knowledge_base_file_path(kb_id)
+        if not file_path or not os.path.exists(file_path):
+            raise HTTPException(status_code=404, detail="知识库文件不存在")
+            
+        return FileResponse(
+            path=file_path,
+            filename=file_name,
+            media_type="application/octet-stream"
+        )
     except HTTPException as e:
         raise e
     except Exception as e:
