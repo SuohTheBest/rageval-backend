@@ -7,6 +7,7 @@ from models.database import Base, engine
 from fastapi import FastAPI
 from auth import user_router
 from rag.application.knowledge_manager import original_knowledge_init
+from rag.services import service_router
 from task import task_router
 
 g_prefix = "/api"
@@ -35,6 +36,7 @@ app.mount("/static", StaticFiles(directory="./static"))
 app.include_router(user_router.router, prefix=g_prefix)
 app.include_router(task_router.router, prefix=g_prefix)
 app.include_router(rag_router.router, prefix=g_prefix)
+app.include_router(service_router.router, prefix=g_prefix)
 
 
 @app.get("/")
