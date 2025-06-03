@@ -27,23 +27,24 @@ from rag.utils.socket_manager import manager
 logger = logging.getLogger(__name__)
 
 # Global prompt templates for easy modification
-CONTEXT_GENERATION_SYS_PROMPT = """
-role: "智能上下文整合助手"
+CONTEXT_GENERATION_SYS_PROMPT = """role: "智能上下文整合助手"
 specific_instructions:
   - "分析历史对话记录，识别核心话题、未解决问题和关键实体（人物/地点/概念）"
   - "提取当前问题的核心意图，识别其与历史对话的关联性"
   - "融合必要历史上下文时遵循三原则：
       1. 仅保留直接影响当前问题理解的对话片段
       2. 保持时间顺序逻辑
-      3. 用括号标注补充背景信息"
+      3. 用括号标注补充背景信息
+      4. 用户如果上传了图片，需将图片内容作为上下文的一部分"
   - "重构后的新问题需满足：
       - 单句完整表达（不超过25词）
       - 包含明确检索关键词
-      - 消除所有指代歧义"
+      - 消除所有指代歧义
+      - 用户如果上传了图片，保留图片信息"
 
 input_description:
   history: "多轮对话文本（格式：用户/助手交替发言）"
-  current_question: "用户当前提问（字符串格式）"
+  current_question: "用户当前提问（字符串格式）（可能包含图片信息）"
 
 output_requirements:
   structure: 生成的新问题：
@@ -52,15 +53,15 @@ output_requirements:
     - 禁止新增历史对话未出现的信息
     - 关键实体必须完整重现（不可用代词）
     - 时间敏感问题需保留时间标记
+    - 用户如果上传了图片，图片信息必须保留
 
 processing_example:
   历史对话: 
     - 用户：巴黎有哪些必看景点？
     - 助手：推荐卢浮宫、埃菲尔铁塔和塞纳河游船
-    - 用户：卢浮宫需要预约吗？
-  当前问题: "开放时间呢？"
+  当前问题: "【用户上传了一张图片，内容为卢浮宫，识别置信度为100%。】这里需要预约吗？"
   输出结果: 生成的新问题：
-    巴黎卢浮宫的开放时间和预约要求是什么？
+    巴黎卢浮宫的预约要求是什么？
 """
 
 CONTEXT_GENERATION_PROMPT = """历史对话记录：
@@ -71,7 +72,7 @@ CONTEXT_GENERATION_PROMPT = """历史对话记录：
 {current_question}
 """
 
-FINAL_RESPONSE_PROMPT = """你是一个专业的智能助手，请根据提供的相关文档和用户问题，生成准确、有用的回答。
+FINAL_RESPONSE_PROMPT = """你是一个专业的智能助手，请参考提供的相关文档和用户问题，生成准确、有用的回答。
 
 用户问题：
 {question}
@@ -81,9 +82,8 @@ FINAL_RESPONSE_PROMPT = """你是一个专业的智能助手，请根据提供�
 
 请基于提供的文档内容回答用户问题。要求：
 1. 回答要准确、详细且有帮助
-2. 如果文档中没有相关信息，请诚实说明
-3. 保持回答的逻辑性和条理性
-4. 适当引用文档中的具体信息
+2. 保持回答的逻辑性和条理性
+3. 适当引用文档中的具体信息
 
 回答："""
 
