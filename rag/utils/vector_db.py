@@ -184,7 +184,7 @@ class VectorDatabase:
             )
 
         loop = asyncio.get_event_loop()
-        batch_size = 10
+        batch_size = 32
         # Limit concurrent batches
         semaphore = asyncio.Semaphore(16)
         num_documents = len(documents)
