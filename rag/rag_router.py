@@ -30,7 +30,7 @@ class FeatureOperation(BaseModel):
     name: str
     icon: str | None = None
     require: str = "none"  # none, picture, file
-    url: str | None = None
+    serviceName: str | None = None
 
 
 class RAGInstance(BaseModel):
@@ -89,10 +89,7 @@ async def get_assistants():
                     require="picture",
                 ),
                 FeatureOperation(
-                    name="游戏存档分析", icon="operations/file.svg", require="file"
-                ),
-                FeatureOperation(
-                    name="合成树查询", icon="operations/search.svg", require="web", url="/terraria/search"
+                    name="合成树查询", icon="operations/search.svg", require="web", serviceName="terraria-search"
                 )
             ],
         ),
@@ -101,7 +98,9 @@ async def get_assistants():
             name="🗡️🗡️🗡️王者荣耀助手🗡️🗡️🗡️",
             description="专门解答王者荣耀游戏相关问题的AI助手，包括英雄数据、装备推荐、战术分析等",
             initial_message="你好，我是王者荣耀助手，精通英雄数据、装备推荐以及战术分析。让我们开始对话吧！",
-            operations=[],
+            operations=[FeatureOperation(
+                name="组队阵容推荐", icon="operations/search.svg", require="web", serviceName="gok-recommend"
+            )],
         ),
     ]
 
@@ -313,11 +312,11 @@ async def download_knowledge_base(kb_id: int, access_token: str = Cookie(None)):
         user_id = await get_user_id(access_token)
         if not check_admin(user_id):
             raise HTTPException(status_code=403, detail="需要管理员权限")
-            
+
         file_path, file_name = get_knowledge_base_file_path(kb_id)
         if not file_path or not os.path.exists(file_path):
             raise HTTPException(status_code=404, detail="知识库文件不存在")
-            
+
         return FileResponse(
             path=file_path,
             filename=file_name,
