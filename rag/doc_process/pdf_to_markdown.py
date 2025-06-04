@@ -19,11 +19,11 @@ class PdfToMarkdownConverter:
         """
         converter = MarkItDown()
         markdown_string = converter.convert(pdf_path)
-        return markdown_string
+        return markdown_string.markdown
 
 
 if __name__ == "__main__":
-    example_pdf_path = "data/knowledge_library/conda.html"
+    example_pdf_path = "data\\knowledge_library\\test.pdf"
     markdown_output = PdfToMarkdownConverter.convert(example_pdf_path)
-    print(f"\nMarkdown output for '{example_pdf_path}':\n")
-    print(markdown_output)
+    with open("test.md", "w", encoding="utf-8") as f:
+        f.write(markdown_output)
