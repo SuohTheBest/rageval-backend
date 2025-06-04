@@ -8,21 +8,20 @@ This module implements a chain of thought reasoning process that:
 4. Generates final response using retrieved documents
 """
 
+from rag.utils.socket_manager import manager
+from models.rag_chat import ChatMessage
+from image_recognize.recognize import recognize_image
+from rag.utils.chat_session import get_session_messages, update_session_summary
+from rag.utils.vector_db import VectorDatabase
+from rag.utils.llm import LLMService
+from dataclasses import dataclass
+from typing import List, Dict, Any, Optional, AsyncGenerator, Union
+import asyncio
+import logging
 import sys
 
 sys.path.append("E:\\Projects\\RagevalBackend")
 
-import logging
-import asyncio
-from typing import List, Dict, Any, Optional, AsyncGenerator, Union
-from dataclasses import dataclass
-
-from rag.utils.llm import LLMService
-from rag.utils.vector_db import VectorDatabase
-from rag.utils.chat_session import get_session_messages, update_session_summary
-from image_recognize.recognize import recognize_image
-from models.rag_chat import ChatMessage
-from rag.utils.socket_manager import manager
 
 logger = logging.getLogger(__name__)
 
@@ -95,7 +94,7 @@ class COTConfig:
     history_threshold: int = 4000  # 历史记录总长度阈值（字符数）
     max_history_messages: int = 10  # 最大历史消息数量
     top_k_documents: int = 5  # 检索的文档数量
-    llm_model: str = "gpt-3.5-turbo"
+    llm_model: str = "gpt-4o-mini"
     llm_temperature: float = 0.7
     llm_max_tokens: Optional[int] = None
     vector_db_path: str = "data/chroma"
@@ -118,7 +117,8 @@ class COTModule:
         """
         self.config = config or COTConfig()
         self.llm_service = llm_service
-        self.vector_db = VectorDatabase(persist_directory=self.config.vector_db_path)
+        self.vector_db = VectorDatabase(
+            persist_directory=self.config.vector_db_path)
 
         logger.info(f"COT模块初始化完成，配置: {self.config}")
 
@@ -170,7 +170,7 @@ class COTModule:
             return []
 
         # 按时间倒序排列，取最近的消息
-        recent_messages = messages[-self.config.max_history_messages - 1 : -1]
+        recent_messages = messages[-self.config.max_history_messages - 1: -1]
 
         # 计算总长度并截取
         total_length = 0
@@ -276,6 +276,68 @@ class COTModule:
             # 如果生成失败，返回我们已构建的问题（可能包含图片信息）
             return question_to_pass_to_llm
 
+    async def rerank(self, formatted_results: List[Dict[str, Any]], query: str):
+        for doc in formatted_results:
+            doc["score"] = 0
+        n = len(formatted_results)
+        tasks = []
+
+        prompt_template = """Given a query "{query}", which of the following two passages is more relevant to the query?
+
+    Passage A: "{doc1}"
+
+    Passage B: "{doc2}"
+    Output Passage A or Passage B:"""
+
+        for i in range(n):
+            for j in range(i + 1, n):
+                doc_i = formatted_results[i]
+                doc_j = formatted_results[j]
+
+                prompt1 = prompt_template.format(
+                    query=query, doc1=doc_i["content"], doc2=doc_j["content"]
+                )
+                prompt2 = prompt_template.format(
+                    query=query, doc1=doc_j["content"], doc2=doc_i["content"]
+                )
+
+                async def compare_and_score(i=i, j=j, prompt=prompt1):
+                    result = await self.llm_service.generate_response(prompt)
+                    result = result.strip()
+                    print(result)
+                    if "A" in result:
+                        formatted_results[i]["score"] += 1
+                    elif "B" in result:
+                        formatted_results[j]["score"] += 1
+                    else:
+                        formatted_results[i]["score"] += 0.5
+                        formatted_results[j]["score"] += 0.5
+
+                async def compare_and_score_reverse(i=i, j=j, prompt=prompt2):
+                    result = await self.llm_service.generate_response(prompt)
+                    result = result.strip()
+                    print(result)
+                    if "A" in result:
+                        formatted_results[j]["score"] += 1
+                    elif "B" in result:
+                        formatted_results[i]["score"] += 1
+                    else:
+                        formatted_results[i]["score"] += 0.5
+                        formatted_results[j]["score"] += 0.5
+
+                tasks.append(compare_and_score())
+                tasks.append(compare_and_score_reverse())
+
+        # 执行所有 pairwise 比较
+        await asyncio.gather(*tasks)
+
+        # 按照得分排序
+        ranked_results = sorted(
+            formatted_results, key=lambda x: x["score"], reverse=True
+        )
+
+        return ranked_results
+
     async def _search_documents(
         self, question: str, knowledge_bases: Union[str, List[str]]
     ) -> List[Dict[str, Any]]:
@@ -316,7 +378,8 @@ class COTModule:
                 return []
 
             # 按相似度降序排序所有检索到的文档
-            all_retrieved_documents.sort(key=lambda x: x["similarity"], reverse=True)
+            all_retrieved_documents.sort(
+                key=lambda x: x["similarity"], reverse=True)
 
             # 取全局 top_k_documents 个文档
             top_documents = all_retrieved_documents[: self.config.top_k_documents]
@@ -334,6 +397,7 @@ class COTModule:
             logger.info(
                 f"文档搜索完成，从所有知识库共找到{len(all_retrieved_documents)}个文档，返回最相关的{len(formatted_results)}个"
             )
+            await self.rerank(formatted_results, question)
             return formatted_results
 
         except Exception as e:
@@ -449,7 +513,8 @@ class COTModule:
         """
         try:
             kb_info = (
-                knowledge_base if isinstance(knowledge_base, list) else [knowledge_base]
+                knowledge_base if isinstance(knowledge_base, list) else [
+                    knowledge_base]
             )
             logger.info(
                 f"开始处理COT请求 - 会话ID: {session_id}, 知识库: {', '.join(kb_info)}, 流式: {stream}"
@@ -465,7 +530,8 @@ class COTModule:
             await manager.send_stream(client_id, "think", "检索历史记录...")
             raw_history = await self._retrieve_history(session_id)
             truncated_history = self._truncate_history(raw_history)
-            formatted_history = self._format_history_messages(truncated_history)
+            formatted_history = self._format_history_messages(
+                truncated_history)
 
             # 步骤2: 生成上下文问题
             logger.info("=== 步骤2: 生成上下文问题 ===")
@@ -529,7 +595,7 @@ async def create_cot_module(
     history_threshold: int = 4000,
     max_history_messages: int = 10,
     top_k_documents: int = 5,  # This top_k is for the final combined result
-    llm_model: str = "gpt-3.5-turbo",
+    llm_model: str = "gpt-4o-mini",
     vector_db_path: str = "data/chroma",
 ) -> COTModule:
     """
