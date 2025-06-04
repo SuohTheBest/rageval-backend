@@ -98,6 +98,7 @@ async def get_assistants():
             name="🗡️🗡️🗡️王者荣耀助手🗡️🗡️🗡️",
             description="专门解答王者荣耀游戏相关问题的AI助手，包括英雄数据、装备推荐、战术分析等",
             initial_message="你好，我是王者荣耀助手，精通英雄数据、装备推荐以及战术分析。让我们开始对话吧！",
+            icon="assistants/gok.png",
             operations=[FeatureOperation(
                 name="组队阵容推荐", icon="operations/search.svg", require="web", serviceName="gok-recommend"
             )],
