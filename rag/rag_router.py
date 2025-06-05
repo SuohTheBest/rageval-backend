@@ -17,6 +17,7 @@ from rag.utils.chat_session import (
     get_knowledge_bases,
     get_knowledge_base,
     get_knowledge_base_file_path,
+    get_knowledge_base_content,
 )
 from access_token import get_user_id
 import os
@@ -323,6 +324,25 @@ async def download_knowledge_base(kb_id: int, access_token: str = Cookie(None)):
             filename=file_name,
             media_type="application/octet-stream"
         )
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@router.get("/knowledge_base/{kb_id}")
+async def get_knowledge_base_route(kb_id: int, access_token: str = Cookie(None)):
+    """获取单个知识库的内容和信息"""
+    try:
+        user_id = await get_user_id(access_token)
+        if not check_admin(user_id):
+            raise HTTPException(status_code=403, detail="需要管理员权限")
+            
+        kb_data = get_knowledge_base_content(kb_id)
+        if not kb_data:
+            raise HTTPException(status_code=404, detail="知识库不存在")
+            
+        return kb_data
     except HTTPException as e:
         raise e
     except Exception as e:

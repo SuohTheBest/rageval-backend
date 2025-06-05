@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 
 
 def _export_original_knowledge(
-    output_filename: str = "original_knowledge.json",
+        output_filename: str = "original_knowledge.json",
 ) -> bool:
     """
     将 KnowledgeBase 表的内容序列化为 JSON 文件。
@@ -76,7 +76,7 @@ def _export_original_knowledge(
 
 
 def original_knowledge_init(
-    input_filename: str = "original_knowledge.json",
+        input_filename: str = "original_knowledge.json",
 ) -> bool:
     """
     从 JSON 文件导入数据到 KnowledgeBase 表。
@@ -181,9 +181,9 @@ class KnowledgeManager:
     """
 
     def __init__(
-        self,
-        knowledge_library_path: str = "./data/knowledge_library",
-        vector_db_path: str = "./data/chroma",
+            self,
+            knowledge_library_path: str = "./data/knowledge_library",
+            vector_db_path: str = "./data/chroma",
     ):
         """
         初始化知识管理器重建。
@@ -248,15 +248,27 @@ class KnowledgeManager:
             logger.info(f"正在处理 {knowledge.name} 的 markdown 内容")
             processed_documents = self.markdown_processor.process(markdown_content)
 
+            processed_dict = {}
+            for document in processed_documents:
+                title_index = document.find('\n')
+                if title_index == -1:
+                    logger.warning(f"无法找到{document}的title, skipping")
+                    continue
+                doc_title = document[:title_index].strip('# ')
+                if doc_title not in processed_dict:
+                    processed_dict[doc_title] = document[title_index + 1:]
+                else:
+                    processed_dict[doc_title] += '\n' + document[title_index + 1:]
+
             # 新增：将 processed_documents 存储为 JSON 文件
-            if processed_documents:
+            if processed_dict:
                 try:
                     output_dir = Path("static/knowledge")
                     output_dir.mkdir(parents=True, exist_ok=True)
                     output_json_path = output_dir / f"{knowledge.name}.json"
                     with open(output_json_path, "w", encoding="utf-8") as json_file:
                         json.dump(
-                            processed_documents, json_file, ensure_ascii=False, indent=4
+                            processed_dict, json_file, ensure_ascii=False, indent=4
                         )
                     logger.info(
                         f"已将 {knowledge.name} 的处理后文档存储到 {output_json_path}"
@@ -387,7 +399,7 @@ class KnowledgeManager:
                     collection_names - kb_names
                 ),  # 在向量数据库中但不在 KnowledgeBase 中
                 "sync_ratio": len(kb_names.intersection(collection_names))
-                / max(len(kb_names), 1),
+                              / max(len(kb_names), 1),
             }
 
             logger.info(f"同步统计信息: {sync_stats}")
@@ -440,7 +452,7 @@ class KnowledgeManager:
 
                 # 识别文件丢失的知识库记录 (预期路径不在磁盘上的实际文件中)
                 kb_record_paths_to_delete = (
-                    set(kb_expected_path_to_record.keys()) - actual_files_on_disk_paths
+                        set(kb_expected_path_to_record.keys()) - actual_files_on_disk_paths
                 )
 
                 deleted_kb_count = 0
@@ -506,7 +518,7 @@ class KnowledgeManager:
                 # 查找要插入的集合 (在知识库中但不在向量数据库中)
                 # 这些是应该有集合的知识库记录 (名称)。
                 kb_names_for_insertion = (
-                    set(kb_names_to_record_map.keys()) - collection_names_in_vector_db
+                        set(kb_names_to_record_map.keys()) - collection_names_in_vector_db
                 )
 
                 # 查找要删除的集合 (在向量数据库中但不在知识库中)
@@ -543,7 +555,7 @@ class KnowledgeManager:
                 ).intersection(collection_names_in_vector_db)
                 # 将新插入的集合添加到同步集合的计数中，以获得最终状态
                 final_synced_collection_count = (
-                    len(final_synced_collection_names) + inserted_collections_count
+                        len(final_synced_collection_names) + inserted_collections_count
                 )
 
                 sync_results["step2_kb_vector_sync"] = {
@@ -553,12 +565,12 @@ class KnowledgeManager:
                 }
 
                 sync_results["total_operations"] = (
-                    sync_results["step1_file_kb_sync"][
-                        "deleted_kb_records_missing_file"
-                    ]
-                    + sync_results["step1_file_kb_sync"]["deleted_orphaned_disk_files"]
-                    + inserted_collections_count
-                    + deleted_collections_count
+                        sync_results["step1_file_kb_sync"][
+                            "deleted_kb_records_missing_file"
+                        ]
+                        + sync_results["step1_file_kb_sync"]["deleted_orphaned_disk_files"]
+                        + inserted_collections_count
+                        + deleted_collections_count
                 )
 
                 logger.info(
@@ -593,6 +605,7 @@ if __name__ == "__main__":
 
     knowledge_manager = KnowledgeManager()
 
+
     # 示例用法：
     async def test_sync():
         await knowledge_manager.initialize()
@@ -604,5 +617,6 @@ if __name__ == "__main__":
         # 执行完全同步
         results = await knowledge_manager._sync_library()
         print("同步结果:", results)
+
 
     asyncio.run(test_sync())

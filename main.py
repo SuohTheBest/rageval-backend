@@ -17,8 +17,8 @@ original_knowledge_init()
 origins = [
     "http://47.97.175.75",
     "https://47.97.175.75",
-    "http://localhost",
-    "https://localhost",
+    "http://localhost:5173",
+    "https://localhost:5173",
 ]
 
 app = FastAPI()
@@ -27,7 +27,7 @@ app.add_middleware(
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["Content-Type", "Authorization"],
+    allow_headers=["*"],
 )
 
 app.mount("/plotpics", StaticFiles(directory="./eval_plots"))

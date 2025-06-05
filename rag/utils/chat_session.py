@@ -411,3 +411,27 @@ def get_knowledge_base_file_path(kb_id: int) -> tuple[Optional[str], Optional[st
         return kb.path, kb.name
     finally:
         db.close()
+
+
+def get_knowledge_base_content(kb_id: int) -> Optional[dict]:
+    """获取知识库内容和信息
+    
+    Returns:
+        dict: 包含知识库信息和内容的字典，如果知识库不存在则返回 None
+    """
+    db = SessionLocal()
+    try:
+        kb = db.query(KnowledgeBase).filter(KnowledgeBase.id == kb_id).first()
+        if not kb:
+            return None
+        return {
+            "id": kb.id,
+            "name": kb.name,
+            "path": kb.path,
+            "description": kb.description,
+            "type": kb.type,
+            "assistant_id": kb.assistant_id,
+            "created_at": kb.created_at,
+        }
+    finally:
+        db.close()
