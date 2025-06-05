@@ -38,10 +38,10 @@ async def login(r: LoginRequest, response: Response):
         response.set_cookie(
             key="access_token",
             value=jwt_str,
-            httponly=True,
+            # httponly=True,
             path='/',
             # max_age=access_token.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
-            samesite="lax",
+            # samesite="lax",
             # secure=True,
         )
         return {"success": True, "name": usr.username, "avatar": usr.avatar}
