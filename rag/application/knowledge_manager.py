@@ -248,6 +248,26 @@ class KnowledgeManager:
             logger.info(f"正在处理 {knowledge.name} 的 markdown 内容")
             processed_documents = self.markdown_processor.process(markdown_content)
 
+            # 新增：将 processed_documents 存储为 JSON 文件
+            if processed_documents:
+                try:
+                    output_dir = Path("static/knowledge")
+                    output_dir.mkdir(parents=True, exist_ok=True)
+                    output_json_path = output_dir / f"{knowledge.name}.json"
+                    with open(output_json_path, "w", encoding="utf-8") as json_file:
+                        json.dump(
+                            processed_documents, json_file, ensure_ascii=False, indent=4
+                        )
+                    logger.info(
+                        f"已将 {knowledge.name} 的处理后文档存储到 {output_json_path}"
+                    )
+                except Exception as e:
+                    logger.error(
+                        f"存储 {knowledge.name} 的处理后文档为 JSON 时出错: {e}"
+                    )
+                    # 根据需求，这里可以选择是否因为存储失败而返回 False
+                    # return False
+
             if not processed_documents:
                 logger.warning(f"未从 {knowledge.name} 生成任何文档")
                 return False
