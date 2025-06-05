@@ -40,7 +40,7 @@ async def login(r: LoginRequest, response: Response):
             value=jwt_str,
             httponly=True,
             path='/',
-            max_age=access_token.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
+            # max_age=access_token.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
             samesite="lax",
             # secure=True,
         )
