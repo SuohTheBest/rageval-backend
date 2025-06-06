@@ -3,7 +3,7 @@ import ast
 from sqlalchemy import func
 
 import re
-from models.Task import PromptEvaluation, Optimization
+from models.Task import PromptEvaluation, Optimization, CustomMetric
 from models.database import SessionLocal
 from prompt.auto_fill import fill_prompt
 from prompt.metrics import Metric, create_custom_metric
@@ -91,7 +91,20 @@ def process_prompt_task(evaluation: PromptEvaluation) -> str:
         metric_class = metric_mapping[evaluation.method]
         metric_instance = metric_class()
     except KeyError:
-        metric_instance = create_custom_metric(evaluation.method)
+        # 从数据库获取自定义指标
+        db = SessionLocal()
+        try:
+            custom_metric = db.query(CustomMetric).filter(
+                CustomMetric.name == evaluation.method,
+                CustomMetric.category == "prompt"
+            ).first()
+            
+            if custom_metric:
+                metric_instance = create_custom_metric(custom_metric.description)
+            else:
+                raise ValueError(f"未找到名为 {evaluation.method} 的自定义指标")
+        finally:
+            db.close()
 
     # 调用 evaluate 方法并获取返回值
     evaluation_result = metric_instance.evaluate(evaluation.input_text)
