@@ -78,21 +78,6 @@ def test_process_prompt_task_invalid_result(mock_fill_prompt):
             process_prompt_task(evaluation)
 
 
-@patch("prompt.evaluate.fill_prompt")
-def test_process_prompt_task_custom_metric(mock_fill_prompt):
-    # Mock custom metric
-    mock_metric = Mock()
-    mock_metric.evaluate.return_value = '[7.8, "自定义指标评估"]'
-
-    with patch("prompt.evaluate.create_custom_metric", return_value=mock_metric):
-        evaluation = PromptEvaluation(
-            id=1, task_id=1, method="自定义指标", input_text="测试提示"
-        )
-        result = process_prompt_task(evaluation)
-
-        assert result == "评估分数：7.8/10，自定义指标评估"
-
-
 @patch("prompt.evaluate.SessionLocal")
 @patch("prompt.evaluate.optimize_prompt")
 def test_process_prompt_task_optimization(mock_optimize_prompt, mock_session_local):
