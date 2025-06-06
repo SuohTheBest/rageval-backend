@@ -80,11 +80,11 @@ class AssistantService:
     # ==================== 全局服务接口 ====================
 
     async def process_request(
-        self,
-        request: MessageModel,
-        stream: bool = False,
-        extend_source: FileOrPictureModel = None,
-        client_id: Optional[str] = None,
+            self,
+            request: MessageModel,
+            stream: bool = False,
+            extend_source: FileOrPictureModel = None,
+            client_id: Optional[str] = None,
     ) -> Union[
         tuple[str, List[RetrievalSource]],
         tuple[AsyncGenerator[str, None], List[RetrievalSource]],
@@ -110,6 +110,11 @@ class AssistantService:
             if self.cot_module is None:
                 await self.initialize()
             await manager.send_stream(client_id, "think", "初始化知识库...")
+
+            user_config = manager.get_config(client_id)
+            if user_config:
+                self.cot_module.set_config(user_config['model'], user_config['temperature'])
+                logger.info(f"设置了config: {user_config}")
 
             # 1. 根据session_id获取对应的助手
             session_id = request.session_id
@@ -205,7 +210,7 @@ class AssistantService:
 
 
 def create_assistant_service(
-    cot_module: Optional[COTModule] = None,
+        cot_module: Optional[COTModule] = None,
 ) -> AssistantService:
     """
     创建助手服务实例

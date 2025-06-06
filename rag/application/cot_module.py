@@ -22,7 +22,6 @@ import sys
 
 sys.path.append("E:\\Projects\\RagevalBackend")
 
-
 logger = logging.getLogger(__name__)
 
 # Global prompt templates for easy modification
@@ -136,6 +135,9 @@ class COTModule:
         await self.vector_db.initialize()
         logger.info("COT模块异步组件初始化完成")
 
+    def set_config(self, model: str, temperature: float):
+        self.llm_service.set_config(model, temperature)
+
     def _format_history_messages(self, messages: List[ChatMessage]) -> str:
         """
         格式化历史消息为字符串
@@ -209,7 +211,7 @@ class COTModule:
             return []
 
     async def _generate_context_question(
-        self, current_question: str, history: str, picture: str = ""
+            self, current_question: str, history: str, picture: str = ""
     ) -> str:
         """
         使用LLM生成包含上下文的新问题
@@ -339,7 +341,7 @@ class COTModule:
         return ranked_results
 
     async def _search_documents(
-        self, question: str, knowledge_bases: Union[str, List[str]]
+            self, question: str, knowledge_bases: Union[str, List[str]]
     ) -> List[Dict[str, Any]]:
         """
         在指定的一个或多个知识库中搜索相关文档。
@@ -426,7 +428,7 @@ class COTModule:
         return "\n\n".join(formatted_docs)
 
     async def _generate_final_response(
-        self, question: str, documents: str, stream: bool = False
+            self, question: str, documents: str, stream: bool = False
     ) -> Union[str, AsyncGenerator[str, None]]:
         """
         生成最终回答
@@ -487,13 +489,13 @@ class COTModule:
             return "无法生成摘要"
 
     async def process_request(
-        self,
-        request: str,
-        knowledge_base: Union[str, List[str]],
-        session_id: int,
-        stream: bool = False,
-        picture: str = "",
-        client_id: Optional[str] = None,
+            self,
+            request: str,
+            knowledge_base: Union[str, List[str]],
+            session_id: int,
+            stream: bool = False,
+            picture: str = "",
+            client_id: Optional[str] = None,
     ) -> Union[
         tuple[str, List[Dict[str, Any]]],
         tuple[AsyncGenerator[str, None], List[Dict[str, Any]]],
@@ -592,11 +594,11 @@ class COTModule:
 
 # 便捷函数
 async def create_cot_module(
-    history_threshold: int = 4000,
-    max_history_messages: int = 10,
-    top_k_documents: int = 5,  # This top_k is for the final combined result
-    llm_model: str = "gpt-4o-mini",
-    vector_db_path: str = "data/chroma",
+        history_threshold: int = 4000,
+        max_history_messages: int = 10,
+        top_k_documents: int = 5,  # This top_k is for the final combined result
+        llm_model: str = "gpt-4o-mini",
+        vector_db_path: str = "data/chroma",
 ) -> COTModule:
     """
     创建并初始化COT模块
@@ -626,12 +628,12 @@ async def create_cot_module(
 
 # 示例使用
 if __name__ == "__main__":
-
     logging.basicConfig(
         level=logging.INFO,
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
         handlers=[logging.StreamHandler()],  # Log to console
     )
+
 
     async def main():
         # 创建COT模块
@@ -645,6 +647,7 @@ if __name__ == "__main__":
         )
         print("非流式回答:", response_single_kb)
         await cot.close()
+
 
     # 运行示例
     asyncio.run(main())

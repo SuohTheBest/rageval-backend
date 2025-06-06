@@ -7,8 +7,18 @@ import time
 class ConnectionManager:
     def __init__(self, max_connections: int = 500):
         self.active_connections = {}  # Dict[str, WebSocket]
+        self.user_config = {}
         self.connection_times = OrderedDict()  # OrderedDict[str, float]
         self.max_connections = max_connections
+
+    def set_config(self, client_id: str, model: str, temperature: float):
+        self.user_config[client_id] = {'model': model, 'temperature': temperature}
+
+    def get_config(self, client_id: str) -> dict | None:
+        if client_id in self.user_config:
+            return self.user_config[client_id]
+        else:
+            return None
 
     async def connect(self, websocket: WebSocket, client_id: str):
         await websocket.accept()
@@ -20,6 +30,7 @@ class ConnectionManager:
                 await old_websocket.close()
             except:
                 pass
+            del self.user_config[client_id]
             del self.active_connections[client_id]
             del self.connection_times[client_id]
 
@@ -31,6 +42,7 @@ class ConnectionManager:
                 await oldest_websocket.close()
             except:
                 pass
+            del self.user_config[oldest_client]
             del self.active_connections[oldest_client]
             del self.connection_times[oldest_client]
 
@@ -40,6 +52,7 @@ class ConnectionManager:
 
     def disconnect(self, client_id: str):
         if client_id in self.active_connections:
+            del self.user_config[client_id]
             del self.active_connections[client_id]
             del self.connection_times[client_id]
 
@@ -47,7 +60,6 @@ class ConnectionManager:
         if client_id in self.active_connections:
             self.connection_times.move_to_end(client_id)
             self.connection_times[client_id] = time.time()
-
             try:
                 await self.active_connections[client_id].send_text(message)
             except:

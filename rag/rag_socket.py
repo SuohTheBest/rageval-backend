@@ -106,7 +106,11 @@ async def websocket_endpoint(websocket: WebSocket, client_id: str):
                     await rag_streaming_response(
                         client_id, message, file_or_picture_source
                     )
-
+                elif type == "config":
+                    content = data["content"]
+                    manager.set_config(client_id, content["model"], content["temperature"])
+                    await manager.send(json.dumps({"type": "success", "content": "设置参数成功"}),
+                                       client_id)
             except json.JSONDecodeError:
                 await manager.send(
                     json.dumps({"type": "error", "content": "无效的JSON格式"}),
