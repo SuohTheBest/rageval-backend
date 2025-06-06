@@ -67,13 +67,6 @@ async def add_evals(r: AddTaskRequest, user_id: int):
             curr_eval["method"] = method
             curr_eval["input_id"] = file_id
             new_evals.append(curr_eval)
-        for id in r.custom_method_ids:
-            curr_eval = eval_dict.copy()
-            curr_eval["abstract"] = upload_file.file_name[0:10]
-            curr_eval["method_id"] = id
-            curr_eval["method"] = None
-            curr_eval["input_id"] = file_id
-            new_evals.append(curr_eval)
     for input_text in input_texts:
         if input_text is None:
             continue
@@ -84,12 +77,6 @@ async def add_evals(r: AddTaskRequest, user_id: int):
             curr_eval["method"] = method
             curr_eval["input_text"] = input_text
             new_evals.append(curr_eval)
-        for id in r.custom_method_ids:
-            curr_eval = eval_dict.copy()
-            curr_eval["abstract"] = input_text[0:10]
-            curr_eval["method_id"] = id
-            curr_eval["method"] = None
-            curr_eval["input_text"] = input_text
 
     last_input = new_evals[0]["input_id"] if ("input_id" in new_evals[0]) else new_evals[0]["input_text"]
     for eval in new_evals:
