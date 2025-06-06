@@ -30,9 +30,11 @@ class ConnectionManager:
                 await old_websocket.close()
             except:
                 pass
-            del self.user_config[client_id]
             del self.active_connections[client_id]
             del self.connection_times[client_id]
+
+        if client_id in self.user_config:
+            del self.user_config[client_id]
 
         # 如果达到最大连接数，移除最旧的连接
         if len(self.active_connections) >= self.max_connections:
@@ -42,9 +44,11 @@ class ConnectionManager:
                 await oldest_websocket.close()
             except:
                 pass
-            del self.user_config[oldest_client]
             del self.active_connections[oldest_client]
             del self.connection_times[oldest_client]
+
+        if client_id in self.user_config:
+            del self.user_config[client_id]
 
         # 添加新连接
         self.active_connections[client_id] = websocket
@@ -52,9 +56,11 @@ class ConnectionManager:
 
     def disconnect(self, client_id: str):
         if client_id in self.active_connections:
-            del self.user_config[client_id]
             del self.active_connections[client_id]
             del self.connection_times[client_id]
+
+        if client_id in self.user_config:
+            del self.user_config[client_id]
 
     async def send(self, message: str, client_id: str):
         if client_id in self.active_connections:
