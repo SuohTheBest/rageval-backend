@@ -4,8 +4,6 @@ from langchain_openai import ChatOpenAI
 from ragas.llms import LangchainLLMWrapper
 from ragas.metrics import *
 def set_environment():
-    # os.environ["OPENAI_API_KEY"] = "sk-JUbjcL4UL7rCP6mrU2qGQKTE8Um0KJwAnWGE5lDebQc1iO71"
-    # os.environ["OPENAI_API_BASE"] = "https://api.chatanywhere.tech/v1"
     llm = ChatOpenAI(model="gpt-3.5-turbo-0125")
     evaluator_llm = LangchainLLMWrapper(llm)
     return evaluator_llm

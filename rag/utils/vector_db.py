@@ -38,7 +38,7 @@ class VectorDatabase:
         self.embedding_function = (
             embedding_function
             or create_chroma_embedding_function(
-                api_key="sk-6KauMKZj30SWwYYybrW1TYyfizVAyzOAYG5A5xw7JYy8oJkZ",
+                api_key="",
                 base_url="https://api.bianxie.ai/v1",
             )
         )

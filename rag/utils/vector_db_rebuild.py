@@ -47,7 +47,7 @@ class VectorDatabase:
         self.persist_directory = persist_directory
         self.embedding_function = embedding_function or create_chroma_embedding_function(
             # WARNING: Hardcoded API key and base URL. Consider using environment variables.
-            api_key="sk-6KauMKZj30SWwYYybrW1TYyfizVAyzOAYG5A5xw7JYy8oJkZ",
+            api_key="",
             base_url="https://api.bianxie.ai/v1",
         )
         self.executor = ThreadPoolExecutor(max_workers=4)  # Matches original

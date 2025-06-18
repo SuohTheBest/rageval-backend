@@ -16,7 +16,7 @@ from rag_eval.utils import *
 
 def process_rag(eval: RAGEvaluation, db,user_id):
     print("here is processing")
-    os.environ["OPENAI_API_KEY"] = "sk-JUbjcL4UL7rCP6mrU2qGQKTE8Um0KJwAnWGE5lDebQc1iO71"
+    os.environ["OPENAI_API_KEY"] = ""
     os.environ["OPENAI_API_BASE"] = "https://api.chatanywhere.tech/v1"
     # 这里要处理的肯定是最后一个文件
     from task.utils import get_upload_filepath
@@ -130,8 +130,6 @@ def process_rag(eval: RAGEvaluation, db,user_id):
 
 
 def set_environment():
-    # os.environ["OPENAI_API_KEY"] = "sk-JUbjcL4UL7rCP6mrU2qGQKTE8Um0KJwAnWGE5lDebQc1iO71"
-    # os.environ["OPENAI_API_BASE"] = "https://api.chatanywhere.tech/v1"
     llm = ChatOpenAI(model="gpt-3.5-turbo-0125")
     evaluator_llm = LangchainLLMWrapper(llm)
     return evaluator_llm

@@ -125,7 +125,7 @@ class COTModule:
         """初始化异步组件"""
         if self.llm_service is None:
             self.llm_service = LLMService(
-                api_key="sk-6KauMKZj30SWwYYybrW1TYyfizVAyzOAYG5A5xw7JYy8oJkZ",
+                api_key="",
                 base_url="https://api.bianxie.ai/v1",
                 model=self.config.llm_model,
                 temperature=self.config.llm_temperature,

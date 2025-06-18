@@ -1,6 +1,6 @@
 import os
 from zhipuai import ZhipuAI
-os.environ["API_KEY"] = "2ac574e73afa430fb225aa3fb48a6fc9.wHZ6jqzAD6ahuEMX"
+os.environ["API_KEY"] = ""
 
 def get_completion(prompt,model="glm-4-flash",temperature=0):
     api_key = os.environ.get('API_KEY')

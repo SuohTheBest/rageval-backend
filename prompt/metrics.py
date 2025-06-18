@@ -25,7 +25,7 @@ prompt：
 
 import os
 
-os.environ["API_KEY"] = "2ac574e73afa430fb225aa3fb48a6fc9.wHZ6jqzAD6ahuEMX"
+os.environ["API_KEY"] = ""
 
 
 class Metric:
